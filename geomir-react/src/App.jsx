@@ -1,8 +1,13 @@
 import React from 'react'
+import { Login } from './auth/Login'
+import { Register } from './auth/Register'
 
 const App = () => {
   return (
-    <div>App</div>
+    <>
+      <Login/>
+      <Register/>
+    </>
   )
 }
 
