@@ -28,18 +28,20 @@ body{
 }
 .shape:first-child{
     background: linear-gradient(
-        #e6e5db,
-        #694abb
+        #694abb,
+        #e6e5db
     );
+    box-shadow: 0 0 40px #ffffff;
     left: -80px;
     top: -80px;
 }
 .shape:last-child{
     background: linear-gradient(
         to right,
-        #4e148c,
+        #e6e5db,
         #694abb
     );
+    box-shadow: 0 0 40px #ffffff;
     right: -35px;
     bottom: -80px;
 }
