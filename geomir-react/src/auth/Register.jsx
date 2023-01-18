@@ -1,15 +1,15 @@
 import React from 'react'
 
-export const Register = () => {
+export const Register = ({ setCanvi }) => {
   return (
     <>
-        {/* <div className="background">
+      <div className="background">
             <div className="shape"></div>
             <div className="shape"></div>
-        </div>
+      </div>
         <div>
             <form>
-                <h3>Register <form action=""></form></h3>
+                <h3>Register</h3>
 
                 <label for="username">Username</label>
                 <input type="text" placeholder="Name" id="username"></input>
@@ -21,8 +21,15 @@ export const Register = () => {
                 <input type="password" placeholder="Password" id="password"></input>
 
                 <button>Register</button>
+                <button
+                  onClick={() => {
+                      setCanvi(true);
+                  }}
+                  >
+                  Ves al Login
+                </button>
             </form>
-        </div> */}
+        </div>
     </>
   )
 }

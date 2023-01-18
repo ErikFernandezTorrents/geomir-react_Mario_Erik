@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const Login = () => {
+export const Login = ({ setCanvi }) => {
   return (
     <>
         <div className="background">
@@ -19,7 +19,14 @@ export const Login = () => {
 
                 <button>Log In</button>
                 <div className="social">
-                    <a href="#">Forgot your password?</a>
+                    <button href="#">Forgot your password?</button>
+                    <button
+                        onClick={() => {
+                            setCanvi(false);
+                        }}
+                        >
+                        Registrat
+                    </button>
                 </div>
             </form>
         </div>
