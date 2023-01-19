@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState } from "react";
+import React, { useState } from 'react'
+
 
 
 export const LoginRegister = () => {
@@ -11,8 +11,29 @@ export const LoginRegister = () => {
     if (isLogin==true) {
         const sendLogin = (e) => {
             e.preventDefault();
+            console.log("Comprovant credencials....");
 
-            alert("He enviat les Dades:  " + name + "/" + password);
+            // Enviam dades a l'aPI i recollim resultat
+            fetch("http://127.0.0.1:8000/api/login", {
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({ email: name, password: password })
+            })
+            .then((data) => data.json())
+            .then((resposta) => {
+                console.log(resposta);
+                if (resposta.success === true) {
+                    console.log(resposta.authToken);
+                }
+            })
+            .catch((data) => {
+                console.log(data);
+                console.log("Catchch");
+            });
+            console.log("He enviat les Dades:  " + name + "/" + password);
         };
         return (
             <>
@@ -24,13 +45,13 @@ export const LoginRegister = () => {
                     <form>
                         <h3>Login Here</h3>
         
-                        <label for="username">Email</label>
+                        <label htmlFor="email">Email</label>
                         <input type="text" placeholder="Email addres" name="email"
                             onChange={(e) => {
                                 setName(e.target.value);
                             }}></input>
         
-                        <label for="password">Password</label>
+                        <label htmlFor="password">Password</label>
                         <input type="password" placeholder="Password" name="password"
                             onChange={(e) => {
                                 setPassword(e.target.value);
@@ -44,7 +65,7 @@ export const LoginRegister = () => {
                             Login
                         </button>
                         <div className="social">
-                            <button class="button"href="#">Forgot your password?</button>
+                            <button className="button"href="#">Forgot your password?</button>
                             <button
                                 onClick={() => {
                                     setLogin(false);
@@ -61,7 +82,7 @@ export const LoginRegister = () => {
     else{
         const handleChange = (valuesForm) => {
             valuesForm.preventDefault();
-        
+            
             setFormulari({
               ...formulari,
               [valuesForm.target.name]: valuesForm.target.value
@@ -70,17 +91,42 @@ export const LoginRegister = () => {
         const handleRegister = (valuesForm) => {
             valuesForm.preventDefault();
         
-            let { name, password, password2, email } = formulari;
-            alert(
+            let { Rname, Remail ,Rpassword, Rpassword2 } = formulari;
+            console.log(
                 "He enviat les Dades:  " +
-                name +
+                Rname +
                 "/" +
-                email +
+                Remail +
                 "/" +
-                password +
+                Rpassword +
                 "/" +
-                password2
+                Rpassword2
             );
+            if (Rpassword2 !== Rpassword) {
+                console.log("Els passwords han de coincidir");
+                return false;
+            }
+            fetch("http://127.0.0.1:8000/api/register", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                // Si els noms i les variables coincideix, podem simplificar
+                body: JSON.stringify({ Rname, Remail, Rpassword })
+                })
+                .then((data) => data.json())
+                .then((resposta) => {
+                    console.log(resposta);
+                    if (resposta.success === true) {
+                        console.log(resposta.authToken);
+                        localStorage.setItem('Token', resposta.authToken);
+                    }
+                })
+                .catch((data) => {
+                    console.log(data);
+                    alert("ERROR:Pot ser que no estiguis connectat a la xarxa");
+                });
         };
         return(
             <>
@@ -92,17 +138,17 @@ export const LoginRegister = () => {
                         <form id="RegisterForm">
                             <h3>Register</h3>
             
-                            <label for="username">Username</label>
-                            <input type="text" placeholder="Name" name="username"onChange={handleChange}></input>
+                            <label htmlFor="name">Username</label>
+                            <input type="text" placeholder="Name" name="Rname"onChange={handleChange}></input>
             
-                            <label for="username">Email</label>
-                            <input type="text" placeholder="Email addres" name="email"onChange={handleChange}></input>
+                            <label htmlFor="username">Email</label>
+                            <input type="text" placeholder="Email addres" name="Remail"onChange={handleChange}></input>
             
-                            <label for="password">Password</label>
-                            <input type="password" placeholder="Password" name="password"onChange={handleChange}></input>
+                            <label htmlFor="password">Password</label>
+                            <input type="password" placeholder="Password" name="Rpassword"onChange={handleChange}></input>
                             
-                            <label for="password">Confirm Password</label>
-                            <input type="password" placeholder="Password" name="password2"onChange={handleChange}></input>
+                            <label htmlFor="password">Confirm Password</label>
+                            <input type="password" placeholder="Password" name="Rpassword2"onChange={handleChange}></input>
 
                             <button
                                 onClick={(valuesForm) => {
