@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 
 
-
 export const LoginRegister = () => {
     let [isLogin, setLogin] = useState(true);
     let [name, setName] = useState("");
@@ -27,6 +26,8 @@ export const LoginRegister = () => {
                 console.log(resposta);
                 if (resposta.success === true) {
                     console.log(resposta.authToken);
+                }else{
+                    alert("Credenciales Incorrectas Falta E-mail 📨 o Password 🔐");
                 }
             })
             .catch((data) => {
@@ -50,12 +51,14 @@ export const LoginRegister = () => {
                             onChange={(e) => {
                                 setName(e.target.value);
                             }}></input>
+                        <div className="error alert alert-danger alert-dismissible fade"></div>
         
                         <label htmlFor="password">Password</label>
                         <input type="password" placeholder="Password" name="password"
                             onChange={(e) => {
                                 setPassword(e.target.value);
                           }}></input>
+                        <div className="error alert alert-danger alert-dismissible fade"></div>
         
                         <button
                             onClick={(e) => {
@@ -103,7 +106,7 @@ export const LoginRegister = () => {
                 Rpassword2
             );
             if (Rpassword2 !== Rpassword) {
-                console.log("Els passwords han de coincidir");
+                console.log("⛔ Els passwords han de coincidir ⛔");
                 return false;
             }
             fetch("http://127.0.0.1:8000/api/register", {
@@ -121,6 +124,8 @@ export const LoginRegister = () => {
                     if (resposta.success === true) {
                         console.log(resposta.authToken);
                         localStorage.setItem('Token', resposta.authToken);
+                    }else{
+                        alert("⛔ Faltan campos obligatorios a rellenar !!");
                     }
                 })
                 .catch((data) => {
