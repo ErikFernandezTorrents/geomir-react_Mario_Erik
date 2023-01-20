@@ -1,37 +1,81 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export const Login = ({ setCanvi }) => {
-  return (
-    <>
-        <div className="background">
-            <div className="shape"></div>
-            <div className="shape"></div>
-        </div>
-        <div>
-            <form>
-                <h3>Login Here</h3>
+    let [name, setName] = useState("");
+    let [password, setPassword] = useState("");
+    let [missatge, setMissatge] = useState("");
 
-                <label for="username">Email</label>
-                <input type="text" placeholder="Email addres" id="username"></input>
+    const sendLogin = (e) => {
+        e.preventDefault();
+        console.log("Comprovant credencials....");
 
-                <label for="password">Password</label>
-                <input type="password" placeholder="Password" id="password"></input>
+        // Enviam dades a l'aPI i recollim resultat
+        fetch("http://127.0.0.1:8000/api/login", {
+            headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+            },
+            method: "POST",
+            body: JSON.stringify({ email: name, password: password })
+        })
+        .then((data) => data.json())
+        .then((resposta) => {
+            console.log(resposta);
+            if (resposta.success === true) {
+                console.log(resposta.authToken);
+            }else{
+                alert("Credenciales Incorrectas Falta E-mail 📨 o Password 🔐");
+            }
+        })
+        .catch((data) => {
+            console.log(data);
+            console.log("Catchch");
+        });
+        console.log("He enviat les Dades:  " + name + "/" + password);
+    };
+    return (
+        <>
+            <div className="background">
+                <div className="shape"></div>
+                <div className="shape"></div>
+            </div>
+            <div>
+                <form>
+                    <h3>Login Here</h3>
+    
+                    <label htmlFor="email">Email</label>
+                    <input type="text" placeholder="Email addres" name="email"
+                        onChange={(e) => {
+                            setName(e.target.value);
+                        }}></input>
+    
+                    <label htmlFor="password">Password</label>
+                    <input type="password" placeholder="Password" name="password"
+                        onChange={(e) => {
+                            setPassword(e.target.value);
+                      }}></input>
 
-                <button>Log In</button>
-                <div className="social">
-                    <button href="#">Forgot your password?</button>
+                    {missatge? <div>{missatge}</div>:<></>}
+                    
                     <button
-                        onClick={() => {
-                            setCanvi(false);
+                        onClick={(e) => {
+                            sendLogin(e);
                         }}
                         >
-                        Registrat
+                        Login
                     </button>
-                </div>
-            </form>
-        </div>
-
-        
-    </>
-  )
+                    <div className="social">
+                        <button className="button"href="#">Forgot your password?</button>
+                        <button
+                            onClick={() => {
+                                setCanvi(false);
+                            }}
+                            >
+                            Registrat
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </>
+    )
 }

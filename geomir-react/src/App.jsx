@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { LoginRegister } from './auth/LoginRegister'
+import { UserContext } from "./userContext";
 const App = () => {
+  let [authToken, setAuthToken] = useState("");
   return (
     <>
-      <div className="App">
-        <LoginRegister/>
-      </div>
+      <UserContext.Provider value={{ authToken, setAuthToken }}  >
+        {authToken ? (
+            <>
+              <div></div>
+            </>
+          ) : (
+            <LoginRegister />
+          )}
+      </UserContext.Provider>
     </>
   );
   
