@@ -1,9 +1,10 @@
-import React, { useState } from 'react'
-import { UserContext } from "./userContext";
+import React, { useContext, useState } from 'react'
+import { UserContext } from "../userContext";
 
 export const Register = ({ setCanvi }) => {
   let [formulari, setFormulari] = useState({});
   let [missatge, setMissatge] = useState("");
+  let { authToken,setAuthToken } = useContext(UserContext)
 
   const handleChange = (valuesForm) => {
     valuesForm.preventDefault();
@@ -45,7 +46,7 @@ export const Register = ({ setCanvi }) => {
               console.log(resposta);
               if (resposta.success === true) {
                   console.log(resposta.authToken);
-                  localStorage.setItem('Token', resposta.authToken);
+                  setAuthToken(resposta.authToken)
               }else{
                   setMissatge=(resposta.message);
               }

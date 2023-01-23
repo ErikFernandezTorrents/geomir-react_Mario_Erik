@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
-import { UserContext } from "./userContext";
+import React, { useContext, useState } from 'react'
+import { UserContext } from "../userContext";
 
 export const Login = ({ setCanvi }) => {
     let [name, setName] = useState("");
     let [password, setPassword] = useState("");
     let [missatge, setMissatge] = useState("");
+    let { authToken,setAuthToken } = useContext(UserContext)
 
     const sendLogin = (e) => {
         e.preventDefault();
@@ -23,7 +24,7 @@ export const Login = ({ setCanvi }) => {
         .then((resposta) => {
             console.log(resposta);
             if (resposta.success === true) {
-                localStorage.setItem('Token', resposta.authToken);
+                setAuthToken(resposta.authToken)
                 console.log(resposta.authToken);
             }else{
                 setMissatge(resposta.message);

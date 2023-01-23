@@ -119,5 +119,21 @@ button{
 }
 .AlertError{
     background-color: rgba(212, 110, 110, 0.788);
-    border-radius: 5%;
+    padding: 2%;
+}
+#footer{
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    height: 5%;
+    background-color: #e5e5e5;
+}
+#header{
+    background-color: #ffffff;
+    height: 15%;
+}
+#header .botoLogout{
+    position: absolute;
+    right: 0%;
+    width: 10% !important;
 }

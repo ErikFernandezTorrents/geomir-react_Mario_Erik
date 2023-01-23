@@ -1,8 +1,8 @@
-import React from 'react'
-import { UserContext } from "./userContext";
+import React, { useContext, useState } from 'react'
+import { UserContext } from "../userContext";
 
 export const Footer = () => {
   return (
-    <div>Footer</div>
+    <div id='footer'>Footer</div>
   )
 }
