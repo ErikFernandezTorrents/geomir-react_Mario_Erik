@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { UserContext } from "./userContext";
 
 export const Login = ({ setCanvi }) => {
     let [name, setName] = useState("");
@@ -22,9 +23,10 @@ export const Login = ({ setCanvi }) => {
         .then((resposta) => {
             console.log(resposta);
             if (resposta.success === true) {
+                localStorage.setItem('Token', resposta.authToken);
                 console.log(resposta.authToken);
             }else{
-                alert("Credenciales Incorrectas Falta E-mail 📨 o Password 🔐");
+                setMissatge(resposta.message);
             }
         })
         .catch((data) => {
@@ -55,7 +57,7 @@ export const Login = ({ setCanvi }) => {
                             setPassword(e.target.value);
                       }}></input>
 
-                    {missatge? <div>{missatge}</div>:<></>}
+                    {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
                     <button
                         onClick={(e) => {

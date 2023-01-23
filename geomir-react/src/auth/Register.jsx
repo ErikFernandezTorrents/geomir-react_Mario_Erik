@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { UserContext } from "./userContext";
 
 export const Register = ({ setCanvi }) => {
   let [formulari, setFormulari] = useState({});
@@ -77,7 +78,7 @@ export const Register = ({ setCanvi }) => {
                     <label htmlFor="password">Confirm Password</label>
                     <input type="password" placeholder="Password" name="Rpassword2"onChange={handleChange}></input>
 
-                    {missatge? <div>{missatge}</div>:<></>}
+                    {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
                     <button
                         onClick={(valuesForm) => {

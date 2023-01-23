@@ -117,3 +117,7 @@ button{
     border-radius: 5px;
     cursor: pointer;
 }
+.AlertError{
+    background-color: rgba(212, 110, 110, 0.788);
+    border-radius: 5%;
+}

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
-import { LoginRegister } from './auth/LoginRegister'
+import React, { useState } from 'react';
+import { LoginRegister } from './auth/LoginRegister';
 import { UserContext } from "./userContext";
+import {About} from './About'
+
 const App = () => {
   let [authToken, setAuthToken] = useState("");
   return (
@@ -8,7 +10,9 @@ const App = () => {
       <UserContext.Provider value={{ authToken, setAuthToken }}  >
         {authToken ? (
             <>
-              <div></div>
+              <About/>
+              <Header/>
+              <Footer/>
             </>
           ) : (
             <LoginRegister />
