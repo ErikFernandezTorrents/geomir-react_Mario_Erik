@@ -13,7 +13,7 @@ export const Login = ({ setCanvi }) => {
 
         // Enviam dades a l'aPI i recollim resultat
         try{
-            const data = await fetch("http://127.0.0.1:8000/api/login", {
+            const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
                 headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
