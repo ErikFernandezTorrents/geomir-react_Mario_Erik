@@ -7,33 +7,33 @@ export const Login = ({ setCanvi }) => {
     let [missatge, setMissatge] = useState("");
     let { authToken,setAuthToken } = useContext(UserContext)
 
-    const sendLogin = (e) => {
+    const sendLogin = async (e) => {
         e.preventDefault();
         console.log("Comprovant credencials....");
 
         // Enviam dades a l'aPI i recollim resultat
-        fetch("http://127.0.0.1:8000/api/login", {
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json"
-            },
-            method: "POST",
-            body: JSON.stringify({ email: name, password: password })
-        })
-        .then((data) => data.json())
-        .then((resposta) => {
-            console.log(resposta);
-            if (resposta.success === true) {
-                setAuthToken(resposta.authToken)
-                console.log(resposta.authToken);
-            }else{
-                setMissatge(resposta.message);
-            }
-        })
-        .catch((data) => {
+        try{
+            const data = await fetch("http://127.0.0.1:8000/api/login", {
+                headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json"
+                },
+                method: "POST",
+                body: JSON.stringify({ email: name, password: password })
+            })
+            const resposta = await data.json();
+                console.log(resposta);
+                if (resposta.success === true) {
+                    setAuthToken(resposta.authToken)
+                    console.log(resposta.authToken);
+                }else{
+                    setMissatge(resposta.message);
+                }
+
+        }catch {
             console.log(data);
             console.log("Catchch");
-        });
+        }
         console.log("He enviat les Dades:  " + name + "/" + password);
     };
     return (

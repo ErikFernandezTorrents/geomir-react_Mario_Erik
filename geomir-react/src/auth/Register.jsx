@@ -14,7 +14,7 @@ export const Register = ({ setCanvi }) => {
       [valuesForm.target.name]: valuesForm.target.value
     });
   };
-  const handleRegister = (valuesForm) => {
+  const handleRegister = async (valuesForm) => {
       valuesForm.preventDefault();
 
       let { Rname, Remail ,Rpassword, Rpassword2 } = formulari;
@@ -32,29 +32,29 @@ export const Register = ({ setCanvi }) => {
           alert("⛔ Els passwords han de coincidir ⛔");
           return false;
       }
-      fetch("http://127.0.0.1:8000/api/register", {
-          headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json"
-          },
-          method: "POST",
-          // Si els noms i les variables coincideix, podem simplificar
-          body: JSON.stringify({ Rname, Remail, Rpassword })
-          })
-          .then((data) => data.json())
-          .then((resposta) => {
-              console.log(resposta);
-              if (resposta.success === true) {
-                  console.log(resposta.authToken);
-                  setAuthToken(resposta.authToken)
-              }else{
-                  setMissatge=(resposta.message);
-              }
-          })
-          .catch((data) => {
-              console.log(data);
-              alert("ERROR:Pot ser que no estiguis connectat a la xarxa");
-          });
+      try{
+
+            const data = await fetch("http://127.0.0.1:8000/api/register", {
+                headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json"
+                },
+                method: "POST",
+                // Si els noms i les variables coincideix, podem simplificar
+                body: JSON.stringify({ Rname, Remail, Rpassword })
+            })
+            const resposta = await data.json();
+                console.log(resposta);
+                if (resposta.success === true) {
+                    console.log(resposta.authToken);
+                    setAuthToken(resposta.authToken)
+                }else{
+                    setMissatge=(resposta.message);
+                }
+        }catch{
+            console.log(data);
+            alert("ERROR:Pot ser que no estiguis connectat a la xarxa");
+        }
   };
   
   return(
