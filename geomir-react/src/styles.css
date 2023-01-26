@@ -1,3 +1,4 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
 *,
 *:before,
 *:after{
@@ -6,7 +7,7 @@
     box-sizing: border-box;
 }
 body{
-    background-image:url("../public/Images/City.jpg");
+    background-image:url("../Images/City.jpg");
     background-repeat: no-repeat;
 }
 .background{
@@ -120,17 +121,6 @@ button{
 .AlertError{
     background-color: rgba(212, 110, 110, 0.788);
     padding: 2%;
-}
-#footer{
-    position: absolute;
-    bottom: 0%;
-    width: 100%;
-    height: 5%;
-    background-color: #e5e5e5;
-}
-#header{
-    background-color: #ffffff;
-    height: 15%;
 }
 #header .botoLogout{
     position: absolute;

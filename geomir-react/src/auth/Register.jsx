@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
+import '../styles.css'
 
 export const Register = ({ setCanvi }) => {
   let [formulari, setFormulari] = useState({});

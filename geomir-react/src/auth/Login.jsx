@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
-
+import '../styles.css'
 export const Login = ({ setCanvi }) => {
     let [name, setName] = useState("");
     let [password, setPassword] = useState("");
@@ -32,17 +32,13 @@ export const Login = ({ setCanvi }) => {
 
         }catch {
             console.log(data);
-            console.log("Catchch");
+            console.log("Internet perdut");
         }
         console.log("He enviat les Dades:  " + name + "/" + password);
     };
     return (
         <>
-            <div className="background">
-                <div className="shape"></div>
-                <div className="shape"></div>
-            </div>
-            <div>
+            <div >
                 <form>
                     <h3>Login Here</h3>
     

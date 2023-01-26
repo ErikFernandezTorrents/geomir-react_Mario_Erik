@@ -2,6 +2,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from "../userContext";
+import '../App.css'
 export const Header = () => {
   let { authToken, setAuthToken } = useContext(UserContext)
   let [nameOfUser, setNameOfUser] = useState("")
@@ -68,21 +69,25 @@ useEffect(() => {
 
 return (
   <>
+
     <div id='header'>
-      <Link to="/about">About </Link>
-      <Link to="/places">Places </Link>
-      <Link to="/posts">Posts </Link>
-      <p>User : {nameOfUser}</p>
-      {roles.map((v) => (
-        <span key={v}> {v} </span>
-      ))}
-      <button className='botoLogout'
-        onClick={() => {
-          sendLogout(authToken);
-        }}
-      >
-        Logout
-      </button>
+      <img class="logo" src="../Images/logo_geomir.ico"></img>
+      <Link className="headerLink" to="/places/list">Places </Link>
+      <Link className="headerLink" to="/posts">Posts </Link>
+      <Link className="headerLink" to="/about">About </Link>
+      <div>
+        <p>User : {nameOfUser}</p>
+        {roles.map((v) => (
+          <span key={v}> Rol: {v} </span>
+        ))}
+      </div>
+      <Link className="headerLink"
+          onClick={() => {
+            sendLogout(authToken);
+          }}
+        >
+          Logout
+        </Link>
     </div>
   </>
 )

@@ -1,3 +1,4 @@
+import './App.css'
 import React, { useState } from 'react';
 import { LoginRegister } from './auth/LoginRegister';
 import { UserContext } from "./userContext";
@@ -8,6 +9,11 @@ import { Routes, Route } from "react-router-dom";
 import { NotFound } from './NotFound';
 import { Place } from './places/Place';
 import { Post } from './posts/Post';
+import { PlaceEdit } from './places/PlaceEdit';
+import { PlaceAdd } from './places/PlaceAdd';
+import { PlacesGrid } from './places/PlacesGrid';
+import { PlacesList } from './places/PlacesList';
+import { PlacesMenu } from './places/PlacesMenu';
 
 const App = () => {
   let [authToken, setAuthToken] = useState("");
@@ -19,8 +25,12 @@ const App = () => {
               <Header/>
               <Routes>
                 <Route path='/about'element={<About/>}/>
-                <Route path='*'element={<NotFound/>}/>
-                <Route path="/places/:id" element={ <Place/> } /> 
+                <Route path='/notfound'element={<NotFound/>}/>
+                <Route path="/places/list" element={ <><PlacesMenu/><PlacesList/> </> } />
+                <Route path="/places/add" element={ <><PlacesMenu/><PlaceAdd/></> } /> 
+                <Route path="/places/edit/:id" element={ <><PlacesMenu/><PlaceEdit/></> } /> 
+                <Route path="/places/grid" element={ <><PlacesMenu/><PlacesGrid/></> } /> 
+                <Route path="/places/:id" element={ <><PlacesMenu/><Place/></> } />
                 <Route path='/posts'element={<Post/>}/>
               </Routes>
               <Footer/>

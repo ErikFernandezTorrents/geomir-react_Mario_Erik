@@ -1,0 +1,120 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+body{
+    background-color: #e6e5db;
+}
+#header{
+    background-color: #694abb;
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.4vh;
+    color: #e6e5db;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.headerLink{
+    color: #e6e5db;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bold;
+    font-size: 1.4vh;
+    text-decoration: none;
+    margin:auto;
+
+}
+.headerLink:hover{
+    color: #e6e5db;
+}
+#header .headerLink{
+    position: relative;
+    display: block;
+    padding: 5px;
+}
+#header .headerLink::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ffffff, #ffffff, #ffffff);
+    z-index: 1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+  }
+#header .headerLink:hover::before {
+    transform: scaleX(1);
+}
+#header[data-animation=center] .headerLink::before {
+    transform-origin: center;
+}
+#footer{
+    position: fixed;
+    bottom: 0%;
+    width: 100%;
+    height: 6%;
+    background-color: #694abb;
+    margin-bottom: 0%;
+
+}
+.logo{
+    margin-left: 0%;
+    width: 7vh;
+    height: 7vh;
+}
+.PlacesPostMenu{
+    background-color: #e6e5db;
+    height: 10%;
+    width: 100%;
+    margin-bottom: 2%;
+    display: flex;
+    flex-wrap: inherit;
+    font-size: 1.4vh;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+.PlacesPostMenu .MenuLinks{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 0.5%;
+    text-decoration: none;
+    color: #000000;
+    padding: 0.5%;
+    margin-left: 2%;
+    border-color: #1f9eff;
+    border-style: groove;
+    background-color:#e6e5db ;
+    cursor: pointer;
+
+}
+.MenuLinks:hover{
+    background-color:#1f9eff ;
+    color: #e6e5db;
+}
+@media screen and (max-width: 1000px) {
+    .containerGrid {
+      grid-gap: 3px;
+    }
+}
+.containerGrid{
+    width: 30%;
+    background-color: #e6e5db;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(100px, 293px));
+    justify-content: center;
+    grid-gap: 28px;
+    margin-top: 1%;
+    box-shadow: 0 0 30px #ffffff;
+    border-radius: 4%;
+}
+
+.InfoPlace {
+    display:grid;
+    grid-template-columns: repeat(3, minmax(100px, 293px));
+    grid-gap: 28px;
+    color: #000000;
+    text-align: left;
+}
