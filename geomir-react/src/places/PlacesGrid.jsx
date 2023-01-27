@@ -33,11 +33,9 @@ export const PlacesGrid = () => {
   useEffect(() => { sendPlacesGrid(); }, []);
   return (
     <>
-        <div>
-          { places.map (  (place)=> ( 
-                <div key={place.id}>
-                  <PlaceGrid place={place} />
-                </div>  
+        <div className='wrapper'>
+          { places.map ( (place)=> ( 
+              <PlaceGrid place={place} />
           ) ) }
         </div>  
     </>

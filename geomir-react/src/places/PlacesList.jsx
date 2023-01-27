@@ -53,6 +53,9 @@ export const PlacesList = () => {
           {places.map((place) => (
             <tr key={place.id}> 
               <PlaceList place={place} />
+              <i class="bi bi-eye"></i>
+              <i class="bi bi-pencil-square"></i>
+              <i class="bi bi-trash3"></i>
             </tr>
           ))}
         </tbody>

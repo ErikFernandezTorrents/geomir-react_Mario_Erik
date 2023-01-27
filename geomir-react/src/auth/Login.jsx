@@ -38,7 +38,7 @@ export const Login = ({ setCanvi }) => {
     };
     return (
         <>
-            <div >
+            <div className='div'>
                 <form>
                     <h3>Login Here</h3>
     
