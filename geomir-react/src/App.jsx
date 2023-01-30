@@ -17,9 +17,10 @@ import { PlacesMenu } from './places/PlacesMenu';
 
 const App = () => {
   let [authToken, setAuthToken] = useState("");
+  let [usuari, setUsuari] = useState("");
   return (
     <>
-      <UserContext.Provider value={{ authToken, setAuthToken }}  >
+      <UserContext.Provider value={{  usuari, setUsuari,authToken, setAuthToken }}  >
         {authToken ? (
             <>
               <Header/>

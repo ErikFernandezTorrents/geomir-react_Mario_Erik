@@ -6,10 +6,10 @@
     margin: 0;
     box-sizing: border-box;
 }
-/* body{
-    background-image:url("../Images/City.jpg");
-    background-repeat: no-repeat;
-} */
+#root{
+    height: 100%;
+    width: 100%;
+}
 body{
     background-image:url("./Images/City.jpg");
     background-repeat: no-repeat;
@@ -124,6 +124,10 @@ button{
 }
 .AlertError{
     background-color: rgba(212, 110, 110, 0.788);
+    padding: 2%;
+}
+.AlertOk{
+    background-color: rgba(117, 201, 115, 0.753);
     padding: 2%;
 }
 #header .botoLogout{

@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 export const PlaceList = ({place}) => {
+  let [usuari, setUsuari] = useState("");
+
   return (
     <>
         <td>{place.id}</td>
@@ -11,6 +13,9 @@ export const PlaceList = ({place}) => {
         <td>{place.favorites_count}</td>
         <td>{place.reviews_count}</td>
         <td>{place.visibility.name}</td>
+        <td><i className="bi bi-eye"></i></td>
+        <td><i className="bi bi-pencil-square"></i></td>
+        <td><i className="bi bi-trash3"></i></td>
     </>
   )
 }

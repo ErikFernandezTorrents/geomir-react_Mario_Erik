@@ -71,14 +71,14 @@ return (
   <>
 
     <div id='header'>
-      <img class="logo" src="../Images/logo_geomir.ico"></img>
+      <img className="logo" src="../public/logo_geomir.ico"></img>
       <Link className="headerLink" to="/places/list">Places </Link>
       <Link className="headerLink" to="/posts">Posts </Link>
       <Link className="headerLink" to="/about">About </Link>
       <div>
         <p>User : {nameOfUser}</p>
         {roles.map((v) => (
-          <span key={v}> Rol: {v} </span>
+          <p key={v}> Rol: {v} </p>
         ))}
       </div>
       <Link className="headerLink"

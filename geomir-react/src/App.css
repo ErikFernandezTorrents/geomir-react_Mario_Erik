@@ -88,7 +88,6 @@ body{
     border-style: groove;
     background-color:#e6e5db ;
     cursor: pointer;
-
 }
 .MenuLinks:hover{
     background-color:#1f9eff ;
@@ -106,11 +105,16 @@ body{
     height: 100%;
     background-color: #e6e5db;
     padding: 20px;
+    padding-top: 3%;
     margin: auto;
     box-shadow: 0 0 30px #ffffff;
     border-radius: 4%;
 }
-
+.containerGrid p{
+    margin-top: 1%;
+    margin-left:60% ;
+    margin-bottom: 2%;
+}
 .InfoPlace {
     margin-top: 4%;
     display: grid;
@@ -120,6 +124,85 @@ body{
 }
 .divFavorites{
     margin-top: 5%;
+}
+.divFavorites i{
+    color: yellow;
+}
+.divFavorites i:hover{
+    color: rgb(232, 232, 146);
+}
+#tablePlaceList{
+    height: 100%;
+    width: 90%;
+    background-color: #e6e5db;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 5%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1em;
+}
+#tr1PlaceList{
+    border-radius: 10px;
+    color: #ffffff;
+    width: 100%;
+}
+#tr1PlaceList th{
+    background-color: #694abb;
+}
+#tr2PlaceList{
+    background-color: #e6e5db;
+}
+#tr2PlaceList:hover{
+    background-color: #cfcfcf;
+}
+.bi-eye{
+    color: #1f9eff;
+}
+.bi-eye:hover{
+    color: #89c4f0;
+}
+.bi-pencil-square{
+    color: #694abb;
+}
+.bi-pencil-square:hover{
+    color: #a093c2;
+}
+.bi-trash3{
+    color: red;
+}
+.bi-trash3:hover{
+    color: rgb(250, 176, 176);
+}
+.addPlace{
+    height: 45%;
+    width: 30%;
+    background-color: #694abb;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: rgb(10, 10, 10);
+    padding: 50px 35px;
+}
+.addPlaceButton{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+}
+#visibility{
+    color: #000000;
+    background-color: rgba(255,255,255,0.07);
+    width: 30%;
+}
+#visibility option{
+    color: #000000;
+    background-color: #e6e5db;
 }
 @media screen and (max-width: 700px) {
     .wrapper{

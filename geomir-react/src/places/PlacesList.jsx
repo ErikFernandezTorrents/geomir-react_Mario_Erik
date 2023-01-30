@@ -2,9 +2,10 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
-
+import '../App.css'
 export const PlacesList = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
+  let [usuari, setUsuari] = useState("");
   let [places, setPlaces] = useState([]);
 
   const sendPlacesList = async (e) => {
@@ -34,9 +35,9 @@ export const PlacesList = () => {
   useEffect(() => { sendPlacesList(); }, []);
   return (
     <>
-      <table>
+      <table id='tablePlaceList'>
         <tbody>
-          <tr>
+          <tr id='tr1PlaceList'>
             <th>Id</th>
             <th>Name</th>
             <th>Author</th>
@@ -45,17 +46,11 @@ export const PlacesList = () => {
             <th>Favorites</th>
             <th>Reviews</th>
             <th>Visibility</th>
-            <th>view</th>
-            <th>edit</th>
-            <th>delete</th>
 
           </tr>        
           {places.map((place) => (
-            <tr key={place.id}> 
+            <tr  key={places.id} id='tr2PlaceList'>
               <PlaceList place={place} />
-              <i class="bi bi-eye"></i>
-              <i class="bi bi-pencil-square"></i>
-              <i class="bi bi-trash3"></i>
             </tr>
           ))}
         </tbody>
