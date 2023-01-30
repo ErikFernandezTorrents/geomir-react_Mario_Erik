@@ -1,11 +1,11 @@
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
 import '../App.css'
 export const PlacesList = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
-  let [usuari, setUsuari] = useState("");
+  const {usuari} = useCallback(UserContext)
   let [places, setPlaces] = useState([]);
 
   const sendPlacesList = async (e) => {
@@ -35,6 +35,7 @@ export const PlacesList = () => {
   useEffect(() => { sendPlacesList(); }, []);
   return (
     <>
+      
       <table id='tablePlaceList'>
         <tbody>
           <tr id='tr1PlaceList'>
@@ -43,14 +44,14 @@ export const PlacesList = () => {
             <th>Author</th>
             <th>Latitude</th>
             <th>Longitude</th>
-            <th>Favorites</th>
             <th>Reviews</th>
             <th>Visibility</th>
+            <th>Favorites</th>
 
           </tr>        
           {places.map((place) => (
             <tr  key={places.id} id='tr2PlaceList'>
-              <PlaceList place={place} />
+              {(place.visibility.name == place.author.name ) ?  <PlaceList place={place} /> : <div/>}
             </tr>
           ))}
         </tbody>

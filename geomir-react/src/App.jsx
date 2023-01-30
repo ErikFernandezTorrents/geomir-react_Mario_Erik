@@ -34,7 +34,6 @@ const App = () => {
                 <Route path="/places/:id" element={ <><PlacesMenu/><Place/></> } />
                 <Route path='/posts'element={<Post/>}/>
               </Routes>
-              <Footer/>
             </>
           ) : (
             <LoginRegister />

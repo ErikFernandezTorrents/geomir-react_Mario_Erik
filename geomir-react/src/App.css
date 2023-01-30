@@ -51,7 +51,6 @@ body{
     transform-origin: center;
 }
 #footer{
-    position: fixed;
     bottom: 0%;
     width: 100%;
     height: 6%;
@@ -96,9 +95,10 @@ body{
 
 .wrapper{
     display: grid;
+    height: 100%;
     grid-template-columns: 100px 100px 100px;
-    grid-gap: 10% 20%;
-    overflow: hidden;
+    grid-gap: 3% 20%;
+    
     padding-left: 19%;
 }
 .containerGrid{
@@ -125,7 +125,7 @@ body{
 .divFavorites{
     margin-top: 5%;
 }
-.divFavorites i{
+.bi-star-fill{
     color: yellow;
 }
 .divFavorites i:hover{
@@ -174,8 +174,15 @@ body{
 .bi-trash3:hover{
     color: rgb(250, 176, 176);
 }
+#optionsPlaceGrid{
+    margin-top: 5%;
+}
+#optionsPlaceGrid i{
+    margin-top: 5%;
+    padding-left: 2%;
+}
 .addPlace{
-    height: 45%;
+    height: 65%;
     width: 30%;
     background-color: #694abb;
     position: absolute;

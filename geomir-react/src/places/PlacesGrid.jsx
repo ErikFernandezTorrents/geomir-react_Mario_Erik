@@ -1,10 +1,11 @@
-import React, { useContext, useState,useEffect } from 'react'
+import React, { useContext, useState,useEffect, useCallback } from 'react'
 import { UserContext } from "../userContext";
 import { PlaceGrid } from './PlaceGrid'
 
 export const PlacesGrid = () => {
   let { authToken, setAuthToken } = useContext(UserContext);
   let [places, setPlaces] = useState([]);
+  const {usuari} = useCallback(UserContext)
 
   const sendPlacesGrid = async (e) => {
     try{

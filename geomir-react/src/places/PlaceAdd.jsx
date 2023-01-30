@@ -9,14 +9,24 @@ export const PlaceAdd = () => {
   
   const handleChange = (e) => {
     e.preventDefault();
-    setFormulari({
-      // ...formulari es como el cache
-      ...formulari,
-      [e.target.name]: e.target.value
-    });
-    console.log(formulari);
-  };
+    if (e.target.name==="upload")
+      {
+        console.log(e.target.files[0].name)
+        setFormulari({
+          ...formulari,
+          [e.target.name] : e.target.files[0] 
 
+
+        })
+      }
+    else {
+          setFormulari({
+            ...formulari,
+            [e.target.name] : e.target.value
+
+          })
+      };
+  }
     const addPlace = async(e) => {
       e.preventDefault();
       let {name,description,upload,latitude,longitude,visibility}=formulari;
@@ -37,6 +47,7 @@ export const PlaceAdd = () => {
           },
           method: "POST",
           body: formData
+
         })
         const resposta = await data.json();
         if (resposta.success === true){
@@ -45,6 +56,7 @@ export const PlaceAdd = () => {
         } 
 
         else{
+          console.log(formulari)
           setMissatge(resposta.message);
         } 
           
@@ -52,7 +64,7 @@ export const PlaceAdd = () => {
         console.log("Error");
         alert("catch");
       }
-      
+      formAddPlace.reset(); 
     }
     useEffect(() => {
       addPlace();
@@ -70,11 +82,12 @@ export const PlaceAdd = () => {
         console.log("Latitude is :", pos.coords.latitude);
         console.log("Longitude is :", pos.coords.longitude);
       });
+
     }, [])
   return (
     <div>
         <div className="container">
-          <form className="addPlace">
+          <form id="formAddPlace"className="addPlace">
             <div className="title"><h3>Add New Place</h3></div>
 
             <div>
@@ -86,18 +99,19 @@ export const PlaceAdd = () => {
             </div>
 
             <div>
-              <input type="number" placeholder="Latitude" id="latitude" name="latitude" onChange={handleChange}/>
+              <input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
             </div>
 
             <div>
-              <input type="number"placeholder="Longitude" id="longitude" name="longitude" onChange={handleChange}/>
+              <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
             </div>
 
             <div>
               <label>Visibility</label>
-              <select id="visibility" name="visibility" checked onChange={handleChange}>
-                <option  value="public">Public</option>
-                <option  value="private">Private</option>
+              <select value= {formulari.visibility } onChange={handleChange} id="visibility" name="visibility"  >
+                <option  value="1" checked >Public</option>
+                <option  value="3" >Private</option>
+                <option  value="2" >Contacts</option>
               </select>
             </div>
 
