@@ -1,9 +1,10 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useContext } from 'react'
+import { Link } from 'react-router-dom'
 import '../App.css'
 import { UserContext } from '../userContext'
 export const PlaceGrid = ({place}) => {
     console.log(place)
-    const {usuari} = useCallback(UserContext)
+    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   return (
     <>
         <div className='containerGrid'>
@@ -18,8 +19,13 @@ export const PlaceGrid = ({place}) => {
                 {place.favorites_count}
             </div>
             <div id='optionsPlaceGrid'>
-                <i className="bi bi-pencil-square"></i>
-                <i className="bi bi-trash3"></i>
+                {(usuari == place.author.email ) &&  
+                <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
+
+                {(usuari == place.author.email ) &&
+                <i className="bi bi-trash3"></i>}
+
+                <Link className="headerLink" to={"/places/" +place.id}><i className="bi bi-eye"></i></Link>
             </div>
         </div>
     </>

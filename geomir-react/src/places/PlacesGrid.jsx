@@ -3,9 +3,8 @@ import { UserContext } from "../userContext";
 import { PlaceGrid } from './PlaceGrid'
 
 export const PlacesGrid = () => {
-  let { authToken, setAuthToken } = useContext(UserContext);
+  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [places, setPlaces] = useState([]);
-  const {usuari} = useCallback(UserContext)
 
   const sendPlacesGrid = async (e) => {
     try{
@@ -36,8 +35,10 @@ export const PlacesGrid = () => {
     <>
         <div className='wrapper'>
           { places.map ( (place)=> ( 
-              <PlaceGrid place={place} />
+              (place.visibility.name == 'public' || usuari == place.author.email) &&  
+              (<PlaceGrid place={place} />)
           ) ) }
+          
         </div>  
     </>
   )

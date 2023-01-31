@@ -4,8 +4,7 @@ import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
 import '../App.css'
 export const PlacesList = () => {
-  let { authToken, setAuthToken } = useContext(UserContext);
-  const {usuari} = useCallback(UserContext)
+  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [places, setPlaces] = useState([]);
 
   const sendPlacesList = async (e) => {
@@ -33,6 +32,7 @@ export const PlacesList = () => {
     }
   }
   useEffect(() => { sendPlacesList(); }, []);
+  console.log(usuari); 
   return (
     <>
       
@@ -48,11 +48,10 @@ export const PlacesList = () => {
             <th>Visibility</th>
             <th>Favorites</th>
 
-          </tr>        
+          </tr>       
           {places.map((place) => (
-            <tr  key={places.id} id='tr2PlaceList'>
-              {(place.visibility.name == place.author.name ) ?  <PlaceList place={place} /> : <div/>}
-            </tr>
+              (place.visibility.name == 'public' || usuari == place.author.email) &&  
+              (<tr  key={places.id} id='tr2PlaceList'><PlaceList place={place} /></tr>)
           ))}
         </tbody>
       </table>

@@ -5,8 +5,7 @@ export const Login = ({ setCanvi }) => {
     let [name, setName] = useState("");
     let [password, setPassword] = useState("");
     let [missatge, setMissatge] = useState("");
-    let { authToken,setAuthToken } = useContext(UserContext)
-    let [usuari, setUsuari] = useState("");
+    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
     const sendLogin = async (e) => {
         e.preventDefault();
         console.log("Comprovant credencials....");
@@ -25,7 +24,7 @@ export const Login = ({ setCanvi }) => {
                 console.log(resposta);
                 if (resposta.success === true) {
                     setAuthToken(resposta.authToken)
-                    setUsuari(resposta.usuari)
+                    setUsuari(name)
                     console.log(resposta.authToken,usuari);
                 }else{
                     setMissatge(resposta.message);
