@@ -40,6 +40,7 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa");
     }
   }
+
   useEffect(() => { getPlace(); }, []);
   return (
     <div>

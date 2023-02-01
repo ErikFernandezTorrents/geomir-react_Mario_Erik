@@ -13,6 +13,8 @@ export const PlaceEdit = () => {
 
     const handleChange = (e) => {
       e.preventDefault();
+      setMissatge("");
+      setMissatgeOK("");
       if (e.target.name==="upload")
         {
           console.log(e.target.files[0].name)
@@ -46,13 +48,12 @@ export const PlaceEdit = () => {
         if (resposta.success === true){
           const { data } = resposta
           setFormulari({
-            ...formulari,
-            "name":data.name,
-            "description":data.description,
-            "upload":"",
-            "latitude":data.latitude,
-            "longitude":data.longitude,
-            "visibility":data.visibility,
+            name: data.name,
+            description: data.description,
+            upload: "",
+            latitude: data.latitude,
+            longitude: data.longitude,
+            visibility: data.visibility.id,
 
           })
         } 
@@ -69,7 +70,9 @@ export const PlaceEdit = () => {
       formAddPlace.reset(); 
     }
     const editPlace = async(e) => {
+
       e.preventDefault();
+
       let {name,description,upload,latitude,longitude,visibility}=formulari;
       console.log(formulari);
       var formData = new FormData();
@@ -81,7 +84,7 @@ export const PlaceEdit = () => {
       formData.append("visibility", visibility);
 
       try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/edit" + id, {
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
           headers: {
             'Accept': 'application/json',
             'Authorization': 'Bearer ' + authToken
@@ -160,8 +163,8 @@ export const PlaceEdit = () => {
             <div>
               <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
             </div>
-            <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
-            <div>{missatgeOK? <div className='AlertOk'>{missatgeOK}</div>:<></>}</div>
+            <div onChange={handleChange}>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
+            <div onChange={handleChange}>{missatgeOK? <div className='AlertOk'>{missatgeOK}</div>:<></>}</div>
             <button className="addPlaceButton"
               onClick={(e) => {
                 editPlace(e);

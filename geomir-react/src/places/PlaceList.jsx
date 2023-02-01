@@ -4,8 +4,8 @@ import { Place } from './Place'
 import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
 export const PlaceList = ({place}) => {
-let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-
+  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+  
   return (
     <>
         <td>{place.id}</td>
@@ -21,8 +21,15 @@ let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
         {(usuari == place.author.email ) &&  
         <td><Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link></td>}
 
-         {(usuari == place.author.email ) ?  
-        <td><i className="bi bi-trash3"></i></td> : <td/>}
+         {(usuari == place.author.email ) && 
+            <td>
+              <button
+                onClick={(e) => {
+                  deletePlace(e);
+                }}><i className="bi bi-trash3"></i>
+              </button>
+            </td>
+          }
     </>
   )
 }
