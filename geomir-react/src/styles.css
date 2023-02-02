@@ -111,7 +111,18 @@ input{
 ::placeholder{
     color: #e5e5e5;
 }
-button{
+.div button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #694abb;
+    color: #e6e5db;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#RegisterForm button{
     margin-top: 50px;
     width: 100%;
     background-color: #694abb;

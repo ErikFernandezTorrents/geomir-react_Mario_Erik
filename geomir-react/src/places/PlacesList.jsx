@@ -6,7 +6,9 @@ import '../App.css'
 export const PlacesList = () => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [places, setPlaces] = useState([]);
-
+  let [refresh,setRefresh] = useState(false)
+  let [missatge, setMissatge] = useState("");
+  let [missatgeOK, setMissatgeOK] = useState("");
   const sendPlacesList = async (e) => {
     try{
       const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
@@ -31,31 +33,18 @@ export const PlacesList = () => {
       alert("Estem tenint problemes amb la xarxa");
     }
   }
-  const deletePlace = async (e) =>{
+  const deletePlace = async (e,id) =>{
     e.preventDefault();
-      let [missatge, setMissatge] = useState("");
-      let [missatgeOK, setMissatgeOK] = useState("");
-      let [refresh,setRefresh] = useState(false)
-      let {name,description,upload,latitude,longitude,visibility}=formulari;
-      console.log(formulari);
-      var formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("upload", upload);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-      formData.append("visibility", visibility);
-
     try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places" + id, {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
           headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
           'Authorization': 'Bearer ' + authToken
           },
           method: "DELETE",
-          body: formData
       })
+
       const resposta = await data.json();
           console.log(resposta);
           if (resposta.success === true) {
@@ -67,12 +56,13 @@ export const PlacesList = () => {
 
     }catch {
       console.log(data);
-      alert("Estem tenint problemes amb la xarxa");
+      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
   useEffect(() => { 
     sendPlacesList();
     setRefresh();
+    deletePlace();
   }, []);
   console.log(usuari); 
   return (
@@ -93,7 +83,7 @@ export const PlacesList = () => {
           </tr>       
           {places.map((place) => (
               (place.visibility.name == 'public' || usuari == place.author.email) &&  
-              (<tr  key={places.id} id='tr2PlaceList'><PlaceList place={place} /></tr>)
+              (<tr  key={places.id} id='tr2PlaceList'><PlaceList place={place} deletePlace={deletePlace}/></tr>)
           ))}
         </tbody>
       </table>

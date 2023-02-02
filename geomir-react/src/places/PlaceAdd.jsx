@@ -29,7 +29,7 @@ export const PlaceAdd = () => {
   }
     const addPlace = async(e) => {
       e.preventDefault();
-      let {name,description,upload,latitude,longitude,visibility}=formulari;
+      let {name,description,upload,latitude,longitude,visibility=1}=formulari;
       console.log(formulari);
       var formData = new FormData();
       formData.append("name", name);
@@ -109,7 +109,7 @@ export const PlaceAdd = () => {
             <div>
               <label>Visibility</label>
               <select value= {formulari.visibility } onChange={handleChange} id="visibility" name="visibility"  >
-                <option  value="1" checked >Public</option>
+                <option  value="1" selected >Public</option>
                 <option  value="3" >Private</option>
                 <option  value="2" >Contacts</option>
               </select>

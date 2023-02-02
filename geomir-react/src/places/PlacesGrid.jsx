@@ -5,8 +5,9 @@ import { PlaceGrid } from './PlaceGrid'
 export const PlacesGrid = () => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [places, setPlaces] = useState([]);
-
-  const sendPlacesGrid = async (e) => {
+  let [refresh,setRefresh] = useState(false)
+  
+  const sendPlacesGrid = async () => {
     try{
       const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
           headers: {
@@ -30,7 +31,33 @@ export const PlacesGrid = () => {
       alert("Estem tenint problemes amb la xarxa");
     }
   }
-  useEffect(() => { sendPlacesGrid(); }, []);
+  const deletePlace = async (e,id) =>{
+    e.preventDefault();
+    try{
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
+          headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + authToken
+          },
+          method: "DELETE",
+      })
+
+      const resposta = await data.json();
+          console.log(resposta);
+          if (resposta.success === true) {
+              setRefresh(!refresh);
+              console.log("Place eliminat correctament");
+          }else{
+              setMissatge(resposta.message);
+          }
+
+    }catch {
+      console.log(data);
+      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+    }
+  }
+  useEffect(() => { sendPlacesGrid(); deletePlace(); setRefresh(); }, []);
   return (
     <>
         <div className='wrapper'>

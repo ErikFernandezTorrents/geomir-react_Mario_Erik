@@ -127,9 +127,10 @@ body{
 }
 .bi-star-fill{
     color: yellow;
+    cursor: pointer;
 }
 .divFavorites i:hover{
-    color: rgb(232, 232, 146);
+    color: rgb(181, 88, 235);
 }
 #tablePlaceList{
     height: 100%;
@@ -201,6 +202,7 @@ body{
     font-size: 18px;
     font-weight: 600;
     border-radius: 5px;
+    cursor: pointer;
 }
 #visibility{
     color: #000000;
@@ -210,6 +212,18 @@ body{
 #visibility option{
     color: #000000;
     background-color: #e6e5db;
+}
+.bi-trash3{
+    height: 5px;
+}
+.bi-pencil-square{
+    height: 5px;
+}
+.bi-eye{
+    height: 10px !important;
+}
+button{
+    cursor: pointer;
 }
 @media screen and (max-width: 700px) {
     .wrapper{

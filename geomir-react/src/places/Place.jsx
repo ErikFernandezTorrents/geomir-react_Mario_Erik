@@ -1,10 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 
 
 export const Place = () => {
   const { id } = useParams();
+  let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
+  let [refresh,setRefresh] = useState(false)
   let [place, setPlaces] = useState({
     author:{name:""},
     name:"",
@@ -15,8 +17,8 @@ export const Place = () => {
     reviews_count:"",
     file:{filepath:""}
   });
-  let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  const getPlace = async (e) => {
+  
+  const getPlace = async () => {
     try{
       const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
           headers: {
@@ -40,8 +42,33 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa");
     }
   }
+  const deletePlace = async (e,id) =>{
+    e.preventDefault();
+    try{
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
+          headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + authToken
+          },
+          method: "DELETE",
+      })
 
-  useEffect(() => { getPlace(); }, []);
+      const resposta = await data.json();
+          console.log(resposta);
+          if (resposta.success === true) {
+              setRefresh(!refresh);
+              console.log("Place eliminat correctament");
+          }else{
+              setMissatge(resposta.message);
+          }
+
+    }catch {
+      console.log(data);
+      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+    }
+  }
+  useEffect(() => { getPlace(); deletePlace(); setRefresh();}, []);
   return (
     <div>
       <div>
@@ -60,11 +87,16 @@ export const Place = () => {
             </div>
             <div id='optionsPlaceGrid'>
                 {(usuari == place.author.email ) &&  
-                <i className="bi bi-pencil-square"></i>}
+                <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
 
                 {(usuari == place.author.email ) &&
-                <i className="bi bi-trash3"></i>}
+                <button className='deleteButton'
+                    onClick={(e) => {
+                    deletePlace(e,place.id);
+                    }}><i className="bi bi-trash3"></i>
+                </button>}
             </div>
+
             <p>Hi ha {place.reviews_count} ressenyes</p>
       </div>
     </div>

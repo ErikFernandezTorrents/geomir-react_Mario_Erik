@@ -3,7 +3,7 @@ import '../App.css'
 import { Place } from './Place'
 import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
-export const PlaceList = ({place}) => {
+export const PlaceList = ({place,deletePlace}) => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   
   return (
@@ -23,9 +23,9 @@ export const PlaceList = ({place}) => {
 
          {(usuari == place.author.email ) && 
             <td>
-              <button
+              <button className='deleteButton'
                 onClick={(e) => {
-                  deletePlace(e);
+                  deletePlace(e,place.id);
                 }}><i className="bi bi-trash3"></i>
               </button>
             </td>

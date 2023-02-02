@@ -23,7 +23,11 @@ export const PlaceGrid = ({place}) => {
                 <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
 
                 {(usuari == place.author.email ) &&
-                <i className="bi bi-trash3"></i>}
+                <button className='deleteButton'
+                    onClick={(e) => {
+                    deletePlace(e,place.id);
+                    }}><i className="bi bi-trash3"></i>
+                </button>}
 
                 <Link className="headerLink" to={"/places/" +place.id}><i className="bi bi-eye"></i></Link>
             </div>
