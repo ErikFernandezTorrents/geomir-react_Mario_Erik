@@ -61,9 +61,8 @@ export const PlacesList = () => {
   }
   useEffect(() => { 
     sendPlacesList();
-    setRefresh();
-    deletePlace();
-  }, []);
+    //deletePlace();
+  }, [refresh]);
   console.log(usuari); 
   return (
     <>

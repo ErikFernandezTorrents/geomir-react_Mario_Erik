@@ -2,7 +2,7 @@ import React, { useCallback, useContext } from 'react'
 import { Link } from 'react-router-dom'
 import '../App.css'
 import { UserContext } from '../userContext'
-export const PlaceGrid = ({place}) => {
+export const PlaceGrid = ({place,deletePlace}) => {
     console.log(place)
     let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   return (

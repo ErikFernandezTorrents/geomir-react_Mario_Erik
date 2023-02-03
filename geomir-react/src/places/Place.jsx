@@ -68,7 +68,7 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
-  useEffect(() => { getPlace(); deletePlace(); setRefresh();}, []);
+  useEffect(() => { getPlace();}, [refresh]);
   return (
     <div>
       <div>

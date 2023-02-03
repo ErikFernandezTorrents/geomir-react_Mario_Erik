@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import '../App.css'
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const PlaceEdit = () => {
     const { id } = useParams();
@@ -10,6 +10,7 @@ export const PlaceEdit = () => {
     let [missatge, setMissatge] = useState("");
     let [missatgeOK, setMissatgeOK] = useState("");
     let [places, setPlaces] = useState("");
+    let navigate = useNavigate();
 
     const handleChange = (e) => {
       e.preventDefault();

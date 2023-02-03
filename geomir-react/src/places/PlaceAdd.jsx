@@ -1,12 +1,14 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import '../App.css'
+import { useNavigate } from 'react-router-dom';
 export const PlaceAdd = () => {
   let [formulari, setFormulari] = useState({});
   let { authToken,setAuthToken } = useContext(UserContext);
   let [missatge, setMissatge] = useState("");
   let [missatgeOK, setMissatgeOK] = useState("");
-  
+  let navigate = useNavigate();
+
   const handleChange = (e) => {
     e.preventDefault();
     if (e.target.name==="upload")
@@ -65,6 +67,7 @@ export const PlaceAdd = () => {
         alert("catch");
       }
       formAddPlace.reset(); 
+      
     }
     useEffect(() => {
       addPlace();
@@ -84,6 +87,7 @@ export const PlaceAdd = () => {
       });
 
     }, [])
+
   return (
     <div>
         <div className="container">

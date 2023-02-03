@@ -57,13 +57,16 @@ export const PlacesGrid = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
-  useEffect(() => { sendPlacesGrid(); deletePlace(); setRefresh(); }, []);
+  useEffect(() => { 
+    sendPlacesGrid(); 
+     }
+  , [refresh]);
   return (
     <>
         <div className='wrapper'>
           { places.map ( (place)=> ( 
               (place.visibility.name == 'public' || usuari == place.author.email) &&  
-              (<PlaceGrid place={place} />)
+              (<PlaceGrid place={place} deletePlace={deletePlace} />)
           ) ) }
           
         </div>  

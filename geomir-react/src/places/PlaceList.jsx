@@ -1,6 +1,5 @@
 import React, { useCallback, useContext, useState} from 'react'
 import '../App.css'
-import { Place } from './Place'
 import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
 export const PlaceList = ({place,deletePlace}) => {
