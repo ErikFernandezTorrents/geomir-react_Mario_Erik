@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
+import { ReviewsList } from './reviews/ReviewsList';
 
 
 export const Place = () => {
@@ -82,7 +83,7 @@ export const Place = () => {
             {place.description}     
         </div>
         <div className='divFavorites'>
-                <i class="bi bi-star-fill"></i>
+                <i className="bi bi-star-fill"></i>
                 {place.favorites_count}
             </div>
             <div id='optionsPlaceGrid'>
@@ -97,7 +98,7 @@ export const Place = () => {
                 </button>}
             </div>
 
-            <p>Hi ha {place.reviews_count} ressenyes</p>
+            <div><ReviewsList/></div>
       </div>
     </div>
   )
