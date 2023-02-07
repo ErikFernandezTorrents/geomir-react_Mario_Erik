@@ -13,6 +13,12 @@ export const ReviewsList = () => {
   let [missatge, setMissatge] = useState("");
   let [missatgeOK, setMissatgeOK] = useState("");
   let [addreview, setAddreview] = useState(true);
+
+  // creo funcion para pasar refresh como prop a los componentes hijos
+  const canviRefresh = () =>{
+    setRefresh(!refresh);
+  }
+
   const sendReviewsList = async (e) => {
     try{
         const data = await fetch("https://backend.insjoaquimmir.cat/api/places/"+id+"/reviews", {
@@ -57,7 +63,8 @@ export const ReviewsList = () => {
         const resposta = await data.json();
             console.log(resposta);
             if (resposta.success === true) {
-                setRefresh(!refresh);
+                canviRefresh();
+                setAddreview(true);
                 console.log("Place eliminat correctament");
             }else{
                 setMissatge(resposta.message);
@@ -83,7 +90,7 @@ export const ReviewsList = () => {
               <Review review={review} deleteReview={deleteReview}/>
             </div>
         ))}
-        { addreview == true && <ReviewAdd/>}
+        { addreview == true && <ReviewAdd canviRefresh={canviRefresh}/>}
     </>
   )
 }

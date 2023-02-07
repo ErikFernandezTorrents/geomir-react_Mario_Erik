@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router';
 import '../../App.css'
 import { useParams } from 'react-router-dom';
 
-export const ReviewAdd = () => {
+export const ReviewAdd = ({canviRefresh}) => {
   let { authToken,setAuthToken } = useContext(UserContext);
   let [missatge, setMissatge] = useState("");
   let [missatgeOK, setMissatgeOK] = useState("");
-  let [refresh,setRefresh] = useState(false)
   let [addreview, setAddreview] = useState(true);
   const { id } = useParams();
   let [formulari, setFormulari] = useState({});
@@ -43,7 +42,7 @@ export const ReviewAdd = () => {
       const resposta = await data.json();
       if (resposta.success === true){
         console.log(resposta);
-        setRefresh(!refresh);
+        canviRefresh();
         console.log("Review creat amb exit!!");
       } 
 
@@ -60,7 +59,7 @@ export const ReviewAdd = () => {
   useEffect(() => {
     addReview();
 
-  }, [refresh])
+  }, [])
   return (
     <>
         <div className='ReviewForm'>
