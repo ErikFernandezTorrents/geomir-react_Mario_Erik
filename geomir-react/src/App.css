@@ -183,13 +183,16 @@ body{
     padding-left: 2%;
 }
 .addPlace{
-    height: 65%;
+    height: 50%;
     width: 30%;
     background-color: #694abb;
     position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgb(255, 255, 255);
     box-shadow: rgb(10, 10, 10);
     padding: 50px 35px;
 }
@@ -224,6 +227,70 @@ body{
 }
 button{
     cursor: pointer;
+}
+.ReviewForm{
+    border-radius: 5px;
+    background-color: #e6e5db;
+    padding: 20px;
+    height: 70%;
+    width: 40%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+}
+.ReviewForm2{
+    width: 100%;
+    height: 20%;
+}
+.containerTextarea{
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+    height:50%;
+    width: 100%;
+}
+.containerTextarea textarea{
+    width: 100%;
+    height:100%;
+}
+.addReviewButton{
+    margin-top: 3%;
+    width: 40%;
+    background-color: #694abb;
+    color: #ffffff;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.labelReviewContainer label{
+    color: #000000;
+    font-weight: bold;
+}
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+}
+.Reviewcontainer{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #e6e5db;
+    height: 70%;
+    width: 30%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+    box-shadow: 0 0 20px rgb(255, 255, 255);
+}
+.Reviewcontainer p {
+    margin-top: 2%;
+}
+.dateOfReview{
+    margin-top: 2%;
 }
 @media screen and (max-width: 700px) {
     .wrapper{

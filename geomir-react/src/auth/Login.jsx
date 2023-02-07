@@ -39,7 +39,7 @@ export const Login = ({ setCanvi }) => {
     return (
         <>
             <div className='div'>
-                <form>
+                <form className='allForms'>
                     <h3>Login Here</h3>
     
                     <label htmlFor="email">Email</label>

@@ -41,10 +41,10 @@ export const ReviewsList = () => {
       alert("Estem tenint problemes amb la xarxa");
     }
   }
-  const deleteReview = async (e,id) =>{
+  const deleteReview = async (e,idreview) =>{
     e.preventDefault();
     try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/reviews/", {
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/reviews/"+idreview, {
             headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -76,7 +76,6 @@ export const ReviewsList = () => {
 
   return (
     <>
-        {addreview && <ReviewAdd/>}
           
         {reviews.map((review) => (
             <div  key={reviews.id} ><Review review={review} deleteReview={deleteReview}/></div>

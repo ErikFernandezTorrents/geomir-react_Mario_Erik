@@ -64,7 +64,6 @@ export const PlaceAdd = () => {
           
       }catch{
         console.log("Error");
-        alert("catch");
       }
       formAddPlace.reset(); 
       

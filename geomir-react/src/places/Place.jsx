@@ -98,7 +98,7 @@ export const Place = () => {
                 </button>}
             </div>
 
-            <div><ReviewsList/></div>
+            <div><ReviewsList id={place.id}/></div>
       </div>
     </div>
   )
