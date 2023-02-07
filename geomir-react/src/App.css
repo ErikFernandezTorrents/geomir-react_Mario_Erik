@@ -97,7 +97,7 @@ body{
     display: grid;
     height: 100%;
     grid-template-columns: 100px 100px 100px;
-    grid-gap: 3% 20%;
+    grid-gap: 1% 20%;
     
     padding-left: 19%;
 }
@@ -183,7 +183,7 @@ body{
     padding-left: 2%;
 }
 .addPlace{
-    height: 50%;
+    height: 65%;
     width: 30%;
     background-color: #694abb;
     position: absolute;
@@ -229,6 +229,7 @@ button{
     cursor: pointer;
 }
 .ReviewForm{
+    margin-top: 2%;
     border-radius: 5px;
     background-color: #e6e5db;
     padding: 20px;
@@ -271,9 +272,10 @@ button{
 input[type=text], select, textarea {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ccc;
+    border: 1px solid rgb(163, 163, 163);
     border-radius: 4px;
     resize: vertical;
+    color: #000;
 }
 .Reviewcontainer{
     margin-top: 2%;

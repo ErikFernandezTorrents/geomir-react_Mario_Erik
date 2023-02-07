@@ -4,8 +4,9 @@ import '../../App.css'
 import { Review } from './Review';
 import { ReviewAdd } from './ReviewAdd';
 import { useParams } from 'react-router-dom';
+
 export const ReviewsList = () => {
-    const { id } = useParams();
+  const { id } = useParams();
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [reviews, setReview] = useState([]);
   let [refresh,setRefresh] = useState(false)
@@ -76,11 +77,13 @@ export const ReviewsList = () => {
 
   return (
     <>
-          
         {reviews.map((review) => (
-            <div  key={reviews.id} ><Review review={review} deleteReview={deleteReview}/></div>
+            <div  key={reviews.id} > 
+              {(usuari == review.user.email && addreview==true) && setAddreview(false) }
+              <Review review={review} deleteReview={deleteReview}/>
+            </div>
         ))}
-
+        { addreview == true && <ReviewAdd/>}
     </>
   )
 }

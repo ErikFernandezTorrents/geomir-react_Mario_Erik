@@ -110,6 +110,7 @@ export const PlaceEdit = () => {
         alert("catch");
       }
       formAddPlace.reset(); 
+      navigate("/places/list");
     }
     useEffect(() => {
       editPlace();

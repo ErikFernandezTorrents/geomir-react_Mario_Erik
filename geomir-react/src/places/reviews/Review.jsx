@@ -17,9 +17,12 @@ export const Review = ({review,deleteReview}) => {
                 <div className='dateOfReview'>
                     <TimeAgo date={review.created_at} formatter={formatter} />
                 </div>
-                {(usuari == review.user.email)&& <i className="bi bi-trash3"onClick={() => {
-                     deleteReview(review.id);
-                    }}></i>
+                {(usuari == review.user.email)&& 
+                    <button className='deleteButton'
+                        onClick={(e) => {
+                        deleteReview(e,review.id);
+                        }}><i className="bi bi-trash3"></i>
+                    </button>
                 }
             </div>
       </>

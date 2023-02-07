@@ -62,12 +62,13 @@ export const PlaceAdd = () => {
           setMissatge(resposta.message);
         } 
           
-      }catch{
-        console.log("Error");
-      }
+      }catch (err) {
+        console.log(err);
+      } 
       formAddPlace.reset(); 
-      
+      navigate("/places/list");
     }
+
     useEffect(() => {
       addPlace();
       navigator.geolocation.getCurrentPosition( (pos )=> {
@@ -86,7 +87,7 @@ export const PlaceAdd = () => {
       });
 
     }, [])
-
+    
   return (
     <div>
         <div className="container">
