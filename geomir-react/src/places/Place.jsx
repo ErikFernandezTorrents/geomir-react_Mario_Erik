@@ -8,6 +8,7 @@ export const Place = () => {
   const { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [refresh,setRefresh] = useState(false)
+  let [favourite,setFavourite] = useState(false)
   let [place, setPlaces] = useState({
     author:{name:""},
     name:"",
@@ -41,6 +42,56 @@ export const Place = () => {
     }catch {
       console.log(data);
       alert("Estem tenint problemes amb la xarxa");
+    }
+  }
+  const test_favourite = async (e) =>{
+    e.preventDefault();
+    try{
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorite", {
+          headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          'Authorization': 'Bearer ' + authToken
+          },
+          method: "POST",
+      })
+
+      const resposta = await data.json();
+          console.log(resposta);
+          if (resposta.success === true) {
+              setRefresh(!refresh);
+              setFavourite(true);
+              try{
+                const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorite", {
+                    headers: {
+                    Accept: "application/json",
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + authToken
+                    },
+                    method: "DELETE",
+                })
+          
+                const resposta = await data.json();
+                    console.log(resposta);
+                    if (resposta.success === true) {
+                        setRefresh(!refresh);
+                        setFavourite(false);
+                        // TODO IMPLEMENTAR VARIABLE ESTADO + PARA DAR FAVOURITE
+                    }else{
+                        setMissatge(resposta.message);
+                    }
+          
+              }catch {
+                console.log(data);
+                alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+              }
+          }else{
+              setMissatge(resposta.message);
+          }
+
+    }catch {
+      console.log(data);
+      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
   const deletePlace = async (e,id) =>{
@@ -82,8 +133,12 @@ export const Place = () => {
             <p>Descripció: </p>
             {place.description}     
         </div>
-        <div className='divFavorites'>
-                <i className="bi bi-star-fill"></i>
+        <div className='divFavorites'> 
+                <button className='deleteButton'
+                    onClick={(e) => {
+                      test_favourite(e);
+                    }}><i className="bi bi-star-fill"></i>
+                </button>
                 {place.favorites_count}
             </div>
             <div id='optionsPlaceGrid'>
