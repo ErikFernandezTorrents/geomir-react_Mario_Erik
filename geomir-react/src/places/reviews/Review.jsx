@@ -20,7 +20,7 @@ export const Review = ({review,deleteReview}) => {
                 {(usuari == review.user.email)&& 
                     <button className='deleteButton'
                         onClick={(e) => {
-                        deleteReview(e,review.id);
+                        deleteReview(e,review.id); 
                         }}><i className="bi bi-trash3"></i>
                     </button>
                 }

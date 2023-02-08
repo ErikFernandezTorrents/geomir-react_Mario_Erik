@@ -86,7 +86,7 @@ export const ReviewsList = () => {
     <>
         {reviews.map((review) => (
             <div  key={reviews.id} > 
-              {(usuari == review.user.email && addreview==true) && setAddreview(false) }
+              {(usuari == review.user.email && addreview==true)  }
               <Review review={review} deleteReview={deleteReview}/>
             </div>
         ))}
