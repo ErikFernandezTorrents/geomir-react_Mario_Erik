@@ -294,6 +294,10 @@ input[type=text], select, textarea {
 .dateOfReview{
     margin-top: 2%;
 }
+.deleteButton{
+    background-color: #00000000;
+    border: #00000000;
+}
 @media screen and (max-width: 700px) {
     .wrapper{
         display: grid;

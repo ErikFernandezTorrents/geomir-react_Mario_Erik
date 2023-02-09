@@ -9,6 +9,8 @@ export const Place = () => {
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [refresh,setRefresh] = useState(false)
   let [favourite,setFavourite] = useState(false)
+  let [emoticono,setEmoticono] = useState(false)
+  let [missatge, setMissatge] = useState("");
   let [place, setPlaces] = useState({
     author:{name:""},
     name:"",
@@ -31,7 +33,6 @@ export const Place = () => {
           method: "GET",
       })
       const resposta = await data.json();
-          console.log(resposta);
           if (resposta.success === true) {
             setPlaces(resposta.data)
               console.log(resposta);
@@ -47,7 +48,7 @@ export const Place = () => {
   const test_favourite = async (e) =>{
     e.preventDefault();
     try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorite", {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
           headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -61,34 +62,55 @@ export const Place = () => {
           if (resposta.success === true) {
               setRefresh(!refresh);
               setFavourite(true);
-              try{
-                const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorite", {
+              console.log("He dado favorite de prueva por que no hay ninguno");
+              if (favourite==true){
+                try{
+                  const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
+                      headers: {
+                      Accept: "application/json",
+                      "Content-Type": "application/json",
+                      'Authorization': 'Bearer ' + authToken
+                      },
+                      method: "DELETE",
+                  })
+            
+                  const resposta = await data.json();
+                      console.log(resposta);
+                      if (resposta.success === true) {
+                          setFavourite(false);
+                          setEmoticono(true);
+                          console.log("Quito el fav de prueva");
+                      }else{
+                          setMissatge(resposta.message);
+                      }
+            
+                }catch {
+                  console.log(data);
+                  alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+                }
+              }
+              
+          }else {
+            if (emoticono==true){
+              const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
                     headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + authToken
                     },
-                    method: "DELETE",
-                })
-          
-                const resposta = await data.json();
-                    console.log(resposta);
-                    if (resposta.success === true) {
-                        setRefresh(!refresh);
-                        setFavourite(false);
-                        // TODO IMPLEMENTAR VARIABLE ESTADO + PARA DAR FAVOURITE
-                    }else{
-                        setMissatge(resposta.message);
-                    }
-          
-              }catch {
-                console.log(data);
-                alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+                    method: "POST",})
+              const resposta = await data.json();
+              console.log(resposta);
+              if (resposta.success === true) {
+                  setFavourite(true);
+                  setEmoticono(false);
+                  console.log("Doy fav");
               }
           }else{
-              setMissatge(resposta.message);
+            setMissatge(resposta.message);
+            setEmoticono(false);
           }
-
+        }
     }catch {
       console.log(data);
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
@@ -120,7 +142,7 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
-  useEffect(() => { getPlace();}, [refresh]);
+  useEffect(() => { getPlace(); test_favourite();}, [refresh]);
   return (
     <div>
       <div>
@@ -138,8 +160,10 @@ export const Place = () => {
                     onClick={(e) => {
                       test_favourite(e);
                     }}><i className="bi bi-star-fill"></i>
+                    {emoticono? <i className="bi bi-plus-square-fill"></i>:<i className="bi bi-dash-square-fill"></i> }
                 </button>
                 {place.favorites_count}
+                <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
             </div>
             <div id='optionsPlaceGrid'>
                 {(usuari == place.author.email ) &&  
