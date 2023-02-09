@@ -298,6 +298,26 @@ input[type=text], select, textarea {
     background-color: #00000000;
     border: #00000000;
 }
+.containerPlace{
+    height: 100%;
+    width: 50%;
+    background-color: #e6e5db;
+    padding: 20px;
+    padding-top: 3%;
+    margin: auto;
+    box-shadow: 0 0 30px #ffffff;
+    border-radius: 4%;
+}
+.reviewContainer{
+    position: relative;
+}
+.reviewContainerHijo{
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    width: 80%;
+    transform: translate(-50%, -50%);
+}
 @media screen and (max-width: 700px) {
     .wrapper{
         display: grid;

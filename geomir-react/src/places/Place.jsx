@@ -149,47 +149,50 @@ export const Place = () => {
   }
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
   return (
-    <div>
-      <div>
-        <img src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} alt={place.name} height="500"width="700"/>
-        <h2>{place.name}</h2>
-        <p>Autor: @{place.author.name}</p>
-        <p>Latitud: {place.latitude}</p>
-        <p>Longitud: {place.longitude}</p>
-        <div className='InfoPlace'>
-            <p>Descripció: </p>
-            {place.description}     
-        </div>
-        <div className='divFavorites'> 
-                {!favourite? 
-                  <button className='deleteButton'
-                  onClick={(e) => {
-                    favPlace(e);
-                  }}><i className="bi bi-star-fill"></i>
-                  </button>:
-                  <button className='deleteButton'
-                  onClick={(e) => {
-                    deleteFav(e);
-                  }}><i className="bi bi-dash-square-fill"></i> 
-                  </button>
-                }
-                {place.favorites_count}
-                <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
-            </div>
-            <div id='optionsPlaceGrid'>
-                {(usuari == place.author.email ) &&  
-                <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
-
-                {(usuari == place.author.email ) &&
-                <button className='deleteButton'
+    <>
+      <div className='containerPlace'>
+        <div>
+          <h2>{place.name}</h2>
+          <p>Autor: @{place.author.name}</p>
+          <img src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} alt={place.name} height="500"width="700"/>
+          <p>Latitud: {place.latitude}</p>
+          <p>Longitud: {place.longitude}</p>
+          <div className='InfoPlace'>
+              <p>Descripció: </p>
+              {place.description}     
+          </div>
+          <div className='divFavorites'> 
+                  {!favourite? 
+                    <button className='deleteButton'
                     onClick={(e) => {
-                    deletePlace(e,place.id);
-                    }}><i className="bi bi-trash3"></i>
-                </button>}
-            </div>
+                      favPlace(e);
+                    }}><i class="bi bi-star"></i>
+                    </button>:
+                    <button className='deleteButton'
+                    onClick={(e) => {
+                      deleteFav(e);
+                    }}><i className="bi bi-star-fill"></i>
+                    </button>
+                  }
+                  {place.favorites_count}
+                  <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
+              </div>
+              <div id='optionsPlaceGrid'>
+                  {(usuari == place.author.email ) &&  
+                  <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
 
-            <div><ReviewsList id={place.id}/></div>
+                  {(usuari == place.author.email ) &&
+                  <button className='deleteButton'
+                      onClick={(e) => {
+                      deletePlace(e,place.id);
+                      }}><i className="bi bi-trash3"></i>
+                  </button>}
+              </div>
+
+              
+        </div>
       </div>
-    </div>
+      <div className='reviewContainer'><div className='reviewContainerHijo'><ReviewsList id={place.id}/></div></div>
+    </>
   )
 }
