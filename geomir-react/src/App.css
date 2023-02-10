@@ -117,6 +117,7 @@ body{
     margin-left:60% ;
     margin-bottom: 2%;
 }
+
 .InfoPost {
     margin-top: 3%;
     display: grid;
@@ -124,6 +125,15 @@ body{
     color: #000000;
     text-align: justify;
 }
+.InfoPlace {
+
+    margin-top: 3%;
+    display: grid;
+    grid-gap: 50px;
+    color: #000000;
+    text-align: justify;
+}
+
 .divLikes{
     margin-top: 5%;
 }
@@ -144,11 +154,40 @@ body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1em;
 }
+.divFavorites{
+    margin-top: 5%;
+}
+.bi-star-fill{
+    color: yellow;
+    cursor: pointer;
+}
+.divFavorites i:hover{
+    color: rgb(181, 88, 235);
+}
+#tablePlaceList{
+    height: 100%;
+    width: 90%;
+    background-color: #684abbaa;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 5%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1em;
+}
+
 #tr1PostList{
     border-radius: 10px;
     color: #ffffff;
     width: 100%;
 }
+#tr1PlaceList{
+
+    border-radius: 10px;
+    color: #ffffff;
+    width: 100%;
+}
+
 #tr1PostList th{
     background-color: #694abb;
 }
@@ -156,6 +195,16 @@ body{
     background-color: #684abb00;
 }
 #tr2PostList:hover{
+    background-color: #cfcfcf;
+}
+#tr1PlaceList th{
+    background-color: #694abb;
+}
+#tr2PlaceList{
+    background-color: #684abb00;
+}
+#tr2PlaceList:hover{
+
     background-color: #cfcfcf;
 }
 .bi-eye{
@@ -176,6 +225,7 @@ body{
 .bi-trash3:hover{
     color: rgb(250, 176, 176);
 }
+
 #optionsPostGrid{
     margin-top: 5%;
 }
@@ -197,7 +247,41 @@ body{
     box-shadow: rgb(10, 10, 10);
     padding: 50px 35px;
 }
+
+#optionsPlaceGrid{
+    margin-top: 5%;
+}
+#optionsPlaceGrid i{
+    margin-top: 5%;
+    padding-left: 2%;
+}
+.addPlace{
+    height: 65%;
+    width: 30%;
+    background-color: #694abb;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgb(255, 255, 255);
+    box-shadow: rgb(10, 10, 10);
+    padding: 50px 35px;
+}
+
 .addPostButton{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.addPlaceButton{
     margin-top: 50px;
     width: 100%;
     background-color: #e6e5db;
@@ -239,8 +323,26 @@ button{
     border-radius: 10px;
     backdrop-filter: blur(10px);
     padding: 5px 5px;
+
 }
+.ReviewForm{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abbb7;
+    padding: 20px;
+    height: 70%;
+    width: 40%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+}
+
 .CommentForm2{
+    width: 100%;
+    height: 20%;
+}
+.ReviewForm2{
+
     width: 100%;
     height: 20%;
 }
@@ -267,7 +369,23 @@ button{
     border-radius: 5px;
     cursor: pointer;
 }
+.addReviewButton{
+    margin-top: 3%;
+    width: 40%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 .labelCommentContainer label{
+    color: #000000;
+    font-weight: bold;
+}
+.labelReviewContainer label{
     color: #000000;
     font-weight: bold;
 }
@@ -289,18 +407,45 @@ input[type=text], select, textarea {
     backdrop-filter: blur(10px);
     padding: 5px 5px;
     box-shadow: 0 0 15px rgb(0, 0, 0);
+    
 }
+.Reviewcontainer{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abb9a;
+    height: 70%;
+    width: 30%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+    box-shadow: 0 0 15px rgb(0, 0, 0);
+}
+
 .Commentcontainer p {
     margin-top: 2%;
 }
 .dateOfComment{
     margin-top: 2%;
 }
+.Reviewcontainer p {
+    margin-top: 2%;
+}
+.dateOfReview{
+    margin-top: 2%;
+}
 .deleteButton{
     background-color: #00000000;
     border: #00000000;
 }
+
 .container-ContainerPost{
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+    width: 100%;
+    height: 100%;
+}
+.container-ContainerPlace{
     display: flex;
     flex-wrap:wrap;
     flex-direction:row;
@@ -308,6 +453,7 @@ input[type=text], select, textarea {
     height: 100%;
     
 }
+
 .containerPost{
     height: 100%;
     width: 45%;
@@ -318,7 +464,24 @@ input[type=text], select, textarea {
     border-radius: 4%;
     justify-content: space-between;
 }
+.containerPlace{
+    height: 100%;
+    width: 45%;
+    background-color: #684abbba;
+    padding: 20px;
+    margin-left: 2%;
+    box-shadow: 0 0 24px #000000;
+    border-radius: 4%;
+    justify-content: space-between;
+}
+
 .commentContainer{
+    margin-right: 0%;
+    width: 50%;
+    height: 35%;
+    margin-left: 3%;
+}
+.reviewContainer{
     margin-right: 0%;
     width: 50%;
     height: 35%;
@@ -348,7 +511,17 @@ input[type=text], select, textarea {
         color: #000000;
         text-align: justify;
     }
+    .InfoPlace {
+        margin-top: 4%;
+        display: grid;
+        grid-gap: 50px;
+        color: #000000;
+        text-align: justify;
+    }
     .divLikes{
+        margin-top: 5%;
+    }
+    .divFavorites{
         margin-top: 5%;
     }
 }
