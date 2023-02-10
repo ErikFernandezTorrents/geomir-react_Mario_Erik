@@ -38,7 +38,7 @@ export const Login = ({ setCanvi }) => {
     };
     return (
         <>
-            <h1 id='h1Login'>Venvinguts a GEO-MIR</h1>
+            <h1 id='h1Login'>Benvinguts a GEO-MIR</h1>
             <p id="eslogan">Feel Your Environment</p>
             <div className='div'>
                 <form className='allForms'>

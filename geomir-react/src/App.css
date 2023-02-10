@@ -255,6 +255,7 @@ button{
 .containerTextarea textarea{
     width: 100%;
     height:100%;
+    color: rgb(0, 0, 0);
 }
 .addReviewButton{
     margin-top: 3%;
@@ -277,7 +278,7 @@ input[type=text], select, textarea {
     border: 1px solid rgb(163, 163, 163);
     border-radius: 4px;
     resize: vertical;
-    color: #000;
+    
 }
 .Reviewcontainer{
     margin-top: 2%;

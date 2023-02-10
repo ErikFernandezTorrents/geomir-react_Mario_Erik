@@ -17,7 +17,7 @@ export const Place = () => {
     description:"",
     latitude:"",
     longitude:"",
-    favorites_count:"",
+    favorites_count:0,
     reviews_count:"",
     file:{filepath:""}
   });
@@ -90,8 +90,9 @@ export const Place = () => {
       const resposta = await data.json();
       console.log(resposta);
       if (resposta.success === true) {
-          setRefresh(!refresh);
+          //setRefresh(!refresh);
           setFavourite(true);
+          setPlaces({...place, favorites_count: place.favorites_count+1 })
       }
       
     }catch {
@@ -113,8 +114,10 @@ export const Place = () => {
       const resposta = await data.json();
       console.log(resposta);
       if (resposta.success === true) {
-          setRefresh(!refresh);
+          //setRefresh(!refresh);
           setFavourite(false);
+          setPlaces({...place, favorites_count: place.favorites_count-1 })
+
       }
       
     }catch {
