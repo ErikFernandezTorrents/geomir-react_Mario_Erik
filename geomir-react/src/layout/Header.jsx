@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 
->>>>>>> b0.1-erik
 import React, { useContext, useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { UserContext } from "../userContext";
@@ -76,7 +73,7 @@ return (
     <div id='header'>
       <img className="logo" src="../public/logo_geomir.ico"></img>
       <Link className="headerLink" to="/places/list">Places </Link>
-      
+
       <Link className="headerLink" to="/posts/list">Posts </Link>
 
       <Link className="headerLink" to="/about">About </Link>
