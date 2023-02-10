@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
+import '../styles.css'
 
 export const Register = ({ setCanvi }) => {
   let [formulari, setFormulari] = useState({});
@@ -34,14 +35,14 @@ export const Register = ({ setCanvi }) => {
       }
       try{
 
-            const data = await fetch("http://127.0.0.1:8000/api/register", {
+            const data = await fetch("https://backend.insjoaquimmir.cat/api/register", {
                 headers: {
                     Accept: "application/json",
                     "Content-Type": "application/json"
                 },
                 method: "POST",
                 // Si els noms i les variables coincideix, podem simplificar
-                body: JSON.stringify({ Rname, Remail, Rpassword })
+                body: JSON.stringify({ name:Rname, email: Remail, password: Rpassword })
             })
             const resposta = await data.json();
                 console.log(resposta);
@@ -81,7 +82,7 @@ export const Register = ({ setCanvi }) => {
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
-                    <button
+                    <button  className='buttonLoginregisterDif'
                         onClick={(valuesForm) => {
                             handleRegister(valuesForm);
                         }}

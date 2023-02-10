@@ -1,0 +1,188 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+*,
+*:before,
+*:after{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+#root{
+    height: 100%;
+    width: 100%;
+}
+.divPrincipal{
+    background: rgb(230,229,219);
+    height: 100%;
+
+}
+/* .bodyLoginRegister{
+    background-image:url("./Images/City.jpg");
+    background-repeat: no-repeat;
+} */
+.background{
+    width: 430px;
+    height: 520px;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    left: 50%;
+    top: 50%;
+}
+.background .shape{
+    height: 200px;
+    width: 200px;
+    position: absolute;
+    border-radius: 50%;
+}
+.shape:first-child{
+    background: linear-gradient(
+        #694abb,
+        #e6e5db
+    );
+    box-shadow: 0 0 40px #ffffff;
+    left: -80px;
+    top: -80px;
+}
+.shape:last-child{
+    background: linear-gradient(
+        to right,
+        #e6e5db,
+        #694abb
+    );
+    box-shadow: 0 0 40px #ffffff;
+    right: -65px;
+    bottom: -80px;
+}
+#h1Login{
+    text-align: center;
+    margin-top: 7%;
+    font-family: Arial Black; 
+    font-weight: bold; 
+    font-size: 50px; 
+    color: #684abb; 
+    text-shadow: 0 1px 0 #ddd, 0 2px 0 #ccc, 0 3px 0 #bbb, 0 4px 0 #aaa, 0 5px 0 #acacac, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.2), 0 20px 20px rgba(0,0,0,0.15);
+}
+#eslogan{
+    margin-top: 2%;
+    text-align: center;
+    font-family: Arial Black; 
+    font-weight: bold; 
+    color: #684abb; 
+    font-size: 20px; 
+}
+.allForms{
+    height: 550px;
+    width: 400px;
+    background-color: #684abbcc;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 50px #000000;
+    padding: 50px 35px;
+}
+#RegisterForm {
+    height: 650px;
+    width: 400px;
+    background-color: #684abbcc;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgb(0, 0, 0);
+    padding: 50px 35px;
+}
+form *{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight: bold;
+    font-size: 16px;
+    color: #e6e5db;
+    letter-spacing: 0.5px;
+    border: none;
+}
+form h3{
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 42px;
+    text-align: center;
+}
+
+label{
+    display: block;
+    margin-top: 30px;
+    font-size: 16px;
+    font-weight: 500;
+}
+input{
+    display: block;
+    height: 50px;
+    width: 100%;
+    background-color: rgba(255,255,255,0.07);
+    border-radius: 3px;
+    padding: 0 10px;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 300;
+}
+::placeholder{
+    color: #e5e5e5;
+}
+.div button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #694abb;
+    color: #e6e5db;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.div button:hover{
+    box-shadow: 0 0 20px rgb(0, 0, 0);
+    background: rgb(230,229,219);
+    background: linear-gradient(86deg, rgba(230,229,219,1) 4%, rgba(105,74,187,1) 100%);
+    color: #ffffff;
+    transition: 1s;
+}
+#RegisterForm button{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #694abb;
+    color: #e6e5db;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#RegisterForm .buttonLoginregisterDif{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.AlertError{
+    background-color: rgba(212, 110, 110, 0.788);
+    padding: 2%;
+}
+.AlertOk{
+    background-color: rgba(117, 201, 115, 0.753);
+    padding: 2%;
+}
+#header .botoLogout{
+    position: absolute;
+    right: 0%;
+    width: 10% !important;
+}

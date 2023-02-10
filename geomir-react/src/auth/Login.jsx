@@ -1,19 +1,18 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
-
+import '../styles.css'
 export const Login = ({ setCanvi }) => {
     let [name, setName] = useState("");
     let [password, setPassword] = useState("");
     let [missatge, setMissatge] = useState("");
-    let { authToken,setAuthToken } = useContext(UserContext)
-
+    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
     const sendLogin = async (e) => {
         e.preventDefault();
         console.log("Comprovant credencials....");
 
         // Enviam dades a l'aPI i recollim resultat
         try{
-            const data = await fetch("http://127.0.0.1:8000/api/login", {
+            const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
                 headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json"
@@ -25,27 +24,25 @@ export const Login = ({ setCanvi }) => {
                 console.log(resposta);
                 if (resposta.success === true) {
                     setAuthToken(resposta.authToken)
-                    console.log(resposta.authToken);
+                    setUsuari(name)
+                    console.log(resposta.authToken,usuari);
                 }else{
                     setMissatge(resposta.message);
                 }
 
         }catch {
             console.log(data);
-            console.log("Catchch");
+            console.log("Internet perdut");
         }
         console.log("He enviat les Dades:  " + name + "/" + password);
     };
     return (
         <>
-            <div className="background">
-                <div className="shape"></div>
-                <div className="shape"></div>
-            </div>
-            <div>
-                <form>
+            <h1 id='h1Login'>Venvinguts a GEO-MIR</h1>
+            <p id="eslogan">Feel Your Environment</p>
+            <div className='div'>
+                <form className='allForms'>
                     <h3>Login Here</h3>
-    
                     <label htmlFor="email">Email</label>
                     <input type="text" placeholder="Email addres" name="email"
                         onChange={(e) => {
@@ -69,7 +66,7 @@ export const Login = ({ setCanvi }) => {
                     </button>
                     <div className="social">
                         <button className="button"href="#">Forgot your password?</button>
-                        <button
+                        <button 
                             onClick={() => {
                                 setCanvi(false);
                             }}

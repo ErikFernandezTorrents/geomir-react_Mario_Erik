@@ -1,0 +1,354 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+body{
+    background-color: #e6e5db;
+}
+#header{
+    background-color: #694abb;
+    height: 15%;
+    width: 100%;
+    display: flex;
+    flex-wrap: inherit;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.4vh;
+    color: #e6e5db;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+.headerLink{
+    color: #e6e5db;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-weight:bold;
+    font-size: 1.4vh;
+    text-decoration: none;
+    margin:auto;
+
+}
+.headerLink:hover{
+    color: #e6e5db;
+}
+#header .headerLink{
+    position: relative;
+    display: block;
+    padding: 5px;
+}
+#header .headerLink::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, #ffffff, #ffffff, #ffffff);
+    z-index: 1;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease-in-out;
+  }
+#header .headerLink:hover::before {
+    transform: scaleX(1);
+}
+#header[data-animation=center] .headerLink::before {
+    transform-origin: center;
+}
+#footer{
+    bottom: 0%;
+    width: 100%;
+    height: 6%;
+    background-color: #694abb;
+    margin-bottom: 0%;
+
+}
+.logo{
+    margin-left: 0%;
+    width: 7vh;
+    height: 7vh;
+}
+.PlacesPostMenu{
+    background-color: #e6e5db;
+    height: 10%;
+    width: 100%;
+    margin-bottom: 2%;
+    display: flex;
+    flex-wrap: inherit;
+    font-size: 1.4vh;
+    font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+}
+.PlacesPostMenu .MenuLinks{
+    margin-top: 0.5%;
+    margin-bottom: 0.5%;
+    margin-left: 0.5%;
+    text-decoration: none;
+    color: #000000;
+    padding: 0.5%;
+    margin-left: 2%;
+    border-color: #1f9eff;
+    border-style: groove;
+    background-color:#e6e5db ;
+    cursor: pointer;
+}
+.MenuLinks:hover{
+    background-color:#1f9eff ;
+    color: #e6e5db;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgb(49, 114, 255);
+}
+
+.wrapper{
+    display: grid;
+    height: 100%;
+    grid-template-columns: 100px 100px 100px;
+    grid-gap: 1% 20%;
+    
+    padding-left: 19%;
+}
+.containerGrid{
+    height: 100%;
+    background-color: #684abb94;
+    padding: 20px;
+    padding-top: 3%;
+    margin: auto;
+    box-shadow: 0 0 24px #000000;
+    border-radius: 4%;
+}
+.containerGrid p{
+    margin-top: 1%;
+    margin-left:60% ;
+    margin-bottom: 2%;
+}
+.InfoPost {
+    margin-top: 3%;
+    display: grid;
+    grid-gap: 50px;
+    color: #000000;
+    text-align: justify;
+}
+.divLikes{
+    margin-top: 5%;
+}
+.bi-heart-fill{
+    color: red;
+}
+.divLikes i:hover{
+    color: rgb(181, 88, 235);
+}
+#tablePostList{
+    height: 100%;
+    width: 90%;
+    background-color: #684abbaa;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 5%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1em;
+}
+#tr1PostList{
+    border-radius: 10px;
+    color: #ffffff;
+    width: 100%;
+}
+#tr1PostList th{
+    background-color: #694abb;
+}
+#tr2PostList{
+    background-color: #684abb00;
+}
+#tr2PostList:hover{
+    background-color: #cfcfcf;
+}
+.bi-eye{
+    color: #67bafb;
+}
+.bi-eye:hover{
+    color: #c2e3fd;
+}
+.bi-pencil-square{
+    color: #694abb;
+}
+.bi-pencil-square:hover{
+    color: #a093c2;
+}
+.bi-trash3{
+    color: red;
+}
+.bi-trash3:hover{
+    color: rgb(250, 176, 176);
+}
+#optionsPostGrid{
+    margin-top: 5%;
+}
+#optionsPostGrid i{
+    margin-top: 5%;
+    padding-left: 2%;
+}
+.addPost{
+    height: 65%;
+    width: 30%;
+    background-color: #694abb;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgb(255, 255, 255);
+    box-shadow: rgb(10, 10, 10);
+    padding: 50px 35px;
+}
+.addPostButton{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#visibility{
+    color: #000000;
+    background-color: rgba(255,255,255,0.07);
+    width: 30%;
+}
+#visibility option{
+    color: #000000;
+    background-color: #e6e5db;
+}
+.bi-trash3{
+    height: 5px;
+}
+.bi-pencil-square{
+    height: 5px;
+}
+.bi-eye{
+    height: 10px !important;
+}
+button{
+    cursor: pointer;
+}
+.CommentForm{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abbb7;
+    padding: 20px;
+    height: 70%;
+    width: 40%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+}
+.CommentForm2{
+    width: 100%;
+    height: 20%;
+}
+.containerTextarea{
+    float: left;
+    width: 75%;
+    margin-top: 6px;
+    height:50%;
+    width: 100%;
+}
+.containerTextarea textarea{
+    width: 100%;
+    height:100%;
+    color: #000000;
+}
+.addCommentButton{
+    margin-top: 3%;
+    width: 40%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.labelCommentContainer label{
+    color: #000000;
+    font-weight: bold;
+}
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid rgb(163, 163, 163);
+    border-radius: 4px;
+    resize: vertical;
+    color: #000;
+}
+.Commentcontainer{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abb9a;
+    height: 70%;
+    width: 30%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+    box-shadow: 0 0 15px rgb(0, 0, 0);
+}
+.Commentcontainer p {
+    margin-top: 2%;
+}
+.dateOfComment{
+    margin-top: 2%;
+}
+.deleteButton{
+    background-color: #00000000;
+    border: #00000000;
+}
+.container-ContainerPost{
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+    width: 100%;
+    height: 100%;
+    
+}
+.containerPost{
+    height: 100%;
+    width: 45%;
+    background-color: #684abbba;
+    padding: 20px;
+    margin-left: 2%;
+    box-shadow: 0 0 24px #000000;
+    border-radius: 4%;
+    justify-content: space-between;
+}
+.commentContainer{
+    margin-right: 0%;
+    width: 50%;
+    height: 35%;
+    margin-left: 3%;
+}
+@media screen and (max-width: 700px) {
+    .wrapper{
+        display: grid;
+        grid-template-columns: 100px;
+        grid-gap: 2%;
+        overflow: hidden;
+        padding-left: 8%;
+    }
+    .containerGrid{
+        height: 100%;
+        background-color: #e6e5db;
+        padding: 20px;
+        margin: auto;
+        box-shadow: 0 0 30px #ffffff;
+        border-radius: 4%;
+    }
+    
+    .InfoPost {
+        margin-top: 4%;
+        display: grid;
+        grid-gap: 50px;
+        color: #000000;
+        text-align: justify;
+    }
+    .divLikes{
+        margin-top: 5%;
+    }
+}
