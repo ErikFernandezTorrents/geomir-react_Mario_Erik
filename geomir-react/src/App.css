@@ -91,6 +91,8 @@ body{
 .MenuLinks:hover{
     background-color:#1f9eff ;
     color: #e6e5db;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgb(49, 114, 255);
 }
 
 .wrapper{

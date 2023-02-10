@@ -61,6 +61,14 @@
     color: #684abb; 
     text-shadow: 0 1px 0 #ddd, 0 2px 0 #ccc, 0 3px 0 #bbb, 0 4px 0 #aaa, 0 5px 0 #acacac, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.2), 0 20px 20px rgba(0,0,0,0.15);
 }
+#eslogan{
+    margin-top: 2%;
+    text-align: center;
+    font-family: Arial Black; 
+    font-weight: bold; 
+    color: #684abb; 
+    font-size: 20px; 
+}
 .allForms{
     height: 550px;
     width: 400px;
@@ -72,7 +80,7 @@
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgb(0, 0, 0);
+    box-shadow: 0 0 50px #000000;
     padding: 50px 35px;
 }
 #RegisterForm {
@@ -135,6 +143,13 @@ input{
     font-weight: 600;
     border-radius: 5px;
     cursor: pointer;
+}
+.div button:hover{
+    box-shadow: 0 0 20px rgb(0, 0, 0);
+    background: rgb(230,229,219);
+    background: linear-gradient(86deg, rgba(230,229,219,1) 4%, rgba(105,74,187,1) 100%);
+    color: #ffffff;
+    transition: 1s;
 }
 #RegisterForm button{
     margin-top: 50px;
