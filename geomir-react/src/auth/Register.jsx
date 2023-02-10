@@ -82,7 +82,7 @@ export const Register = ({ setCanvi }) => {
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
-                    <button
+                    <button  className='buttonLoginregisterDif'
                         onClick={(valuesForm) => {
                             handleRegister(valuesForm);
                         }}

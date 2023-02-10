@@ -47,7 +47,7 @@ export const Place = () => {
   }
   const test_favourite = async () =>{
     try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
           headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -57,20 +57,20 @@ export const Place = () => {
       })
 
       const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              console.log("He dado favorite de prueva por que no hay ninguno");
-              const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
-                  headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                  'Authorization': 'Bearer ' + authToken
-                  },
-                  method: "DELETE",
-              })
-          }else {
-            setFavourite(true);
-          }
+      console.log(resposta);
+      if (resposta.success === true) {
+          console.log("He dado favorite de prueva por que no hay ninguno");
+          const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
+              headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer ' + authToken
+              },
+              method: "DELETE",
+          })
+      }else {
+        setFavourite(true);
+      }
     }catch {
       console.log(data);
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
@@ -79,7 +79,7 @@ export const Place = () => {
   const favPlace = async (e) =>{
     e.preventDefault();
     try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
           headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export const Place = () => {
   const deleteFav = async (e) =>{
     e.preventDefault();
     try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id+"/favorites", {
+      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
           headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -150,16 +150,18 @@ export const Place = () => {
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
   return (
     <>
+    <div className='container-ContainerPlace'>
       <div className='containerPlace'>
-        <div>
           <h2>{place.name}</h2>
           <p>Autor: @{place.author.name}</p>
           <img src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} alt={place.name} height="500"width="700"/>
           <p>Latitud: {place.latitude}</p>
           <p>Longitud: {place.longitude}</p>
           <div className='InfoPlace'>
-              <p>Descripció: </p>
-              {place.description}     
+              <p>Descripció:</p>
+          </div>
+          <div className='InfoPlace'>
+            {place.description}  
           </div>
           <div className='divFavorites'> 
                   {!favourite? 
@@ -176,23 +178,21 @@ export const Place = () => {
                   }
                   {place.favorites_count}
                   <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
-              </div>
-              <div id='optionsPlaceGrid'>
-                  {(usuari == place.author.email ) &&  
-                  <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
+          </div>
+          <div id='optionsPlaceGrid'>
+              {(usuari == place.author.email ) &&  
+              <Link className="headerLink" to={"/places/edit/" +place.id}><i className="bi bi-pencil-square"></i></Link>}
 
-                  {(usuari == place.author.email ) &&
-                  <button className='deleteButton'
-                      onClick={(e) => {
-                      deletePlace(e,place.id);
-                      }}><i className="bi bi-trash3"></i>
-                  </button>}
-              </div>
-
-              
-        </div>
+              {(usuari == place.author.email ) &&
+              <button className='deleteButton'
+                  onClick={(e) => {
+                  deletePlace(e,place.id);
+                  }}><i className="bi bi-trash3"></i>
+              </button>}
+          </div>
       </div>
-      <div className='reviewContainer'><div className='reviewContainerHijo'><ReviewsList id={place.id}/></div></div>
+      <div className='reviewContainer'><ReviewsList id={place.id}/></div>
+    </div>
     </>
   )
 }

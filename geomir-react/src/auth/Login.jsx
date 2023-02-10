@@ -38,6 +38,7 @@ export const Login = ({ setCanvi }) => {
     };
     return (
         <>
+            <h1 id='h1Login'>Venvinguts a GEO-MIR</h1>
             <div className='div'>
                 <form className='allForms'>
                     <h3>Login Here</h3>
@@ -65,7 +66,7 @@ export const Login = ({ setCanvi }) => {
                     </button>
                     <div className="social">
                         <button className="button"href="#">Forgot your password?</button>
-                        <button
+                        <button 
                             onClick={() => {
                                 setCanvi(false);
                             }}

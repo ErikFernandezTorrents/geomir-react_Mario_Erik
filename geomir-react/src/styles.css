@@ -10,10 +10,15 @@
     height: 100%;
     width: 100%;
 }
-body{
+.divPrincipal{
+    background: rgb(230,229,219);
+    height: 100%;
+
+}
+/* .bodyLoginRegister{
     background-image:url("./Images/City.jpg");
     background-repeat: no-repeat;
-}
+} */
 .background{
     width: 430px;
     height: 520px;
@@ -47,10 +52,19 @@ body{
     right: -65px;
     bottom: -80px;
 }
+#h1Login{
+    text-align: center;
+    margin-top: 7%;
+    font-family: Arial Black; 
+    font-weight: bold; 
+    font-size: 50px; 
+    color: #684abb; 
+    text-shadow: 0 1px 0 #ddd, 0 2px 0 #ccc, 0 3px 0 #bbb, 0 4px 0 #aaa, 0 5px 0 #acacac, 0 6px 1px rgba(0,0,0,0.1), 0 0 5px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.3), 0 3px 5px rgba(0,0,0,0.2), 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.2), 0 20px 20px rgba(0,0,0,0.15);
+}
 .allForms{
     height: 550px;
     width: 400px;
-    background-color: rgba(255,255,255,0.13);
+    background-color: #684abbcc;
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;
@@ -58,13 +72,13 @@ body{
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgb(255, 255, 255);
+    box-shadow: 0 0 40px rgb(0, 0, 0);
     padding: 50px 35px;
 }
 #RegisterForm {
     height: 650px;
     width: 400px;
-    background-color: rgba(255,255,255,0.13);
+    background-color: #684abbcc;
     position: absolute;
     transform: translate(-50%,-50%);
     top: 50%;
@@ -72,7 +86,7 @@ body{
     border-radius: 10px;
     backdrop-filter: blur(10px);
     border: 2px solid rgba(255,255,255,0.1);
-    box-shadow: 0 0 40px rgb(255, 255, 255);
+    box-shadow: 0 0 40px rgb(0, 0, 0);
     padding: 50px 35px;
 }
 form *{
@@ -127,6 +141,17 @@ input{
     width: 100%;
     background-color: #694abb;
     color: #e6e5db;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+#RegisterForm .buttonLoginregisterDif{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
     padding: 15px 0;
     font-size: 18px;
     font-weight: 600;
