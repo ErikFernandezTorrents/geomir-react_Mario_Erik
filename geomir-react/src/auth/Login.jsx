@@ -1,9 +1,14 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
 import '../styles.css'
+import { useForm } from '../hooks/useForm';
 export const Login = ({ setCanvi }) => {
-    let [name, setName] = useState("");
-    let [password, setPassword] = useState("");
+    const { formState, handleChange } = useForm({
+        email: "",
+        password: "",
+    }); 
+    const {email,password} = formState
+
     let [missatge, setMissatge] = useState("");
     let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
     const sendLogin = async (e) => {
@@ -18,13 +23,13 @@ export const Login = ({ setCanvi }) => {
                 "Content-Type": "application/json"
                 },
                 method: "POST",
-                body: JSON.stringify({ email: name, password: password })
+                body: JSON.stringify({ email: email, password: password })
             })
             const resposta = await data.json();
                 console.log(resposta);
                 if (resposta.success === true) {
                     setAuthToken(resposta.authToken)
-                    setUsuari(name)
+                    setUsuari(email)
                     console.log(resposta.authToken,usuari);
                 }else{
                     setMissatge(resposta.message);
@@ -34,7 +39,7 @@ export const Login = ({ setCanvi }) => {
             console.log(data);
             console.log("Internet perdut");
         }
-        console.log("He enviat les Dades:  " + name + "/" + password);
+        console.log("He enviat les Dades:  " + email + "/" + password);
     };
     return (
         <>
@@ -46,15 +51,11 @@ export const Login = ({ setCanvi }) => {
                     <h3>Login Here</h3>
                     <label htmlFor="email">Email</label>
                     <input type="text" placeholder="Email addres" name="email"
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}></input>
+                        onChange={handleChange} value={email}></input>
     
                     <label htmlFor="password">Password</label>
                     <input type="password" placeholder="Password" name="password"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                      }}></input>
+                        onChange={handleChange} value={password}></input>
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
