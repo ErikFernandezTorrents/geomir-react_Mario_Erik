@@ -29,6 +29,7 @@ export const Login = ({ setCanvi }) => {
                 console.log(resposta);
                 if (resposta.success === true) {
                     setAuthToken(resposta.authToken)
+                    localStorage.setItem('authToken', authToken);
                     setUsuari(email)
                     console.log(resposta.authToken,usuari);
                 }else{

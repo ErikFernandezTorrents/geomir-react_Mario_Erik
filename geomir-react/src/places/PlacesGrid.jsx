@@ -6,7 +6,6 @@ import { PlaceGrid } from './PlaceGrid'
 export const PlacesGrid = () => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
   //let [places, setPlaces] = useState([]);
-  let [refresh,setRefresh] = useState(false)
 
   let { data,error,loading,reRender} = useFetch("https://backend.insjoaquimmir.cat/api/places",
   {
@@ -16,7 +15,7 @@ export const PlacesGrid = () => {
     'Authorization': 'Bearer ' + authToken
     },
     method: "GET",
-}
+  }
   )
   
   const deletePlace = async (e,id) =>{
@@ -34,10 +33,10 @@ export const PlacesGrid = () => {
       const resposta = await data.json();
           console.log(resposta);
           if (resposta.success === true) {
-              setRefresh(!refresh);
+              reRender();
               console.log("Place eliminat correctament");
           }else{
-              setMissatge(resposta.message);
+              setMissatge(error);
           }
 
     }catch {
@@ -47,17 +46,21 @@ export const PlacesGrid = () => {
   }
   return (
     <>
-      (!loading ? 
-        <div className='wrapper'>
+     
         
-          { data.map ( (place)=> (
-            
-              (place.visibility.name == 'public' || usuari == place.author.email) &&  
-              (<PlaceGrid place={place} deletePlace={deletePlace} />) 
-             
-          ) ) }:
-          <div>Carregant...</div>)
-        </div>  
+        {!loading ? 
+          <div className='wrapper'>
+            { data.map ( (place)=> (
+              
+                (place.visibility.name == 'public' || usuari == place.author.email) &&  
+                (<PlaceGrid place={place} deletePlace={deletePlace} />) 
+              
+            ) ) }
+          </div>  
+          :
+          <div>Carregant...</div>
+        }
+        
     </>
   )
 }

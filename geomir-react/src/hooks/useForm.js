@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = (initialForm={}) => {
+export const useForm = (initialForm = {}) => {
     let [formState, setFormState] = useState(initialForm);
 
     const handleChange = ({ target }) => {

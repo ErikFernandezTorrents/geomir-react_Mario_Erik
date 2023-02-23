@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 function useFetch(initialUrl, initialOptions) {
   const [url, setUrl] = useState(initialUrl);
   const [options, setOptions] = useState(initialOptions);
-  const [data, setData] = useState();
+  const [data, setData] = useState([]);
   const [error, setError] = useState();
   const [loading, setLoading] = useState(false);
   const [refresh,setRefresh] = useState(false);
