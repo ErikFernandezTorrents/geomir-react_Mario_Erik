@@ -20,6 +20,7 @@ import { PlaceAdd } from './places/PlaceAdd';
 import { PlacesGrid } from './places/PlacesGrid';
 import { PlacesList } from './places/PlacesList';
 import { PlacesMenu } from './places/PlacesMenu';
+import { Todo } from './todos/ToDos';
 import './styles.css'
 
 
@@ -50,7 +51,7 @@ const App = () => {
                   <Route path="/places/edit/:id" element={ <><PlacesMenu/><PlaceEdit/></> } /> 
                   <Route path="/places/grid" element={ <><PlacesMenu/><PlacesGrid/></> } /> 
                   <Route path="/places/:id" element={ <><PlacesMenu/><Place/></> } />
-                  <Route path='/posts'element={<Post/>}/>
+                  <Route path='/places/todos'element={<Todo/>}/>
                 </Routes>
               </div>
             </>

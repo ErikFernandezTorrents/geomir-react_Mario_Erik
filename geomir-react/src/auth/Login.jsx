@@ -1,47 +1,20 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from "../userContext";
+import React, { useState } from 'react'
 import '../styles.css'
 import { useForm } from '../hooks/useForm';
+import useLoging  from '../hooks/useLoging';
+
 export const Login = ({ setCanvi }) => {
     const { formState, handleChange } = useForm({
         email: "",
         password: "",
     }); 
     const {email,password} = formState
+    
+    
+    let {sendLogin,checkAuthToken,missatge} = useLoging();
 
-    let [missatge, setMissatge] = useState("");
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-    const sendLogin = async (e) => {
-        e.preventDefault();
-        console.log("Comprovant credencials....");
+    checkAuthToken()
 
-        // Enviam dades a l'aPI i recollim resultat
-        try{
-            const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify({ email: email, password: password })
-            })
-            const resposta = await data.json();
-                console.log(resposta);
-                if (resposta.success === true) {
-                    setAuthToken(resposta.authToken)
-                    localStorage.setItem('authToken', authToken);
-                    setUsuari(email)
-                    console.log(resposta.authToken,usuari);
-                }else{
-                    setMissatge(resposta.message);
-                }
-
-        }catch {
-            console.log(data);
-            console.log("Internet perdut");
-        }
-        console.log("He enviat les Dades:  " + email + "/" + password);
-    };
     return (
         <>
             <h1 id='h1Login'>Benvinguts a GEO-MIR</h1>
@@ -61,8 +34,9 @@ export const Login = ({ setCanvi }) => {
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
                     <button
-                        onClick={(e) => {
-                            sendLogin(e);
+                        onClick={(e) => { 
+                            e.preventDefault();
+                            sendLogin(email,password);
                         }}
                         >
                         Login
