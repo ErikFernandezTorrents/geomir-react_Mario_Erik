@@ -1,23 +1,28 @@
 import React, { useReducer } from 'react'
-import todoReducer from './todoReducer';
 import { useForm } from '../hooks/useForm';
 
-const initialState = [];
-const init = ()=> {
+export const ToDoAdd = ({handleNewTodo}) => {
 
-    return JSON.parse(localStorage.getItem("todos")) || []
+    const { formState,handleChange } = useForm({
+      todo: "",
+    }); 
     
-}
+    const {todo} = formState
 
-export const ToDoAdd = () => {
-    const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
+    const handleSubmit = (e)=> {
 
-    const NewTodo = (todos) =>{
-        dispatchTodos({
-            type: 'Add Todo',
-            payload: todos
-        })
+      e.preventDefault()
+
+      const newTodo = {
+
+        id: new Date().getTime(),
+        done: false,
+        desription: todo
+
+      }
+      handleNewTodo(newTodo)
     }
+
 
   return (
     <>
@@ -27,12 +32,11 @@ export const ToDoAdd = () => {
                 <label htmlFor="todo">Afeigeix una Tasca</label>
             </div>
             <div className='containerTextarea'>
-              <textarea id="description" name="description" placeholder="Escriu la teva tasca aquí.." value = { todos } />
+              <textarea id="description" name="description" placeholder="Escriu la teva tasca aquí.." value = { todo } onChange={handleChange}/>
             </div>
             <button className="addReviewButton"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    NewTodo(todos)
+                  onClick={(e) => { 
+                    handleSubmit(e);
                   }}>
                   Desa la Tasca
             </button>

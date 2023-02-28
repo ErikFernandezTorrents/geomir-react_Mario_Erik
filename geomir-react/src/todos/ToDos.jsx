@@ -13,6 +13,16 @@ const init = ()=> {
 export const ToDos = () => {
     const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
 
+    const handleNewToDo = (newTodo) => {
+      console.log({ newTodo });
+  
+      const action = {
+        type: "Add Todo",
+        payload: newTodo
+      };
+      dispatchTodos(action);
+    };
+
     const ToggleTodo = (id) => {
         dispatchTodos({
           type: "Toggle Todo",
@@ -28,15 +38,13 @@ export const ToDos = () => {
     }
 
     useEffect ( ()=>{
-
-        localStorage.setItem('todos',JSON.stringify(todos))
-        
-        },[todos])
+      localStorage.setItem('todos',JSON.stringify(todos))
+      },[todos])
 
   return (
       <>
         <h1>Llistat de Tascas</h1>
-        <ToDoAdd/>
+        <ToDoAdd handle={handleNewToDo}/>
         <table id='tablePlaceList'>
           <tbody>
             <tr id='tr1PlaceList'>
