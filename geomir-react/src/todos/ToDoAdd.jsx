@@ -1,7 +1,7 @@
 import React, { useReducer } from 'react'
 import { useForm } from '../hooks/useForm';
 
-export const ToDoAdd = ({handleNewTodo}) => {
+export const ToDoAdd = ({handleNewToDo}) => {
 
     const { formState,handleChange } = useForm({
       todo: "",
@@ -17,10 +17,10 @@ export const ToDoAdd = ({handleNewTodo}) => {
 
         id: new Date().getTime(),
         done: false,
-        desription: todo
+        description: todo
 
       }
-      handleNewTodo(newTodo)
+      handleNewToDo(newTodo)
     }
 
 
@@ -32,7 +32,7 @@ export const ToDoAdd = ({handleNewTodo}) => {
                 <label htmlFor="todo">Afeigeix una Tasca</label>
             </div>
             <div className='containerTextarea'>
-              <textarea id="description" name="description" placeholder="Escriu la teva tasca aquí.." value = { todo } onChange={handleChange}/>
+              <textarea id="description" name="todo" placeholder="Escriu la teva tasca aquí.." value = { todo } onChange={handleChange}/>
             </div>
             <button className="addReviewButton"
                   onClick={(e) => { 

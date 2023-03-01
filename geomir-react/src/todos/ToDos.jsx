@@ -44,7 +44,7 @@ export const ToDos = () => {
   return (
       <>
         <h1>Llistat de Tascas</h1>
-        <ToDoAdd handle={handleNewToDo}/>
+        <ToDoAdd handleNewToDo={handleNewToDo}/>
         <table id='tablePlaceList'>
           <tbody>
             <tr id='tr1PlaceList'>
@@ -53,11 +53,11 @@ export const ToDos = () => {
             </tr>
             <div>  
                 {todos.map((todo) => (
-                <ToDo key={todo.id} todo={todo} DelTodo={DelTodo} ToggleTodo={ToggleTodo}
-                />
+                <tr><ToDo key={todo.id} todo={todo} DelTodo={DelTodo} ToggleTodo={ToggleTodo}/></tr>
+              
                 ))}
             </div>
-        </tbody>
+          </tbody>
         </table>
       </>
   )
