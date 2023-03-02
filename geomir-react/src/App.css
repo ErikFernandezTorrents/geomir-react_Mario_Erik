@@ -487,6 +487,9 @@ input[type=text], select, textarea {
     height: 35%;
     margin-left: 3%;
 }
+#divTodoDoneTrue{
+    text-decoration:line-through;
+}
 @media screen and (max-width: 700px) {
     .wrapper{
         display: grid;

@@ -1,5 +1,5 @@
 import React from 'react'
-
+import '../App.css'
 export const ToDo = ({todo,DelTodo,ToggleTodo}) => {
 
 
@@ -7,8 +7,17 @@ export const ToDo = ({todo,DelTodo,ToggleTodo}) => {
 
   return (
     <>
-      <td>{todo.id}</td>
-      <td>{todo.description}</td>
+      {todo.done?
+        <div id="divTodoDoneTrue">
+          <td>{todo.id}</td>
+          <td>{todo.description}</td>
+        </div>
+        :
+          <>
+            <td>{todo.id}</td>
+            <td>{todo.description}</td>
+          </>
+        }
       <button 
           onClick={(e) => {
             e.preventDefault();

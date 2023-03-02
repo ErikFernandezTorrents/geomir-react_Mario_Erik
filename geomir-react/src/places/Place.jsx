@@ -1,10 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext, useEffect, useReducer, useState } from 'react'
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
+import { placeMarkReducer } from './placeMarkReducer';
 
+const initialState = [];
+const init = ()=> {
 
+    return JSON.parse(localStorage.getItem("mark")) || []
+    
+}
 export const Place = () => {
+  const [marks,dispatchMarkers] = useReducer(placeMarkReducer, initialState,init);
+  
+  const { pathname } = useLocation();
+  
   const { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [refresh,setRefresh] = useState(false)
@@ -150,6 +160,20 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
+  const markPlace = (place) =>{
+    console.log(place);
+
+    const AddMark = {
+      type: "Add Mark",
+      id: new Date().getTime(),
+      name: place.name,
+      description: place.description,
+      route: pathname
+
+    }
+    dispatchMarkers(AddMark);
+  }
+
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
   return (
     <>
@@ -181,6 +205,16 @@ export const Place = () => {
                   }
                   {place.favorites_count}
                   <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
+          </div>
+          <div>
+              <button className='addReviewButton'
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log(place);
+                    markPlace(place);
+                  }}>
+                    DESA
+              </button>
           </div>
           <div id='optionsPlaceGrid'>
               {(usuari == place.author.email ) &&  

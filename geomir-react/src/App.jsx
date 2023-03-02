@@ -22,6 +22,7 @@ import { PlacesList } from './places/PlacesList';
 import { PlacesMenu } from './places/PlacesMenu';
 import { ToDos } from './todos/ToDos';
 import './styles.css'
+import PlaceMarks from './places/PlaceMarks';
 
 
 const App = () => {
@@ -52,6 +53,7 @@ const App = () => {
                   <Route path="/places/grid" element={ <><PlacesMenu/><PlacesGrid/></> } /> 
                   <Route path="/places/:id" element={ <><PlacesMenu/><Place/></> } />
                   <Route path='/todos'element={<ToDos/>}/>
+                  <Route path='/places/marks'element={<PlaceMarks/>}/>
                 </Routes>
               </div>
             </>
