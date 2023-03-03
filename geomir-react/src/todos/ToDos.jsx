@@ -11,8 +11,11 @@ const init = ()=> {
 }
 
 export const ToDos = () => {
-    const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
+    //const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
+    const { todos } = useSelector(state => state.todos)
 
+    const dispatch = useDispatch();
+    
     const handleNewToDo = (newTodo) => {
       console.log({ newTodo });
   

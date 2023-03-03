@@ -9,7 +9,7 @@ export const PlacesMenu = () => {
             <Link className="MenuLinks" to="/places/grid"> Grid <i className="bi bi-grid"></i></Link>
             <Link className="MenuLinks" to="/places/list"> List <i className="bi bi-card-list"></i></Link>
             <Link className="MenuLinks" to="/todos"> Todos</Link>
-            <Link className="headerLink" to="/places/marks">Markers</Link>
+            <Link className="MenuLinks" to="/places/marks">Markers</Link>
         </div>
     </>
   )

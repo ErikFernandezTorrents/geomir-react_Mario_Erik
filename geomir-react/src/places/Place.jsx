@@ -160,21 +160,26 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
-  const markPlace = (place) =>{
+  const markPlace = () =>{
     console.log(place);
 
     const AddMark = {
       type: "Add Mark",
-      id: new Date().getTime(),
+      payload: {id: place.id,
       name: place.name,
       description: place.description,
-      route: pathname
+      route: pathname}
 
     }
     dispatchMarkers(AddMark);
   }
 
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
+  
+  useEffect ( ()=>{
+    localStorage.setItem('mark',JSON.stringify(marks))
+    },[marks])
+  
   return (
     <>
     <div className='container-ContainerPlace'>
