@@ -1,8 +1,11 @@
 import React from 'react'
 import '../App.css'
-export const ToDo = ({todo,DelTodo,ToggleTodo}) => {
+import { useDispatch } from 'react-redux';
+import { deltodo, toggletodo } from "../slices/todosSlice";
 
+export const ToDo = ({todo}) => {
 
+  const dispatch = useDispatch();
   console.log(todo)
 
   return (
@@ -18,24 +21,27 @@ export const ToDo = ({todo,DelTodo,ToggleTodo}) => {
             <td>{todo.description}</td>
           </>
         }
+      {!todo.done?
       <button 
           onClick={(e) => {
             e.preventDefault();
-            ToggleTodo(todo.id); 
+            dispatch(toggletodo(todo.id)); 
           }}>
             FET
       </button>
+      :
       <button 
           onClick={(e) => {
             e.preventDefault();
-            ToggleTodo(todo.id); 
+            dispatch(toggletodo(todo.id)); 
           }}>
             NO FET
       </button>
+        }
       <button className='deleteButton'
           onClick={(e) => {
             e.preventDefault();
-            DelTodo(todo.id); 
+            dispatch(deltodo(todo.id)); 
           }}><i className="bi bi-trash3"></i>
       </button>
     </>

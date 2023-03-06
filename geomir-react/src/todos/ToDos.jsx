@@ -1,44 +1,11 @@
-import React, { useEffect, useReducer } from 'react'
+import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { ToDo } from "./ToDo";
 import { ToDoAdd } from "./ToDoAdd";
-import {todoReducer} from "./todoReducer";
-
-const initialState = [];
-const init = ()=> {
-
-    return JSON.parse(localStorage.getItem("todos")) || []
-    
-}
 
 export const ToDos = () => {
     //const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
     const { todos } = useSelector(state => state.todos)
-
-    const dispatch = useDispatch();
-    
-    const handleNewToDo = (newTodo) => {
-      console.log({ newTodo });
-  
-      const action = {
-        type: "Add Todo",
-        payload: newTodo
-      };
-      dispatchTodos(action);
-    };
-
-    const ToggleTodo = (id) => {
-        dispatchTodos({
-          type: "Toggle Todo",
-          payload: id
-        });
-      };
-
-    const DelTodo = (id) => {
-        dispatchTodos({ 
-            type: 'Del Todo', 
-            payload: id 
-        })
-    }
 
     useEffect ( ()=>{
       localStorage.setItem('todos',JSON.stringify(todos))
@@ -47,7 +14,7 @@ export const ToDos = () => {
   return (
       <>
         <h1>Llistat de Tascas</h1>
-        <ToDoAdd handleNewToDo={handleNewToDo}/>
+        <ToDoAdd/>
         <table id='tablePlaceList'>
           <tbody>
             <tr id='tr1PlaceList'>
@@ -56,7 +23,7 @@ export const ToDos = () => {
             </tr>
             <div>  
                 {todos.map((todo) => (
-                <tr><ToDo key={todo.id} todo={todo} DelTodo={DelTodo} ToggleTodo={ToggleTodo}/></tr>
+                <tr><ToDo key={todo.id} todo={todo}/></tr>
               
                 ))}
             </div>

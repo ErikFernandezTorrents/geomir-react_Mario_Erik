@@ -1,8 +1,11 @@
 import React, { useReducer } from 'react'
 import { useForm } from '../hooks/useForm';
+import { useDispatch } from 'react-redux';
+import { addtodo } from '../slices/todosSlice';
 
-export const ToDoAdd = ({handleNewToDo}) => {
+export const ToDoAdd = () => {
 
+    const dispatch = useDispatch();
     const { formState,handleChange } = useForm({
       todo: "",
     }); 
@@ -20,7 +23,8 @@ export const ToDoAdd = ({handleNewToDo}) => {
         description: todo
 
       }
-      handleNewToDo(newTodo)
+
+      dispatch(addtodo(newTodo))
     }
 
 
