@@ -5,11 +5,12 @@ import { ToDoAdd } from "./ToDoAdd";
 
 export const ToDos = () => {
     //const [todos, dispatchTodos] = useReducer(todoReducer, initialState,init);
+    
     const { todos } = useSelector(state => state.todos)
 
     useEffect ( ()=>{
       localStorage.setItem('todos',JSON.stringify(todos))
-      },[todos])
+    },[todos])
 
   return (
       <>

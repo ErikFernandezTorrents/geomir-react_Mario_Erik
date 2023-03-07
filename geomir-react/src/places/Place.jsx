@@ -1,22 +1,22 @@
-import React, { useContext, useEffect, useReducer, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
-import { placeMarkReducer } from './placeMarkReducer';
+import { useDispatch, useSelector } from 'react-redux';
+import { addmark,ismarked } from "../slices/marksPlacesSlice";
 
-const initialState = [];
-const init = ()=> {
 
-    return JSON.parse(localStorage.getItem("mark")) || []
-    
-}
 export const Place = () => {
-  const [marks,dispatchMarkers] = useReducer(placeMarkReducer, initialState,init);
+  const {marks,isMarked} = useSelector(state => state.markplaces)
+
+  const dispatch = useDispatch();
   
   const { pathname } = useLocation();
   
   const { id } = useParams();
+
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
+
   let [refresh,setRefresh] = useState(false)
   let [favourite,setFavourite] = useState(false)
   let [emoticono,setEmoticono] = useState(false)
@@ -164,21 +164,23 @@ export const Place = () => {
     console.log(place);
 
     const AddMark = {
-      type: "Add Mark",
-      payload: {id: place.id,
+      id: new Date().getTime(),
+      placeId: place.id,
       name: place.name,
       description: place.description,
-      route: pathname}
+      route: pathname,
 
     }
-    dispatchMarkers(AddMark);
+    dispatch(addmark(AddMark));
+    console.log(pathname);
   }
 
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
   
   useEffect ( ()=>{
+    dispatch(ismarked(id));
     localStorage.setItem('mark',JSON.stringify(marks))
-    },[marks])
+  },[marks])
   
   return (
     <>
@@ -212,14 +214,22 @@ export const Place = () => {
                   <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
           </div>
           <div>
+              { isMarked ? 
               <button className='addReviewButton'
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log(place);
-                    markPlace(place);
-                  }}>
-                    DESA
+              onClick={(e) => {
+                e.preventDefault();
+              }}>
+                DESAT
               </button>
+              :
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+                markPlace(place);
+              }}>
+                DESA
+              </button>
+            }
           </div>
           <div id='optionsPlaceGrid'>
               {(usuari == place.author.email ) &&  
