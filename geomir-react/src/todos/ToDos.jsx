@@ -12,6 +12,7 @@ import {
   deleteDoc,
 
   addDoc,
+  collection,
 
 } from "firebase/firestore";
 
@@ -76,6 +77,12 @@ export const ToDos = () => {
 
             ))}
           </div>
+          <button className="addReviewButton"
+                  onClick={(e) => { 
+                    synchronize();
+                  }}>
+                  Sync
+            </button>
         </tbody>
       </table>
     </>
