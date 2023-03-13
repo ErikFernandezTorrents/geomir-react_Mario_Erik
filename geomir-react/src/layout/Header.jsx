@@ -24,6 +24,7 @@ export const Header = () => {
       console.log(resposta);
       if (resposta.success === true) {
         setAuthToken("");
+        localStorage.clear();
         console.log("Logaout");
       } else {
         setMissatge(resposta.message);

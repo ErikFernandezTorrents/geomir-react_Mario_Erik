@@ -1,36 +1,21 @@
 import React, { useContext, useState,useEffect, useCallback } from 'react'
+import useFetch from '../hooks/useFetch';
 import { UserContext } from "../userContext";
 import { PostGrid } from './PostGrid'
 
 export const PostsGrid = () => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [posts, setPosts] = useState([]);
-  let [refresh,setRefresh] = useState(false)
-  
-  const sendPostsGrid = async () => {
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              setPosts(resposta.data)
-              console.log(resposta);
-          }else{
-              setMissatge(resposta.message);
-          }
 
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa");
-    }
-  }
+  let {data,error,loading,reRender} = useFetch("https://backend.insjoaquimmir.cat/api/posts",
+  {
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      'Authorization': 'Bearer ' + authToken
+      },
+      method: "GET",
+  })
+
   const deletePost = async (e,id) =>{
     e.preventDefault();
     try{
@@ -46,10 +31,10 @@ export const PostsGrid = () => {
       const resposta = await data.json();
           console.log(resposta);
           if (resposta.success === true) {
-              setRefresh(!refresh);
+              reRender();
               console.log("Post eliminat correctament");
           }else{
-              setMissatge(resposta.message);
+              setMissatge(error);
           }
 
     }catch {
@@ -57,19 +42,20 @@ export const PostsGrid = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
-  useEffect(() => { 
-    sendPostsGrid(); 
-     }
-  , [refresh]);
+
   return (
     <>
+      {!loading ?
         <div className='wrapper'>
-          { posts.map ( (post)=> ( 
+          { data.map ( (post)=> ( 
               (post.visibility.name == 'public' || usuari == post.author.email) &&  
               (<PostGrid post={post} deletePost={deletePost} />)
           ) ) }
           
         </div>  
+        :
+        <div>Cargando...</div>
+      }
     </>
   )
 }

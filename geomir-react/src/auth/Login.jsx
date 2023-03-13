@@ -1,41 +1,20 @@
-import React, { useContext, useState } from 'react'
-import { UserContext } from "../userContext";
+import React, { useState } from 'react'
 import '../styles.css'
+import { useForm } from '../hooks/useForm';
+import useLoging  from '../hooks/useLogin';
+
 export const Login = ({ setCanvi }) => {
-    let [name, setName] = useState("");
-    let [password, setPassword] = useState("");
-    let [missatge, setMissatge] = useState("");
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-    const sendLogin = async (e) => {
-        e.preventDefault();
-        console.log("Comprovant credencials....");
+    const { formState, handleChange } = useForm({
+        email: "",
+        password: "",
+    }); 
+    const {email,password} = formState
+    
+    
+    let {sendLogin,checkAuthToken,missatge} = useLoging();
 
-        // Enviam dades a l'aPI i recollim resultat
-        try{
-            const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {
-                headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json"
-                },
-                method: "POST",
-                body: JSON.stringify({ email: name, password: password })
-            })
-            const resposta = await data.json();
-                console.log(resposta);
-                if (resposta.success === true) {
-                    setAuthToken(resposta.authToken)
-                    setUsuari(name)
-                    console.log(resposta.authToken,usuari);
-                }else{
-                    setMissatge(resposta.message);
-                }
+    checkAuthToken()
 
-        }catch {
-            console.log(data);
-            console.log("Internet perdut");
-        }
-        console.log("He enviat les Dades:  " + name + "/" + password);
-    };
     return (
         <>
             <h1 id='h1Login'>Benvinguts a GEO-MIR</h1>
@@ -46,21 +25,18 @@ export const Login = ({ setCanvi }) => {
                     <h3>Login Here</h3>
                     <label htmlFor="email">Email</label>
                     <input type="text" placeholder="Email addres" name="email"
-                        onChange={(e) => {
-                            setName(e.target.value);
-                        }}></input>
+                        onChange={handleChange} value={email}></input>
     
                     <label htmlFor="password">Password</label>
                     <input type="password" placeholder="Password" name="password"
-                        onChange={(e) => {
-                            setPassword(e.target.value);
-                      }}></input>
+                        onChange={handleChange} value={password}></input>
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
                     <button
-                        onClick={(e) => {
-                            sendLogin(e);
+                        onClick={(e) => { 
+                            e.preventDefault();
+                            sendLogin(email,password);
                         }}
                         >
                         Login

@@ -1,10 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { CommentsList } from './comments/CommentsList';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { addmark,ismarked } from "../slices/marksPostsSlice";
 
 export const Post = () => {
+
+  const {marks,isMarked} = useSelector(state => state.markposts)
+
+  const dispatch = useDispatch();
+
+  const { pathname } = useLocation();
+
   const { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
   let [refresh,setRefresh] = useState(false)
@@ -153,7 +161,27 @@ export const Post = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
+  const markPost = () =>{
+    console.log(post);
+
+    const AddMark = {
+      id: new Date().getTime(),
+      postId: post.id,
+      name: post.name,
+      body: post.body,
+      route: pathname,
+
+    }
+    dispatch(addmark(AddMark));
+    console.log(pathname);
+  }
+
+  useEffect ( ()=>{
+    dispatch(ismarked(id));
+    localStorage.setItem('mark',JSON.stringify(marks))
+  },[marks])
   useEffect(() => { getPost(), test_likes()}, [refresh]);
+  
   return (
     <>
     <div className='container-ContainerPost'>
@@ -182,6 +210,24 @@ export const Post = () => {
                     </button>
                   }
                   {post.likes_count}
+          </div>
+          <div>
+              { isMarked ? 
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+              }}>
+                DESAT
+              </button>
+              :
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+                markPost(post);
+              }}>
+                DESA
+              </button>
+            }
           </div>
           <div id='optionsPostGrid'>
               {(usuari == post.author.email ) &&  
