@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../styles.css'
 import { useForm } from '../hooks/useForm';
-import useLoging  from '../hooks/useLogin';
+import useLoging  from '../hooks/useLoging';
 
 export const Login = ({ setCanvi }) => {
     const { formState, handleChange } = useForm({

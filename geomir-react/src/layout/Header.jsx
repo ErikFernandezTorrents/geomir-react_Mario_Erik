@@ -78,6 +78,7 @@ return (
       <Link className="headerLink" to="/posts/list">Posts </Link>
 
       <Link className="headerLink" to="/about">About </Link>
+
       <div>
         <p>User : {nameOfUser}</p>
         {roles.map((v) => (

@@ -1,12 +1,22 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
+import { useDispatch, useSelector } from 'react-redux';
+import { addmark,ismarked } from "../slices/marksPlacesSlice";
 
 
 export const Place = () => {
+  const {marks,isMarked} = useSelector(state => state.markplaces)
+
+  const dispatch = useDispatch();
+  
+  const { pathname } = useLocation();
+  
   const { id } = useParams();
+
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
+
   let [refresh,setRefresh] = useState(false)
   let [favourite,setFavourite] = useState(false)
   let [emoticono,setEmoticono] = useState(false)
@@ -150,7 +160,28 @@ export const Place = () => {
       alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
     }
   }
+  const markPlace = () =>{
+    console.log(place);
+
+    const AddMark = {
+      id: new Date().getTime(),
+      placeId: place.id,
+      name: place.name,
+      description: place.description,
+      route: pathname,
+
+    }
+    dispatch(addmark(AddMark));
+    console.log(pathname);
+  }
+
   useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
+  
+  useEffect ( ()=>{
+    dispatch(ismarked(id));
+    localStorage.setItem('mark',JSON.stringify(marks))
+  },[marks])
+  
   return (
     <>
     <div className='container-ContainerPlace'>
@@ -181,6 +212,24 @@ export const Place = () => {
                   }
                   {place.favorites_count}
                   <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
+          </div>
+          <div>
+              { isMarked ? 
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+              }}>
+                DESAT
+              </button>
+              :
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+                markPlace(place);
+              }}>
+                DESA
+              </button>
+            }
           </div>
           <div id='optionsPlaceGrid'>
               {(usuari == place.author.email ) &&  

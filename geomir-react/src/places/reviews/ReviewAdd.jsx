@@ -3,28 +3,19 @@ import { UserContext } from "../../userContext";
 import { useNavigate } from 'react-router';
 import '../../App.css'
 import { useParams } from 'react-router-dom';
+import { useForm } from '../../hooks/useForm';
 
 export const ReviewAdd = ({canviRefresh}) => {
   let { authToken,setAuthToken } = useContext(UserContext);
-  let [missatge, setMissatge] = useState("");
-  let [missatgeOK, setMissatgeOK] = useState("");
   let [addreview, setAddreview] = useState(true);
   const { id } = useParams();
-  let [formulari, setFormulari] = useState({});
 
-  const handleChange = (e) => {
-    e.preventDefault();
-          setFormulari({
-            ...formulari,
-            [e.target.name] : e.target.value
-
-          })
-      
-  }
-
+  const { formState, handleChange,OnResetForm } = useForm({
+    review: "",
+  }); 
+  const {review} = formState
   const addReview = async(e)=>{
     e.preventDefault();
-    let {review}=formulari;
     var formData = new FormData();
     console.log(review);
     formData.append("review", review);
@@ -68,7 +59,7 @@ export const ReviewAdd = ({canviRefresh}) => {
                 <label htmlFor="review">Afeigeix un nou comentari</label>
             </div>
             <div className='containerTextarea'>
-              <textarea id="review" name="review" placeholder="Escriu la teva review aquí.." value = { formulari.review } onChange={handleChange}/>
+              <textarea id="review" name="review" placeholder="Escriu la teva review aquí.." value = { review } onChange={handleChange} />
             </div>
             <button className="addReviewButton"
                   onClick={(e) => {
@@ -76,6 +67,13 @@ export const ReviewAdd = ({canviRefresh}) => {
                     setAddreview(false)
                   }}>
                   Desa la Review
+            </button>
+            <button className="addReviewButton"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    OnResetForm();
+                  }}>
+                  Buida
             </button>
           </form>
         </div>

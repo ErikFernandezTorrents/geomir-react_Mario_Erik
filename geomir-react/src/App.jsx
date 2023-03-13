@@ -20,17 +20,46 @@ import { PlaceAdd } from './places/PlaceAdd';
 import { PlacesGrid } from './places/PlacesGrid';
 import { PlacesList } from './places/PlacesList';
 import { PlacesMenu } from './places/PlacesMenu';
+import { ToDos } from './todos/ToDos';
 import './styles.css'
-import PostMarks from './posts/PostMarks';
 
+import PostMarks from './posts/PostMarks';
+import PlaceMarks from './places/PlaceMarks';
+import { db } from "./firebase";
+import {
+
+  collection,
+
+  getDocs,
+
+} from "firebase/firestore";
 
 const App = () => {
   let [authToken, setAuthToken] = useState("");
   let [usuari, setUsuari] = useState("");
 
+  const todosCollectionRef = collection(db, "todos")
+  const getTodos = async () => {
+
+    const dades = await getDocs(todosCollectionRef);
+
+    const desar = [];
+
+    dades.docs.map((v) => {
+
+      desar.push(v.data());
+
+    });
+    console.log(desar)
+
+    localStorage.setItem("todos",JSON.stringify(desar))
+
+  };
   useEffect(() => {
+
+    getTodos();
     
-    }, [authToken]);
+  }, [authToken]);
   return (
     <>
       <UserContext.Provider value={{ usuari, setUsuari, authToken, setAuthToken }}  >
@@ -49,6 +78,7 @@ const App = () => {
                 <Route path='/posts' element={<Post />} />
                 <Route path='/posts/marks' element={<PostMarks />} />
 
+
                 <Route path='/about' element={<About />} />
                 <Route path='/notfound' element={<NotFound />} />
                 <Route path="/places/list" element={<><PlacesMenu /><PlacesList /> </>} />
@@ -56,7 +86,8 @@ const App = () => {
                 <Route path="/places/edit/:id" element={<><PlacesMenu /><PlaceEdit /></>} />
                 <Route path="/places/grid" element={<><PlacesMenu /><PlacesGrid /></>} />
                 <Route path="/places/:id" element={<><PlacesMenu /><Place /></>} />
-                
+                <Route path='/todos' element={<ToDos />} />
+                <Route path='/places/marks' element={<PlaceMarks />} />
               </Routes>
             </div>
           </>
