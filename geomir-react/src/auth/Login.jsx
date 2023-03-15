@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import '../styles.css'
 import { useForm } from '../hooks/useForm';
-import useLoging  from '../hooks/useLoging';
+import useLogin  from '../hooks/useLogin';
 
 export const Login = ({ setCanvi }) => {
     const { formState, handleChange } = useForm({
@@ -11,7 +11,7 @@ export const Login = ({ setCanvi }) => {
     const {email,password} = formState
     
     
-    let {sendLogin,checkAuthToken,missatge} = useLoging();
+    let {sendLogin,checkAuthToken,missatge} = useLogin();
 
     checkAuthToken()
 
