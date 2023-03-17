@@ -1,55 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { UserContext } from "../../userContext";
-import { useNavigate } from 'react-router';
 import '../../App.css'
 import { useParams } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
+import { addReview } from '../../slices/reviews/thunks';
+import { setAddreview } from '../../slices/reviews/reviewSlice';
+import { useDispatch } from 'react-redux';
 
 export const ReviewAdd = ({canviRefresh}) => {
   let { authToken,setAuthToken } = useContext(UserContext);
-  let [addreview, setAddreview] = useState(true);
   const { id } = useParams();
-
+  const dispatch = useDispatch();
   const { formState, handleChange,OnResetForm } = useForm({
     review: "",
   }); 
   const {review} = formState
-  const addReview = async(e)=>{
-    e.preventDefault();
-    var formData = new FormData();
-    console.log(review);
-    formData.append("review", review);
-    
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/"+id+"/reviews", {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "POST",
-        body: formData
 
-      })
-      const resposta = await data.json();
-      if (resposta.success === true){
-        console.log(resposta);
-        canviRefresh();
-        console.log("Review creat amb exit!!");
-      } 
-
-      else{
-        console.log(resposta.message);
-      } 
-        
-    }catch (err) {
-      console.log(err);
-    } 
-    
-  }
 
   useEffect(() => {
     addReview();
-
   }, [])
   return (
     <>
@@ -63,8 +32,9 @@ export const ReviewAdd = ({canviRefresh}) => {
             </div>
             <button className="addReviewButton"
                   onClick={(e) => {
-                    addReview(e);
-                    setAddreview(false)
+                    e.preventDefault();
+                    dispatch(addReview(formState,id,authToken));
+                    dispatch(setAddreview(false));
                   }}>
                   Desa la Review
             </button>

@@ -18,7 +18,9 @@ export const Place = () => {
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
 
   let [refresh,setRefresh] = useState(false)
+
   let [favourite,setFavourite] = useState(false)
+  let [isLoading,setIsLoading] = useState(true)
   let [emoticono,setEmoticono] = useState(false)
   let [missatge, setMissatge] = useState("");
   let [place, setPlaces] = useState({
@@ -45,6 +47,7 @@ export const Place = () => {
       const resposta = await data.json();
           if (resposta.success === true) {
             setPlaces(resposta.data)
+            setIsLoading(false)
               console.log(resposta);
           }else{
               setMissatge(resposta.message);
@@ -202,7 +205,7 @@ export const Place = () => {
                     <button className='deleteButton'
                     onClick={(e) => {
                       favPlace(e);
-                    }}><i class="bi bi-star"></i>
+                    }}><i className="bi bi-star"></i>
                     </button>:
                     <button className='deleteButton'
                     onClick={(e) => {
@@ -227,7 +230,7 @@ export const Place = () => {
                 e.preventDefault();
                 markPlace(place);
               }}>
-                DESA
+                DESA 
               </button>
             }
           </div>
@@ -243,7 +246,9 @@ export const Place = () => {
               </button>}
           </div>
       </div>
-      <div className='reviewContainer'><ReviewsList id={place.id}/></div>
+      { !isLoading ? (<div className='reviewContainer'><ReviewsList id={place.id}/></div>)
+      : (<></>) }
+      
     </div>
     </>
   )
