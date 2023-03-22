@@ -32,7 +32,7 @@ export const reviewSlice = createSlice({
 
         setAddreview: (state, action) => {
 
-            state.add = action.payload
+            state.addreview = action.payload
 
         },
 

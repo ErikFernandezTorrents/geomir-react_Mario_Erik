@@ -1,10 +1,11 @@
 import React, { useCallback, useContext } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../App.css'
 import { UserContext } from '../userContext'
-export const PlaceGrid = ({place,deletePlace}) => {
-    console.log(place)
+export const PlaceGrid = ({place}) => {
     let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+    const dispatch = useDispatch();
   return (
     <>
         <div className='containerGrid'>
@@ -25,7 +26,7 @@ export const PlaceGrid = ({place,deletePlace}) => {
                 {(usuari == place.author.email ) &&
                 <button className='deleteButton'
                     onClick={(e) => {
-                    deletePlace(e,place.id);
+                    dispatch(deletePlace(place.id,authToken));
                     }}><i className="bi bi-trash3"></i>
                 </button>}
 

@@ -11,15 +11,14 @@ export const useForm = (initialForm = {}) => {
         // Desestructurem ara target
         
         const { name, value } = target;
+    
+
+            setFormulari({
+                ...formulari,
+                [name]: value,
+    
+            })
         
-        setFormState({
-        
-        ...formState,
-        
-        // [target.name] : target.value
-        
-        [name]: value,
-        });
     }
     const OnResetForm = () =>{
         setFormState(initialForm);

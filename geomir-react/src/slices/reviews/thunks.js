@@ -75,7 +75,7 @@ export const addReview= (review,id,authToken) => {
                     Authorization: "Bearer " + authToken,
                 },
                 method: "POST",
-                body: JSON.stringify({'review':review})
+                body: JSON.stringify(review)
             }
         );
         const resposta = await data.json();

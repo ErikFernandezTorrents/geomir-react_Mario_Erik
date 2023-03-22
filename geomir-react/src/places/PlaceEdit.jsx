@@ -9,7 +9,6 @@ export const PlaceEdit = () => {
     let { authToken,setAuthToken } = useContext(UserContext);
     let [missatge, setMissatge] = useState("");
     let [missatgeOK, setMissatgeOK] = useState("");
-    let [places, setPlaces] = useState("");
     let navigate = useNavigate();
 
     const handleChange = (e) => {

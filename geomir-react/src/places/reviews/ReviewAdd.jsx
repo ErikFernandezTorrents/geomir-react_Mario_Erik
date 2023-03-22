@@ -1,15 +1,13 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserContext } from "../../userContext";
 import '../../App.css'
-import { useParams } from 'react-router-dom';
 import { useForm } from '../../hooks/useForm';
 import { addReview } from '../../slices/reviews/thunks';
 import { setAddreview } from '../../slices/reviews/reviewSlice';
 import { useDispatch } from 'react-redux';
 
-export const ReviewAdd = ({canviRefresh}) => {
+export const ReviewAdd = ({id}) => {
   let { authToken,setAuthToken } = useContext(UserContext);
-  const { id } = useParams();
   const dispatch = useDispatch();
   const { formState, handleChange,OnResetForm } = useForm({
     review: "",

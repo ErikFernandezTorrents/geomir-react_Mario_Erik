@@ -23,7 +23,9 @@ export const useLogin = () => {
                 })
                 const resposta = await data.json();
                 if (resposta.success === true) {
+                    console.log(resposta);
                     setAuthToken(miStorage)
+                    setUsuari(resposta.user.email);
                 } else {
                     setAuthToken("")
                 }

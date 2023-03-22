@@ -6,6 +6,7 @@ import buildFormatter from 'react-timeago/lib/formatters/buildFormatter';
 import { UserContext } from '../../userContext';
 import { delReview } from '../../slices/reviews/thunks';
 import { useDispatch, useSelector } from 'react-redux';
+import { setAddreview } from '../../slices/reviews/reviewSlice';
 
 export const Review = ({ review }) => {
 
@@ -28,6 +29,7 @@ export const Review = ({ review }) => {
                     <button className='deleteButton'
                         onClick={() => {
                             dispatch(delReview(review,authToken));
+                            dispatch(setAddreview(true));
                         }}><i className="bi bi-trash3"></i>
                     </button>
                 }
