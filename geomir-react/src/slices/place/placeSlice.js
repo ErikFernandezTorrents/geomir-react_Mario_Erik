@@ -14,6 +14,8 @@ const initialState = {
     isLoading: true,
     addreview: true,
     missatge: "",
+    favourite: false,
+    favorites_count:0,
 }
 export const placeSlice = createSlice({
 name: "place",
@@ -56,11 +58,25 @@ name: "place",
         state.error = action.payload
 
     },
+    setFavourite: (state,action) => {
+
+        //console.log("ABA")
+
+        state.favourite = action.payload
+
+    },
+    setFavouriteCount: (state,action) => {
+
+        //console.log("ABA")
+
+        state.favorites_count = action.payload
+
+    },
 
  }
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace } = placeSlice.actions
+export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace,setFavourite,setFavouriteCount } = placeSlice.actions
 
 export default placeSlice.reducer

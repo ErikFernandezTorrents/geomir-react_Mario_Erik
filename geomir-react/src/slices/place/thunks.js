@@ -1,4 +1,4 @@
-import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces } from "./placeSlice"
+import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite } from "./placeSlice"
 
 export const getPlaces = (page = 0, authToken) => {
     return async (dispatch, getState) => {
@@ -50,6 +50,7 @@ export const getPlace = (page = 0, id, authToken) => {
         if (resposta.success == true) {
             console.log(resposta.data);
             dispatch(setPlace(resposta.data));
+            dispatch(test_favourite(id,authToken));////
         }
         else {
             dispatch(setMissatge(resposta.message));
@@ -125,6 +126,147 @@ export const addPlace = (authToken,formulari) => {
         console.log(formulari)
         dispatch(setMissatge(resposta.message));
       }
-      navigate("/places/list");
+    }
+}
+export const editPlace = (id,authToken,formulari) => {
+    let {name,description,upload,latitude,longitude,visibility}=formulari;
+    console.log('formulari');
+    var formData = new FormData();
+    formData.append("name", name);
+    formData.append("description", description);
+    formData.append("upload", upload);
+    formData.append("latitude", latitude);
+    formData.append("longitude", longitude);
+    formData.append("visibility", visibility);
+
+    return async (dispatch, getState) => {
+        dispatch(startLoadingPlaces());
+
+        const headers = {
+
+            headers: {
+                Accept: "application/json",
+                Authorization: "Bearer " + authToken,
+            },
+            method: "POST",
+            body: formData
+        };
+        const url = "https://backend.insjoaquimmir.cat/api/places/" + id;
+
+        const data = await fetch(url, headers);
+        console.log(data);
+        const resposta = await data.json();
+        
+      if (resposta.success === true){
+        console.log(resposta);
+        dispatch(setMissatge("Place editat amb exit!!"));
+      } 
+
+      else{
+        console.log(resposta.message)
+        dispatch(setMissatge(resposta.message));
+      }
+    }
+  }
+  export const test_favourite = (id,authToken) => {
+
+    return async (dispatch, getState) => {
+        //dispatch(startLoadingPlaces());
+
+        const headers = {
+
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + authToken,
+            },
+            method: "POST",
+        };
+        const url = "https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites";
+
+        const data = await fetch(url, headers);
+        console.log(data);
+        const resposta = await data.json();
+        
+      if (resposta.success === true){
+        console.log("He dado favorite de prueva por que no hay ninguno");
+        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +" /favorites", {
+              headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              'Authorization': 'Bearer ' + authToken
+              },
+              method: "DELETE",
+          })
+          dispatch(setFavourite(false))
+
+      } 
+
+      else{
+            dispatch(setFavourite(true));
+      }
+    }
+  }
+  export const favPlace = (id,authToken,place) => {
+
+    return async (dispatch, getState) => {
+        //dispatch(startLoadingPlaces());
+
+        const headers = {
+
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + authToken,
+            },
+            method: "POST",
+        };
+        const url = "https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites";
+
+        const data = await fetch(url, headers);
+        console.log(data);
+        const resposta = await data.json();
+        
+      if (resposta.success === true){
+            console.log("doy favorito");
+            dispatch(setFavourite(true));
+            dispatch(setPlace({...place, favorites_count: place.favorites_count+1 }));
+
+      } 
+
+      else{
+        console.log("Error al dar favourite");
+        console.log(resposta.message)
+      }
+    }
+  }
+  export const deleteFav = (id,authToken,place) => {
+
+    return async (dispatch, getState) => {
+        //dispatch(startLoadingPlaces());
+
+        const headers = {
+
+            headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: "Bearer " + authToken,
+            },
+            method: "DELETE",
+        };
+        const url = "https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites";
+
+        const data = await fetch(url, headers);
+        console.log(data);
+        const resposta = await data.json();
+        
+      if (resposta.success === true){
+            console.log("quito favorito");
+            dispatch(setFavourite(false));
+            dispatch(setPlace({...place, favorites_count: place.favorites_count-1 }));
+
+      }  else{
+        console.log("Error al dar unfavourite");
+      }
     }
   }

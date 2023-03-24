@@ -2,19 +2,20 @@ import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import '../App.css'
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { editPlace, getPlace } from '../slices/place/thunks';
 
 export const PlaceEdit = () => {
     const { id } = useParams();
     let [formulari, setFormulari] = useState({});
     let { authToken,setAuthToken } = useContext(UserContext);
-    let [missatge, setMissatge] = useState("");
-    let [missatgeOK, setMissatgeOK] = useState("");
+    const dispatch = useDispatch();
     let navigate = useNavigate();
+    let {  place, missatge = "" } = useSelector((state) => state.places);
 
     const handleChange = (e) => {
       e.preventDefault();
-      setMissatge("");
-      setMissatgeOK("");
+      missatge="";
       if (e.target.name==="upload")
         {
           console.log(e.target.files[0].name)
@@ -33,103 +34,29 @@ export const PlaceEdit = () => {
             })
         };
     }
-    const getPlaceForEdit = async() =>{
-      
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET"
-
-        })
-        const resposta = await data.json();
-        if (resposta.success === true){
-          const { data } = resposta
-          setFormulari({
-            name: data.name,
-            description: data.description,
-            upload: "",
-            latitude: data.latitude,
-            longitude: data.longitude,
-            visibility: data.visibility.id,
-
-          })
-        } 
-
-        else{
-          console.log(formulari)
-          setMissatge(resposta.message);
-        } 
-          
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      formAddPlace.reset(); 
-    }
-    const editPlace = async(e) => {
-
-      e.preventDefault();
-
-      let {name,description,upload,latitude,longitude,visibility}=formulari;
-      console.log(formulari);
-      var formData = new FormData();
-      formData.append("name", name);
-      formData.append("description", description);
-      formData.append("upload", upload);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-      formData.append("visibility", visibility);
-
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-          body: formData
-
-        })
-        const resposta = await data.json();
-        if (resposta.success === true){
-          console.log(resposta);
-          setMissatgeOK("Place editat amb exit!!");
-        } 
-
-        else{
-          console.log(formulari)
-          setMissatge(resposta.message);
-        } 
-          
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      formAddPlace.reset(); 
-      navigate("/places/list");
-    }
+    
     useEffect(() => {
-      editPlace();
-      getPlaceForEdit();
-      navigator.geolocation.getCurrentPosition( (pos )=> {
+      dispatch(getPlace( 0, id, authToken));
 
-        setFormulari({
-    
-    
-          ...formulari,
-          latitude :  pos.coords.latitude,
-          longitude: pos.coords.longitude
+    }, []);
+    useEffect (()=> {
+
+      setFormulari({
       
-        })
-        
-        console.log("Latitude is :", pos.coords.latitude);
-        console.log("Longitude is :", pos.coords.longitude);
-      });
+      name: place.name,
+      
+      description: place.description,
+      
+      longitude: place.longitude,
+      
+      latitude: place.latitude,
+      
+      visibility: place.visibility.id
+      
+      })
+      
+      },[place]);
 
-    }, [])
   return (
     <div>
         <div className="container">
@@ -165,10 +92,10 @@ export const PlaceEdit = () => {
               <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
             </div>
             <div onChange={handleChange}>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
-            <div onChange={handleChange}>{missatgeOK? <div className='AlertOk'>{missatgeOK}</div>:<></>}</div>
             <button className="addPlaceButton"
               onClick={(e) => {
-                editPlace(e);
+                e.preventDefault()
+                dispatch(editPlace(id,authToken,formulari));
               }}>
               Desa l'edicio
             </button>		

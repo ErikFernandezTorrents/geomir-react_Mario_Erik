@@ -13,8 +13,8 @@ export const useForm = (initialForm = {}) => {
         const { name, value } = target;
     
 
-            setFormulari({
-                ...formulari,
+            setFormState({
+                ...formState,
                 [name]: value,
     
             })

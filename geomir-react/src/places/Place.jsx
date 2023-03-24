@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addmark,ismarked } from "../slices/marksPlacesSlice";
 import { setMissatge, setPlace } from '../slices/place/placeSlice';
-import { deletePlace, getPlace } from '../slices/place/thunks';
+import { deleteFav, deletePlace, favPlace, getPlace, test_favourite } from '../slices/place/thunks';
 
 
 export const Place = () => {
@@ -13,100 +13,17 @@ export const Place = () => {
 
   const dispatch = useDispatch();
 
-  const { places, place , page = 0, addreview = true, missatge = "", isLoading=true } = useSelector((state) => state.places);
+  const { places, place , page = 0, addreview = true, missatge = "", isLoading=true,favourite } = useSelector((state) => state.places);
 
-  console.log(place);
   
   const { pathname } = useLocation();
-  
+
+  let navigate = useNavigate();
+
   const { id } = useParams();
 
-  let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
+  let {usuari,authToken } = useContext(UserContext)
 
-  let [refresh,setRefresh] = useState(false)
-
-  let [favourite,setFavourite] = useState(false)
-  
-  const test_favourite = async () =>{
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-      })
-
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          console.log("He dado favorite de prueva por que no hay ninguno");
-          const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-              headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer ' + authToken
-              },
-              method: "DELETE",
-          })
-      }else {
-        setFavourite(true);
-      }
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  const favPlace = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-      })
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          //setRefresh(!refresh);
-          setFavourite(true);
-          setPlace({...place, favorites_count: place.favorites_count+1 })
-      }
-      
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  const deleteFav = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          //setRefresh(!refresh);
-          setFavourite(false);
-          setPlace({...place, favorites_count: place.favorites_count-1 })
-
-      }
-      
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
   const markPlace = () =>{
     console.log(place);
 
@@ -126,8 +43,6 @@ export const Place = () => {
     dispatch(getPlace(0, id, authToken)); 
    
   },[])
-  
-  useEffect(() => { test_favourite(); deleteFav(); favPlace();}, [refresh]);
   
   useEffect ( ()=>{
     dispatch(ismarked(id));
@@ -154,12 +69,14 @@ export const Place = () => {
                   {!favourite? 
                     <button className='deleteButton'
                     onClick={(e) => {
-                      favPlace(e);
+                      e.preventDefault();
+                      dispatch(favPlace(id,authToken,place));
                     }}><i className="bi bi-star"></i>
                     </button>:
                     <button className='deleteButton'
                     onClick={(e) => {
-                      deleteFav(e);
+                      e.preventDefault();
+                      dispatch(deleteFav(id,authToken,place));
                     }}><i className="bi bi-star-fill"></i>
                     </button>
                   }
@@ -191,7 +108,9 @@ export const Place = () => {
               {(usuari == place.author.email ) &&
               <button className='deleteButton'
                   onClick={(e) => {
+                    e.preventDefault();
                   dispatch(deletePlace(place.id,authToken));
+                  navigate("/places/list");
                   }}><i className="bi bi-trash3"></i>
               </button>}
           </div>

@@ -89,7 +89,7 @@ export const PlaceAdd = () => {
             onClick={(e) => {
               e.preventDefault();
               dispatch(addPlace(authToken, formulari));
-              navigate(-1);
+              navigate("/places/list");
             }}>
             Submit
           </button>
