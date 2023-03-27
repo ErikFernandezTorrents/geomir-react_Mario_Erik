@@ -4,7 +4,7 @@ import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
 export const PlaceList = ({place,deletePlace}) => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  
+  console.log(place);
   return (
     <>
         <td>{place.id}</td>
