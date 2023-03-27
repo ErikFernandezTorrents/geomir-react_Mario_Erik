@@ -24,6 +24,7 @@ export const Header = () => {
       console.log(resposta);
       if (resposta.success === true) {
         setAuthToken("");
+        localStorage.clear();
         console.log("Logaout");
       } else {
         setMissatge(resposta.message);
@@ -73,8 +74,11 @@ return (
     <div id='header'>
       <img className="logo" src="../public/logo_geomir.ico"></img>
       <Link className="headerLink" to="/places/list">Places </Link>
-      <Link className="headerLink" to="/posts">Posts </Link>
+
+      <Link className="headerLink" to="/posts/list">Posts </Link>
+
       <Link className="headerLink" to="/about">About </Link>
+
       <div>
         <p>User : {nameOfUser}</p>
         {roles.map((v) => (

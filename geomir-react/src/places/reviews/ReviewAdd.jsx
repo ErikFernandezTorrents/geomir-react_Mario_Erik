@@ -1,64 +1,22 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { UserContext } from "../../userContext";
-import { useNavigate } from 'react-router';
 import '../../App.css'
-import { useParams } from 'react-router-dom';
+import { useForm } from '../../hooks/useForm';
+import { addReview } from '../../slices/reviews/thunks';
+import { setAddreview } from '../../slices/reviews/reviewSlice';
+import { useDispatch } from 'react-redux';
 
-export const ReviewAdd = ({canviRefresh}) => {
+export const ReviewAdd = ({id}) => {
   let { authToken,setAuthToken } = useContext(UserContext);
-  let [missatge, setMissatge] = useState("");
-  let [missatgeOK, setMissatgeOK] = useState("");
-  let [addreview, setAddreview] = useState(true);
-  const { id } = useParams();
-  let [formulari, setFormulari] = useState({});
+  const dispatch = useDispatch();
+  const { formState, handleChange,OnResetForm } = useForm({
+    review: "",
+  }); 
+  const {review} = formState
 
-  const handleChange = (e) => {
-    e.preventDefault();
-          setFormulari({
-            ...formulari,
-            [e.target.name] : e.target.value
-
-          })
-      
-  }
-
-  const addReview = async(e)=>{
-    e.preventDefault();
-    let {review}=formulari;
-    var formData = new FormData();
-    console.log(review);
-    formData.append("review", review);
-    
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/"+id+"/reviews", {
-        headers: {
-          'Accept': 'application/json',
-          'Authorization': 'Bearer ' + authToken
-        },
-        method: "POST",
-        body: formData
-
-      })
-      const resposta = await data.json();
-      if (resposta.success === true){
-        console.log(resposta);
-        canviRefresh();
-        console.log("Review creat amb exit!!");
-      } 
-
-      else{
-        console.log(resposta.message);
-      } 
-        
-    }catch (err) {
-      console.log(err);
-    } 
-    
-  }
 
   useEffect(() => {
     addReview();
-
   }, [])
   return (
     <>
@@ -68,14 +26,22 @@ export const ReviewAdd = ({canviRefresh}) => {
                 <label htmlFor="review">Afeigeix un nou comentari</label>
             </div>
             <div className='containerTextarea'>
-              <textarea id="review" name="review" placeholder="Escriu la teva review aquí.." value = { formulari.review } onChange={handleChange}/>
+              <textarea id="review" name="review" placeholder="Escriu la teva review aquí.." value = { review } onChange={handleChange} />
             </div>
             <button className="addReviewButton"
                   onClick={(e) => {
-                    addReview(e);
-                    setAddreview(false)
+                    e.preventDefault();
+                    dispatch(addReview(formState,id,authToken));
+                    dispatch(setAddreview(false));
                   }}>
                   Desa la Review
+            </button>
+            <button className="addReviewButton"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    OnResetForm();
+                  }}>
+                  Buida
             </button>
           </form>
         </div>

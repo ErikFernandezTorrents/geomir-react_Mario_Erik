@@ -1,24 +1,22 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
 import '../styles.css'
+import { useForm } from '../hooks/useForm';
 
 export const Register = ({ setCanvi }) => {
-  let [formulari, setFormulari] = useState({});
   let [missatge, setMissatge] = useState("");
   let { authToken,setAuthToken } = useContext(UserContext)
 
-  const handleChange = (valuesForm) => {
-    valuesForm.preventDefault();
-    
-    setFormulari({
-      ...formulari,
-      [valuesForm.target.name]: valuesForm.target.value
-    });
-  };
+    const { formState, handleChange,OnResetForm } = useForm({
+        Rname: "",
+        Remail: "",
+        Rpassword: "",
+        Rpassword2: "",
+    }); 
+    const {Rname,Remail,Rpassword,Rpassword2} = formState
   const handleRegister = async (valuesForm) => {
       valuesForm.preventDefault();
 
-      let { Rname, Remail ,Rpassword, Rpassword2 } = formulari;
       console.log(
           "He enviat les Dades:  " +
           Rname +
@@ -69,16 +67,16 @@ export const Register = ({ setCanvi }) => {
                     <h3>Register</h3>
     
                     <label htmlFor="name">Username</label>
-                    <input type="text" placeholder="Name" name="Rname"onChange={handleChange}></input>
+                    <input type="text" placeholder="Name" name="Rname"onChange={handleChange} value={Rname}></input>
 
                     <label htmlFor="username">Email</label>
-                    <input type="text" placeholder="Email addres" name="Remail"onChange={handleChange}></input>
+                    <input type="text" placeholder="Email addres" name="Remail"onChange={handleChange} value={Remail}></input>
     
                     <label htmlFor="password">Password</label>
-                    <input type="password" placeholder="Password" name="Rpassword"onChange={handleChange}></input>
+                    <input type="password" placeholder="Password" name="Rpassword"onChange={handleChange} value={Rpassword}></input>
                     
                     <label htmlFor="password">Confirm Password</label>
-                    <input type="password" placeholder="Password" name="Rpassword2"onChange={handleChange}></input>
+                    <input type="password" placeholder="Password" name="Rpassword2"onChange={handleChange} value={Rpassword2}></input>
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     

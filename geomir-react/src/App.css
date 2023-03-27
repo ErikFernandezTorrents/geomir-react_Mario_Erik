@@ -63,22 +63,30 @@ body{
     width: 7vh;
     height: 7vh;
 }
+.prueba{
+    display: flex;
+    flex-direction: row;
+    flex-grow:1;
+}
 .PlacesPostMenu{
-    background-color: #e6e5db;
+    background-color: #e6e5db !important;
     height: 10%;
     width: 100%;
     margin-bottom: 2%;
-    display: flex;
-    flex-wrap: inherit;
+    /* display: flex;
+    flex-direction: row;
+    flex-grow:1; */
     font-size: 1.4vh;
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
 }
+.form-serch{
+    width: 20%;
+}
 .PlacesPostMenu .MenuLinks{
     margin-top: 0.5%;
     margin-bottom: 0.5%;
-    margin-left: 0.5%;
     text-decoration: none;
     color: #000000;
     padding: 0.5%;
@@ -87,9 +95,16 @@ body{
     border-style: groove;
     background-color:#e6e5db ;
     cursor: pointer;
+    margin-right: 2%;
 }
 .MenuLinks:hover{
     background-color:#1f9eff ;
+    color: #e6e5db;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgb(49, 114, 255);
+}
+.btn-p:hover{
+    background-color:#1f9eff !important ;
     color: #e6e5db;
     transition: 0.5s;
     box-shadow: 0 0 10px rgb(49, 114, 255);
@@ -109,6 +124,7 @@ body{
     padding: 20px;
     padding-top: 3%;
     margin: auto;
+    margin-top: 55%;
     box-shadow: 0 0 24px #000000;
     border-radius: 4%;
 }
@@ -117,12 +133,46 @@ body{
     margin-left:60% ;
     margin-bottom: 2%;
 }
-.InfoPlace {
+.background-card{
+    background-color: #684abb94 !important;
+    margin-top: 3%;
+    
+}
+.InfoPost {
     margin-top: 3%;
     display: grid;
     grid-gap: 50px;
     color: #000000;
     text-align: justify;
+}
+.InfoPlace {
+
+    margin-top: 3%;
+    display: grid;
+    grid-gap: 50px;
+    color: #000000;
+    text-align: justify;
+}
+
+.divLikes{
+    margin-top: 5%;
+}
+.bi-heart-fill{
+    color: red;
+}
+.divLikes i:hover{
+    color: rgb(181, 88, 235);
+}
+#tablePostList{
+    height: 100%;
+    width: 90%;
+    background-color: #684abbaa;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-left: 5%;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 1em;
 }
 .divFavorites{
     margin-top: 5%;
@@ -145,10 +195,27 @@ body{
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 1em;
 }
-#tr1PlaceList{
+
+#tr1PostList{
     border-radius: 10px;
     color: #ffffff;
     width: 100%;
+}
+#tr1PlaceList{
+
+    border-radius: 10px;
+    color: #ffffff;
+    width: 100%;
+}
+
+#tr1PostList th{
+    background-color: #694abb;
+}
+#tr2PostList{
+    background-color: #684abb00;
+}
+#tr2PostList:hover{
+    background-color: #cfcfcf;
 }
 #tr1PlaceList th{
     background-color: #694abb;
@@ -157,6 +224,7 @@ body{
     background-color: #684abb00;
 }
 #tr2PlaceList:hover{
+
     background-color: #cfcfcf;
 }
 .bi-eye{
@@ -177,6 +245,29 @@ body{
 .bi-trash3:hover{
     color: rgb(250, 176, 176);
 }
+
+#optionsPostGrid{
+    margin-top: 5%;
+}
+#optionsPostGrid i{
+    margin-top: 5%;
+    padding-left: 2%;
+}
+.addPost{
+    height: 65%;
+    width: 30%;
+    background-color: #694abb;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgb(255, 255, 255);
+    box-shadow: rgb(10, 10, 10);
+    padding: 50px 35px;
+}
+
 #optionsPlaceGrid{
     margin-top: 5%;
 }
@@ -197,6 +288,18 @@ body{
     box-shadow: 0 0 40px rgb(255, 255, 255);
     box-shadow: rgb(10, 10, 10);
     padding: 50px 35px;
+}
+
+.addPostButton{
+    margin-top: 50px;
+    width: 100%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 15px 0;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
 }
 .addPlaceButton{
     margin-top: 50px;
@@ -230,6 +333,18 @@ body{
 button{
     cursor: pointer;
 }
+.CommentForm{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abbb7;
+    padding: 20px;
+    height: 70%;
+    width: 40%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+
+}
 .ReviewForm{
     margin-top: 2%;
     border-radius: 5px;
@@ -241,7 +356,13 @@ button{
     backdrop-filter: blur(10px);
     padding: 5px 5px;
 }
+
+.CommentForm2{
+    width: 100%;
+    height: 20%;
+}
 .ReviewForm2{
+
     width: 100%;
     height: 20%;
 }
@@ -255,6 +376,18 @@ button{
 .containerTextarea textarea{
     width: 100%;
     height:100%;
+    color: #000000;
+}
+.addCommentButton{
+    margin-top: 3%;
+    width: 40%;
+    background-color: #e6e5db;
+    color: #000000;
+    padding: 10px 0;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
 }
 .addReviewButton{
     margin-top: 3%;
@@ -266,6 +399,11 @@ button{
     font-weight: bold;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.labelCommentContainer label{
+    color: #000000;
+    font-weight: bold;
 }
 .labelReviewContainer label{
     color: #000000;
@@ -279,6 +417,18 @@ input[type=text], select, textarea {
     resize: vertical;
     color: #000;
 }
+.Commentcontainer{
+    margin-top: 2%;
+    border-radius: 5px;
+    background-color: #684abb9a;
+    height: 70%;
+    width: 30%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 5px 5px;
+    box-shadow: 0 0 15px rgb(0, 0, 0);
+    
+}
 .Reviewcontainer{
     margin-top: 2%;
     border-radius: 5px;
@@ -290,6 +440,13 @@ input[type=text], select, textarea {
     padding: 5px 5px;
     box-shadow: 0 0 15px rgb(0, 0, 0);
 }
+
+.Commentcontainer p {
+    margin-top: 2%;
+}
+.dateOfComment{
+    margin-top: 2%;
+}
 .Reviewcontainer p {
     margin-top: 2%;
 }
@@ -300,6 +457,14 @@ input[type=text], select, textarea {
     background-color: #00000000;
     border: #00000000;
 }
+
+.container-ContainerPost{
+    display: flex;
+    flex-wrap:wrap;
+    flex-direction:row;
+    width: 100%;
+    height: 100%;
+}
 .container-ContainerPlace{
     display: flex;
     flex-wrap:wrap;
@@ -307,6 +472,17 @@ input[type=text], select, textarea {
     width: 100%;
     height: 100%;
     
+}
+
+.containerPost{
+    height: 100%;
+    width: 45%;
+    background-color: #684abbba;
+    padding: 20px;
+    margin-left: 2%;
+    box-shadow: 0 0 24px #000000;
+    border-radius: 4%;
+    justify-content: space-between;
 }
 .containerPlace{
     height: 100%;
@@ -318,11 +494,24 @@ input[type=text], select, textarea {
     border-radius: 4%;
     justify-content: space-between;
 }
+
+.commentContainer{
+    margin-right: 0%;
+    width: 50%;
+    height: 35%;
+    margin-left: 3%;
+}
 .reviewContainer{
     margin-right: 0%;
     width: 50%;
     height: 35%;
     margin-left: 3%;
+}
+#divTodoDoneTrue{
+    text-decoration:line-through;
+}
+.container-paginate{
+    text-align: center;
 }
 @media screen and (max-width: 700px) {
     .wrapper{
@@ -341,12 +530,22 @@ input[type=text], select, textarea {
         border-radius: 4%;
     }
     
+    .InfoPost {
+        margin-top: 4%;
+        display: grid;
+        grid-gap: 50px;
+        color: #000000;
+        text-align: justify;
+    }
     .InfoPlace {
         margin-top: 4%;
         display: grid;
         grid-gap: 50px;
         color: #000000;
         text-align: justify;
+    }
+    .divLikes{
+        margin-top: 5%;
     }
     .divFavorites{
         margin-top: 5%;

@@ -1,155 +1,56 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
+import { useDispatch, useSelector } from 'react-redux';
+import { addmark,ismarked } from "../slices/marksPlacesSlice";
+import { deleteFav, deletePlace, favPlace, getPlace, test_favourite } from '../slices/place/thunks';
 
 
 export const Place = () => {
-  const { id } = useParams();
-  let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [refresh,setRefresh] = useState(false)
-  let [favourite,setFavourite] = useState(false)
-  let [emoticono,setEmoticono] = useState(false)
-  let [missatge, setMissatge] = useState("");
-  let [place, setPlaces] = useState({
-    author:{name:""},
-    name:"",
-    description:"",
-    latitude:"",
-    longitude:"",
-    favorites_count:"",
-    reviews_count:"",
-    file:{filepath:""}
-  });
+  const {marks,isMarked} = useSelector(state => state.markplaces)
+
+  const dispatch = useDispatch();
+
+  const { place , missatge = "", isLoading=true,favourite,filtreDesc } = useSelector((state) => state.places);
+
   
-  const getPlace = async () => {
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          if (resposta.success === true) {
-            setPlaces(resposta.data)
-              console.log(resposta);
-          }else{
-              setMissatge(resposta.message);
-          }
+  const { pathname } = useLocation();
 
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa");
-    }
-  }
-  const test_favourite = async () =>{
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-      })
+  let navigate = useNavigate();
 
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          console.log("He dado favorite de prueva por que no hay ninguno");
-          const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-              headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              'Authorization': 'Bearer ' + authToken
-              },
-              method: "DELETE",
-          })
-      }else {
-        setFavourite(true);
-      }
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  const favPlace = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-      })
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          setRefresh(!refresh);
-          setFavourite(true);
-      }
-      
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  const deleteFav = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id +"/favorites", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
-      const resposta = await data.json();
-      console.log(resposta);
-      if (resposta.success === true) {
-          setRefresh(!refresh);
-          setFavourite(false);
-      }
-      
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  const deletePlace = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
+  const { id } = useParams();
 
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              setRefresh(!refresh);
-              console.log("Place eliminat correctament");
-          }else{
-              setMissatge(resposta.message);
-          }
+  let {usuari,authToken } = useContext(UserContext)
 
-    }catch {
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
+  const markPlace = () =>{
+    console.log(place);
+
+    const AddMark = {
+      id: new Date().getTime(),
+      placeId: place.id,
+      name: place.name,
+      description: place.description,
+      route: pathname,
+
     }
+    dispatch(addmark(AddMark));
+    console.log(pathname);
   }
-  useEffect(() => { getPlace(); test_favourite(); deleteFav(); favPlace();}, [refresh]);
+
+  useEffect ( ()=>{
+    dispatch(getPlace(0, id, authToken)); 
+   
+  },[])
+  
+  useEffect ( ()=>{
+    dispatch(ismarked(id));
+    localStorage.setItem('mark',JSON.stringify(marks))
+  },[marks])
+  
   return (
     <>
+    { !isLoading?
     <div className='container-ContainerPlace'>
       <div className='containerPlace'>
           <h2>{place.name}</h2>
@@ -167,17 +68,37 @@ export const Place = () => {
                   {!favourite? 
                     <button className='deleteButton'
                     onClick={(e) => {
-                      favPlace(e);
-                    }}><i class="bi bi-star"></i>
+                      e.preventDefault();
+                      dispatch(favPlace(id,authToken,place));
+                    }}><i className="bi bi-star"></i>
                     </button>:
                     <button className='deleteButton'
                     onClick={(e) => {
-                      deleteFav(e);
+                      e.preventDefault();
+                      dispatch(deleteFav(id,authToken,place));
                     }}><i className="bi bi-star-fill"></i>
                     </button>
                   }
                   {place.favorites_count}
                   <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
+          </div>
+          <div>
+              { isMarked ? 
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+              }}>
+                DESAT
+              </button>
+              :
+              <button className='addReviewButton'
+              onClick={(e) => {
+                e.preventDefault();
+                markPlace(place);
+              }}>
+                DESA 
+              </button>
+            }
           </div>
           <div id='optionsPlaceGrid'>
               {(usuari == place.author.email ) &&  
@@ -186,13 +107,18 @@ export const Place = () => {
               {(usuari == place.author.email ) &&
               <button className='deleteButton'
                   onClick={(e) => {
-                  deletePlace(e,place.id);
+                    e.preventDefault();
+                  dispatch(deletePlace(place.id,authToken));
+                  navigate("/places/list");
                   }}><i className="bi bi-trash3"></i>
               </button>}
           </div>
       </div>
-      <div className='reviewContainer'><ReviewsList id={place.id}/></div>
+      { !isLoading ? (<div className='reviewContainer'><ReviewsList id={place.id}/></div>)
+      : (<></>) }
+      
     </div>
+    : <p>Loading...</p>}
     </>
   )
 }

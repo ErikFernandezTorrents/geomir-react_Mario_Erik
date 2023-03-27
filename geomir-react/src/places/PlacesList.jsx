@@ -1,91 +1,49 @@
 
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
 import '../App.css'
+import { getPlaces } from '../slices/place/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 export const PlacesList = () => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [places, setPlaces] = useState([]);
-  let [refresh,setRefresh] = useState(false)
-  let [missatge, setMissatge] = useState("");
-  let [missatgeOK, setMissatgeOK] = useState("");
-  const sendPlacesList = async (e) => {
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-            setPlaces(resposta.data)
-              console.log(resposta);
-          }else{
-              setMissatge(resposta.message);
-          }
+  const dispatch = useDispatch();
 
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa");
-    }
-  }
-  const deletePlace = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
+  const { places , page = 0, addreview = true, missatge = "", isLoading = true } = useSelector((state) => state.places);
 
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              setRefresh(!refresh);
-              console.log("Place eliminat correctament");
-          }else{
-              setMissatge(resposta.message);
-          }
+  console.log(places);
+  
+  const { id } = useParams();
 
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  useEffect(() => { 
-    sendPlacesList();
-  }, [refresh]);
-  console.log(usuari); 
+  useEffect(() => {
+    dispatch(getPlaces(0, authToken));
+  }, []);
   return (
     <>
-      
-      <table id='tablePlaceList'>
-        <tbody>
-          <tr id='tr1PlaceList'>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Author</th>
-            <th>Latitude</th>
-            <th>Longitude</th>
-            <th>Reviews</th>
-            <th>Visibility</th>
-            <th>Favorites</th>
+      {!isLoading ? 
+        <table id='tablePlaceList'>
+          <tbody>
+            <tr id='tr1PlaceList'>
+              <th>Id</th>
+              <th>Name</th>
+              <th>Author</th>
+              <th>Latitude</th>
+              <th>Longitude</th>
+              <th>Reviews</th>
+              <th>Visibility</th>
+              <th>Favorites</th>
 
-          </tr>       
-          {places.map((place) => (
-              (place.visibility.name == 'public' || usuari == place.author.email) &&  
-              (<tr  key={places.id} id='tr2PlaceList'><PlaceList place={place} deletePlace={deletePlace}/></tr>)
-          ))}
-        </tbody>
-      </table>
-
+            </tr>       
+            {places.map((place) => (
+                (place.visibility.name == 'public' || usuari == place.author.email) &&  
+                (<tr  key={place.id} id='tr2PlaceList'><PlaceList place={place}/></tr>)
+            ))}
+          </tbody>
+        </table>
+      :
+        <div>Carregant...</div>
+      }
     </>
   )
 }

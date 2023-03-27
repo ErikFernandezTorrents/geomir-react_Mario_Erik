@@ -2,11 +2,20 @@ import React, { useCallback, useContext, useState} from 'react'
 import '../App.css'
 import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
-export const PlaceList = ({place,deletePlace}) => {
+import { useDispatch, useSelector } from 'react-redux'
+import { deletePlace } from '../slices/place/thunks'
+export const PlaceList = ({place}) => {
   let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+
   console.log(place);
+
+  const dispatch = useDispatch();
+  const { isLoading = true } = useSelector((state) => state.places);
+
   return (
     <>
+      { !isLoading?
+      <>
         <td>{place.id}</td>
         <td>{place.name}</td>
         <td>{place.author.name}</td>
@@ -24,11 +33,13 @@ export const PlaceList = ({place,deletePlace}) => {
             <td>
               <button className='deleteButton'
                 onClick={(e) => {
-                  deletePlace(e,place.id);
+                  dispatch(deletePlace(place.id,authToken));
                 }}><i className="bi bi-trash3"></i>
               </button>
             </td>
           }
+          </>
+          : <></>}
     </>
   )
 }
