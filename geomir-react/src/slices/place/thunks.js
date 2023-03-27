@@ -1,4 +1,4 @@
-import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite } from "./placeSlice"
+import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite,setPages } from "./placeSlice"
 
 export const getPlaces = (page = 0, authToken) => {
     return async (dispatch, getState) => {
@@ -13,14 +13,28 @@ export const getPlaces = (page = 0, authToken) => {
             },
             method: "GET",
         };
-        const url = "https://backend.insjoaquimmir.cat/api/places";
+        let url =  page > 0 ? 
+        "https://backend.insjoaquimmir.cat/api/places?paginate=1&page=" + page 
+        : 
+        "https://backend.insjoaquimmir.cat/api/places" ;
 
         const data = await fetch(url, headers);
         const resposta = await data.json();
 
         if (resposta.success == true) {
-            console.log(resposta.data);
-            dispatch(setPlaces(resposta.data));
+            if (page > 0) {
+
+                dispatch(setPlaces(resposta.data.collection));
+                
+                dispatch(setPages(resposta.data.links));
+                
+                console.log(resposta.data.links);
+                
+            } else {
+                
+                dispatch(setPlaces(resposta.data));
+                
+            }
         }
         else {
             dispatch(setMissatge(resposta.message));

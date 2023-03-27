@@ -1,19 +1,19 @@
-import React, { useContext, useState,useEffect, useCallback } from 'react'
+import React, { useContext,useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import useFetch from '../hooks/useFetch';
 import { getPlaces } from '../slices/place/thunks';
 import { UserContext } from "../userContext";
+import Paginate from './Paginate';
 import { PlaceGrid } from './PlaceGrid'
 
 export const PlacesGrid = () => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  const { places , page = 0, addreview = true, missatge = "", isLoading=true } = useSelector((state) => state.places);
+  let { usuari,authToken } = useContext(UserContext)
+  const { places , page, isLoading=true } = useSelector((state) => state.places);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
-    dispatch(getPlaces(0, authToken));
-  }, []);
+    dispatch(getPlaces(page, authToken));
+  }, [page]);
   return (
     <>   
         {!isLoading ? 
@@ -21,13 +21,14 @@ export const PlacesGrid = () => {
             { places.map ( (place)=> (
               
                 (place.visibility.name == 'public' || usuari == place.author.email) &&  
-                (<PlaceGrid place={place} />) 
+                (<PlaceGrid place={place}/>) 
               
             ) ) }
-          </div>  
+          </div>
           :
           <div>Carregant...</div>
         }
+        <Paginate/>
         
     </>
   )

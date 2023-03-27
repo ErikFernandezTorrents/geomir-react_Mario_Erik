@@ -10,7 +10,8 @@ const initialState = {
         longitude:0,
         visibility:""
     },
-    page: 0,
+    page: 1,
+    pages: [],
     isLoading: true,
     addreview: true,
     missatge: "",
@@ -72,11 +73,21 @@ name: "place",
         state.favorites_count = action.payload
 
     },
+    setPage: (state,action) => {
+
+        state.page = action.payload
+        
+    },
+    setPages: (state,action) => {
+
+        state.pages = action.payload
+        
+    }
 
  }
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace,setFavourite,setFavouriteCount } = placeSlice.actions
+export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace,setFavourite,setFavouriteCount,setPage ,setPages} = placeSlice.actions
 
 export default placeSlice.reducer
