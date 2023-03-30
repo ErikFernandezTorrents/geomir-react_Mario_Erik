@@ -3,7 +3,7 @@ import { UserContext } from "../userContext";
 
 export const useLogin = () => {
 
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+    let { usuari, setUsuari,authToken,setAuthToken,idUser,setIdUser } = useContext(UserContext)
     let [missatge, setMissatge] = useState("");
 
     const checkAuthToken = async () => {
@@ -26,6 +26,7 @@ export const useLogin = () => {
                     console.log(resposta);
                     setAuthToken(miStorage)
                     setUsuari(resposta.user.email);
+                    setIdUser(resposta.user.id);
                 } else {
                     setAuthToken("")
                 }

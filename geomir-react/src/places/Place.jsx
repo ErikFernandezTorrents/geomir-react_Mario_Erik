@@ -12,7 +12,7 @@ export const Place = () => {
 
   const dispatch = useDispatch();
 
-  const { place , missatge = "", isLoading=true,favourite,filtreDesc } = useSelector((state) => state.places);
+  const { place , missatge = "", isLoading=true,favourite } = useSelector((state) => state.places);
 
   
   const { pathname } = useLocation();
@@ -39,7 +39,7 @@ export const Place = () => {
   }
 
   useEffect ( ()=>{
-    dispatch(getPlace(0, id, authToken)); 
+    dispatch(getPlace( id, authToken)); 
    
   },[])
   

@@ -17,7 +17,7 @@ const initialState = {
     missatge: "",
     favourite: false,
     favorites_count:0,
-    filtreDesc: "",
+    filter: { description: "", author: ""},
 }
 export const placeSlice = createSlice({
 name: "place",
@@ -27,8 +27,6 @@ name: "place",
  reducers: {
 
     startLoadingPlaces: (state) => {
-
-        //console.log("ABA")
 
         state.isLoading = true;
 
@@ -84,9 +82,9 @@ name: "place",
         state.pages = action.payload
         
     },
-    setFiltreDesc: (state,action) => {
+    setFiltre: (state,action) => {
 
-        state.filtreDesc = action.payload
+        state.filter = action.payload
         
     }
 
@@ -94,6 +92,6 @@ name: "place",
 })
 
 // Action creators are generated for each case reducer function
-export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace,setFavourite,setFavouriteCount,setPage ,setPages,setFiltreDesc} = placeSlice.actions
+export const { startLoadingPlaces,setPlaces, setPlace, setAddreview, setMissatge, delPlace,setFavourite,setFavouriteCount,setPage ,setPages,setFiltre} = placeSlice.actions
 
 export default placeSlice.reducer

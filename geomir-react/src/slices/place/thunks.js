@@ -1,9 +1,11 @@
-import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite,setPages,setFiltreDesc } from "./placeSlice"
+import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite,setPages,setFiltre } from "./placeSlice"
 
-export const getPlaces = (page = 0, authToken) => {
+export const getPlaces = (page, authToken) => {
     return async (dispatch, getState) => {
         dispatch(startLoadingPlaces());
-
+        const filtre = getState().places.filter
+        
+        console.log(filtre);
         const headers = {
 
             headers: {
@@ -18,6 +20,16 @@ export const getPlaces = (page = 0, authToken) => {
         : 
         "https://backend.insjoaquimmir.cat/api/places" ;
 
+
+        let interAnd = page > 0 ? "&" : "?" ;
+
+        let filterDescr = filtre.description == "" ? "" : "description="+filtre.description;
+
+        let filterAuth = filtre == "" ? "" : "author="+filtre.author;
+
+        url = url+interAnd+filterDescr+interAnd+filterAuth;
+        
+        console.log(url);
         const data = await fetch(url, headers);
         const resposta = await data.json();
 
@@ -41,7 +53,7 @@ export const getPlaces = (page = 0, authToken) => {
         }
     }
 }
-export const getPlace = (page = 0, id, authToken) => {
+export const getPlace = ( id, authToken) => {
 
     return async (dispatch, getState) => {
 
@@ -56,7 +68,6 @@ export const getPlace = (page = 0, id, authToken) => {
             },
             method: "GET",
         };
-        // TODO cambiar url para filtrar
         const url = "https://backend.insjoaquimmir.cat/api/places/" + id;
 
         const data = await fetch(url, headers);

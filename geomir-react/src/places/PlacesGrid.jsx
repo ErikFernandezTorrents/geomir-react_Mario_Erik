@@ -9,12 +9,12 @@ import '../App.css'
 
 export const PlacesGrid = () => {
   let { usuari,authToken } = useContext(UserContext)
-  const { places , page, isLoading=true } = useSelector((state) => state.places);
+  const { places , page, isLoading=true,filter } = useSelector((state) => state.places);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(getPlaces(page, authToken));
-  }, [page]);
+  }, [page,filter]);
   return (
     <>   
     <div className="position-absolute top-1 start-50 translate-middle-x"><Paginate/></div>

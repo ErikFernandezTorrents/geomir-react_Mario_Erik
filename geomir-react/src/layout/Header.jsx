@@ -51,7 +51,7 @@ export const Header = () => {
       if (resposta.success === true) {
         setNameOfUser(resposta.user.name);
         setRoles(resposta.roles);
-        console.log(resposta);
+        //console.log(resposta.user.id);
       } else {
         setMissatge(resposta.message);
       }
