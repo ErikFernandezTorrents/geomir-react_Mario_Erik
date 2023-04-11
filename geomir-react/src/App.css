@@ -582,4 +582,19 @@ input[type=text], select, textarea {
     #review{
         height: 10vh !important;
     }
+    .addPlace{
+        height: 65vh;
+        width: 43vh;
+    }
+    .addPlaceButton{
+        margin-top: 10px;
+        width: 100%;
+        background-color: #e6e5db;
+        color: #000000;
+        padding: 15px 0;
+        font-size: 18px;
+        font-weight: 600;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 }
