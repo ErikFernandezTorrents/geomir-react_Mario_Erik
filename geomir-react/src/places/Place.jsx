@@ -188,7 +188,7 @@ export const Place = () => {
       <div className='containerPlace'>
           <h2>{place.name}</h2>
           <p>Autor: @{place.author.name}</p>
-          <img src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} alt={place.name} height="500"width="700"/>
+          <img id="place-image"src={"https://backend.insjoaquimmir.cat/storage/" + place.file.filepath} alt={place.name} height="500"width="700"/>
           <p>Latitud: {place.latitude}</p>
           <p>Longitud: {place.longitude}</p>
           <div className='InfoPlace'>

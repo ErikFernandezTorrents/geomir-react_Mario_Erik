@@ -342,7 +342,6 @@ button{
     height: 20%;
 }
 .ReviewForm2{
-
     width: 100%;
     height: 20%;
 }
@@ -370,8 +369,9 @@ button{
     cursor: pointer;
 }
 .addReviewButton{
-    margin-top: 3%;
+    margin-top: 3vh;
     width: 40%;
+    margin-left: 2vh;
     background-color: #e6e5db;
     color: #000000;
     padding: 10px 0;
@@ -410,7 +410,7 @@ input[type=text], select, textarea {
     
 }
 .Reviewcontainer{
-    margin-top: 2%;
+    margin-top: 2vh;
     border-radius: 5px;
     background-color: #684abb9a;
     height: 70%;
@@ -487,20 +487,51 @@ input[type=text], select, textarea {
     height: 35%;
     margin-left: 3%;
 }
+#review{
+    height: 5vh !important;
+}
 #divTodoDoneTrue{
     text-decoration:line-through;
 }
 @media screen and (max-width: 700px) {
+    .containerPlace{
+        height: 100vh;
+        width: 45vh;
+        background-color: #684abbba;
+        padding: 10px;
+        margin-left: 2%;
+        box-shadow: 0 0 24px #000000;
+        border-radius: 4%;
+        justify-content: space-between;
+    }
+    #place-image{
+        height: 50vh;
+        width: 40vh;
+    }
+    .Reviewcontainer{
+        height: 13vh;
+        width: 30vh;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        padding: 5px 5px;
+        box-shadow: 0 0 15px rgb(0, 0, 0);
+    }
+    .reviewContainer{
+        margin-right: 0%;
+        width: 50vh;
+        height: 35vh;
+        margin-left: 3%;
+    }
     .wrapper{
         display: grid;
         grid-template-columns: 100px;
-        grid-gap: 2%;
+        grid-gap: 0.4% 20%;
         overflow: hidden;
         padding-left: 8%;
     }
     .containerGrid{
         height: 100%;
-        background-color: #e6e5db;
+        background-color: #684abbba;
         padding: 20px;
         margin: auto;
         box-shadow: 0 0 30px #ffffff;
@@ -521,10 +552,34 @@ input[type=text], select, textarea {
         color: #000000;
         text-align: justify;
     }
+    #tablePlaceList{
+        height: 100vh;
+        width: 40vh;
+        background-color: #684abbaa;
+        text-align: center;
+        border-radius: 10px;
+        overflow: hidden;
+        margin-left: 5%;
+        font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+        font-size: 1vh;
+    }
     .divLikes{
         margin-top: 5%;
     }
     .divFavorites{
         margin-top: 5%;
+    }
+    .ReviewForm{
+        height: 30vh;
+        width: 40vh;
+    }
+    .containerTextarea {
+        float: left;
+        margin-top: 6px;
+        height: 10vh;
+        width: 100%;
+    }
+    #review{
+        height: 10vh !important;
     }
 }
