@@ -1,17 +1,18 @@
 import React, { useState } from 'react'
 import '../styles.css'
-import { useForm } from '../hooks/useForm';
+//import { useForm } from '../hooks/useForm';
+import { useForm } from "react-hook-form";
 import useLogin  from '../hooks/useLogin';
 
 export const Login = ({ setCanvi }) => {
-    const { formState, handleChange } = useForm({
+    /* const { formState, handleChange } = useForm({
         email: "",
         password: "",
-    }); 
-    const {email,password} = formState
-    
-    
-    let {sendLogin,checkAuthToken,missatge} = useLogin();
+    });  */
+    //const {email,password} = formState
+    const { register, handleSubmit } = useForm();
+    const {sendLogin,checkAuthToken,missatge} = useLogin();
+    const onSubmit = data => sendLogin(data);
 
     checkAuthToken()
 
@@ -24,19 +25,15 @@ export const Login = ({ setCanvi }) => {
                 <form className='allForms'>
                     <h3>Login Here</h3>
                     <label htmlFor="email">Email</label>
-                    <input type="text" placeholder="Email addres" name="email"
-                        onChange={handleChange} value={email}></input>
-    
+                    <input type="text" placeholder="Email addres"{...register("email")}></input>
                     <label htmlFor="password">Password</label>
-                    <input type="password" placeholder="Password" name="password"
-                        onChange={handleChange} value={password}></input>
-
+                    <input type="password" placeholder="Password"{...register("password")}></input>
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
                     <button
                         onClick={(e) => { 
                             e.preventDefault();
-                            sendLogin(email,password);
+                            handleSubmit(onSubmit);
                         }}
                         >
                         Login
