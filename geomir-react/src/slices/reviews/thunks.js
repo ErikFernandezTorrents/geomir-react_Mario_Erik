@@ -62,10 +62,11 @@ export const delReview = (review, authToken) => {
         }
     };
 };
-export const addReview= (review,id,authToken) => {
+export const addReview = (dataWithId) => {
     return async (dispatch,getState) => {
-        console.log(review);
-        console.log(id);
+        const {review,id,authToken} = dataWithId;
+        console.log(dataWithId.review);
+        console.log(dataWithId.id);
         const data = await fetch(
             "https://backend.insjoaquimmir.cat/api/places/" + id +"/reviews",
             {
@@ -75,7 +76,7 @@ export const addReview= (review,id,authToken) => {
                     Authorization: "Bearer " + authToken,
                 },
                 method: "POST",
-                body: JSON.stringify(review)
+                body: JSON.stringify({review})
             }
         );
         const resposta = await data.json();

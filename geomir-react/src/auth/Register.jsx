@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 export const Register = ({ setCanvi }) => {
   let [missatge, setMissatge] = useState("");
   let { authToken,setAuthToken } = useContext(UserContext)
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit,formState: { errors } } = useForm();
     /* const { formState, handleChange,OnResetForm } = useForm({
         Rname: "",
         Remail: "",
@@ -58,21 +58,39 @@ export const Register = ({ setCanvi }) => {
                         minLength:{
                             value: 8,
                             message: "El nom ha de tenir al menys 8 caràcters"
-                        },
+                        },pattern: {
+
+                            value: /^([a-zA-Z@_-]+)\s+([a-zA-Z@_-]+)$/,
+                            
+                            message:"El nom ha de estar format per dues paraules que poden contenir (@,-,_)"}
                         
                     })}></input>
 
                     <label htmlFor="username">Email</label>
-                    <input type="text" placeholder="Email addres" {...register("Remail")}></input>
+                    <input type="text" placeholder="Email addres" {...register("Remail",{
+                        required:"Aquest camp és obligatori",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@(insjoaquimmir\.cat|fp\.insjoaquimmir\.cat|gmail\.com)$/i, // Expresión regular para validar el formato del email y el dominio permitido
+                            message:"El correu ha de ser dels dominis @insjoaquimmir.cat, @fp.insjoaquimmir.cat o @gmail.com"
+                        }
+                    })}></input>
     
                     <label htmlFor="password">Password</label>
-                    <input type="password" placeholder="Password" {...register("Rpassword")}></input>
+                    <input type="password" placeholder="Password" {...register("Rpassword",{
+                        required:"Aquest camp és obligatori",
+                        pattern: {
+                            value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*]).{8,}$/, // Expresión regular para validar la contraseña
+                            message:"La contrasenya ha de tenir com a mínim 8 caràcters, una lletra majúscula, una minúscula, un número i un caracter especial"
+                        }
+                    })}></input>
                     
                     <label htmlFor="password">Confirm Password</label>
                     <input type="password" placeholder="Password" {...register("Rpassword2")}></input>
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
-                    
+                    {errors.Rname && <div className='AlertError' >{errors.Rname.message}</div>}
+                    {errors.Remail && <div className='AlertError'>{errors.Remail.message}</div>}
+                    {errors.Rpassword && <div className='AlertError'>{errors.Rpassword.message}</div>}
                     <button  className='buttonLoginregisterDif'onClick={handleSubmit(onSubmit)}>
                         Registrate
                     </button>
