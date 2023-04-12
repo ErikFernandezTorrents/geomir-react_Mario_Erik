@@ -1,36 +1,22 @@
 import React, { useContext, useState } from 'react'
 import { UserContext } from "../userContext";
 import '../styles.css'
-import { useForm } from '../hooks/useForm';
+import { useForm } from "react-hook-form";
 
 export const Register = ({ setCanvi }) => {
   let [missatge, setMissatge] = useState("");
   let { authToken,setAuthToken } = useContext(UserContext)
-
-    const { formState, handleChange,OnResetForm } = useForm({
+  const { register, handleSubmit } = useForm();
+    /* const { formState, handleChange,OnResetForm } = useForm({
         Rname: "",
         Remail: "",
         Rpassword: "",
         Rpassword2: "",
     }); 
-    const {Rname,Remail,Rpassword,Rpassword2} = formState
-  const handleRegister = async (valuesForm) => {
-      valuesForm.preventDefault();
-
-      console.log(
-          "He enviat les Dades:  " +
-          Rname +
-          "/" +
-          Remail +
-          "/" +
-          Rpassword +
-          "/" +
-          Rpassword2
-      );
-      if (Rpassword2 !== Rpassword) {
-          alert("⛔ Els passwords han de coincidir ⛔");
-          return false;
-      }
+    const {Rname,Remail,Rpassword,Rpassword2} = formState */
+    const onSubmit = data => handleRegister(data);
+  const handleRegister = async (data) => {
+      const{Rname,Remail,Rpassword,Rpassword2}=data;
       try{
 
             const data = await fetch("https://backend.insjoaquimmir.cat/api/register", {
@@ -67,24 +53,27 @@ export const Register = ({ setCanvi }) => {
                     <h3>Register</h3>
     
                     <label htmlFor="name">Username</label>
-                    <input type="text" placeholder="Name" name="Rname"onChange={handleChange} value={Rname}></input>
+                    <input type="text" placeholder="Name" {...register("Rname",{
+                        required:"Aquest camp és obligatori",
+                        minLength:{
+                            value: 8,
+                            message: "El nom ha de tenir al menys 8 caràcters"
+                        },
+                        
+                    })}></input>
 
                     <label htmlFor="username">Email</label>
-                    <input type="text" placeholder="Email addres" name="Remail"onChange={handleChange} value={Remail}></input>
+                    <input type="text" placeholder="Email addres" {...register("Remail")}></input>
     
                     <label htmlFor="password">Password</label>
-                    <input type="password" placeholder="Password" name="Rpassword"onChange={handleChange} value={Rpassword}></input>
+                    <input type="password" placeholder="Password" {...register("Rpassword")}></input>
                     
                     <label htmlFor="password">Confirm Password</label>
-                    <input type="password" placeholder="Password" name="Rpassword2"onChange={handleChange} value={Rpassword2}></input>
+                    <input type="password" placeholder="Password" {...register("Rpassword2")}></input>
 
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
-                    <button  className='buttonLoginregisterDif'
-                        onClick={(valuesForm) => {
-                            handleRegister(valuesForm);
-                        }}
-                        >
+                    <button  className='buttonLoginregisterDif'onClick={handleSubmit(onSubmit)}>
                         Registrate
                     </button>
                     <button

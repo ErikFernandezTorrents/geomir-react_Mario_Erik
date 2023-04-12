@@ -32,6 +32,7 @@ export const PlacesMenu = () => {
               <button className="btn btn-outline-primary btn-p" type="submit"
               onClick={(e) => {
                 e.preventDefault();
+                console.log({...filter,author:idUser})
                 dispatch(setFiltre({...filter,author:idUser}));
               }}>Els meus places</button>
               <button className="btn btn-outline-primary btn-p" type="submit"

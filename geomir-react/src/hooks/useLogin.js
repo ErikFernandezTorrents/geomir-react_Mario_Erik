@@ -40,9 +40,9 @@ export const useLogin = () => {
 
     }
 
-    const sendLogin = async (email,password) => {
+    const sendLogin = async (data) => {
         console.log("Comprovant credencials....");
-
+        const {email,password} = data;
         // Enviam dades a l'aPI i recollim resultat
         try{
             const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {

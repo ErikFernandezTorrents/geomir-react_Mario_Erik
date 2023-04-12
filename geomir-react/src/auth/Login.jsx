@@ -10,7 +10,7 @@ export const Login = ({ setCanvi }) => {
         password: "",
     });  */
     //const {email,password} = formState
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit,formState: { errors }} = useForm();
     const {sendLogin,checkAuthToken,missatge} = useLogin();
     const onSubmit = data => sendLogin(data);
 
@@ -30,12 +30,7 @@ export const Login = ({ setCanvi }) => {
                     <input type="password" placeholder="Password"{...register("password")}></input>
                     {missatge? <div className='AlertError'>{missatge}</div>:<></>}
                     
-                    <button
-                        onClick={(e) => { 
-                            e.preventDefault();
-                            handleSubmit(onSubmit);
-                        }}
-                        >
+                    <button onClick={handleSubmit(onSubmit)}>
                         Login
                     </button>
                     <div className="social">
