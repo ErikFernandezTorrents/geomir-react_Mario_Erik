@@ -114,9 +114,8 @@ export const deletePlace = (id, authToken) => {
         }
     }
 }
-export const addPlace = (authToken,formulari) => {
-    let {name,description,upload,latitude,longitude,visibility=1}=formulari;
-    console.log('formulari');
+export const addPlace = (data2,authToken) => {
+    let {name,description,upload,latitude,longitude,visibility=1}=data2;
     var formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -149,7 +148,6 @@ export const addPlace = (authToken,formulari) => {
       } 
 
       else{
-        console.log(formulari)
         dispatch(setMissatge(resposta.message));
       }
     }
