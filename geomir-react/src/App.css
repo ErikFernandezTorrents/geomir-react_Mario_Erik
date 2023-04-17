@@ -490,6 +490,11 @@ input[type=text], select, textarea {
 #divTodoDoneTrue{
     text-decoration:line-through;
 }
+
+.container-paginate{
+    text-align: center;
+}
+
 @media screen and (max-width: 700px) {
     .wrapper{
         display: grid;

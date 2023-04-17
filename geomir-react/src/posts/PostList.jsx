@@ -2,9 +2,16 @@ import React, { useCallback, useContext, useState} from 'react'
 import '../App.css'
 import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
-export const PostList = ({post,deletePost}) => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+import { useDispatch, useSelector } from 'react-redux'
+import { deletePost } from "../slices/post/thunks";
+import { setFilter } from '../slices/post/postSlice'
+export const PostList = ({post}) => {
+  let { usuari,authToken } = useContext(UserContext)
+  const dispatch = useDispatch();
+  const { isLoading = true ,filter} = useSelector((state) => state.post);
   return (
+    <>
+    { !isLoading?
     <>
         <td>{post.id}</td>
         <td>{post.author.name}</td>
@@ -22,11 +29,20 @@ export const PostList = ({post,deletePost}) => {
             <td>
               <button className='deleteButton'
                 onClick={(e) => {
-                  deletePost(e,post.id);
+                  e.preventDefault();
+                  dispatch(deletePost(post.id, authToken));
                 }}><i className="bi bi-trash3"></i>
               </button>
             </td>
           }
+    </>
+    : <></>}
+    <button className='deleteButton'
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(setFilter({...filter,author:post.author.id}));
+                }}><i className="bi bi-filter"></i>
+          </button>
     </>
   )
 }

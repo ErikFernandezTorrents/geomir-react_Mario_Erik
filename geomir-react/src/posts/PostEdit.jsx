@@ -2,6 +2,9 @@ import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import '../App.css'
 import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import { getPost } from "../slices/post/thunks";
+import { editPost } from "../slices/post/thunks";
 
 export const PostEdit = () => {
     const { id } = useParams();
@@ -12,10 +15,12 @@ export const PostEdit = () => {
     let [Posts, setPosts] = useState("");
     let navigate = useNavigate();
 
+    let { posts = [], post = {}, page=0, isLoading=true, add=true, error=""} = useSelector((state) => state.post);
+    const dispatch = useDispatch();
+
     const handleChange = (e) => {
       e.preventDefault();
-      setMissatge("");
-      setMissatgeOK("");
+      error=""
       if (e.target.name==="upload")
         {
           console.log(e.target.files[0].name)
@@ -34,86 +39,9 @@ export const PostEdit = () => {
             })
         };
     }
-    const getPostForEdit = async() =>{
-      
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET"
-
-        })
-        const resposta = await data.json();
-        if (resposta.success === true){
-          const { data } = resposta
-          setFormulari({
-            name: data.name,
-            description: data.description,
-            upload: "",
-            latitude: data.latitude,
-            longitude: data.longitude,
-            visibility: data.visibility.id,
-
-          })
-        } 
-
-        else{
-          console.log(formulari)
-          setMissatge(resposta.message);
-        } 
-          
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      formAddPost.reset(); 
-    }
-    const editPost = async(e) => {
-
-      e.preventDefault();
-
-      let {name,description,upload,latitude,longitude,visibility}=formulari;
-      console.log(formulari);
-      var formData = new FormData();
-      formData.append("body", body);
-      formData.append("upload", upload);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-      formData.append("visibility", visibility);
-
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-          body: formData
-
-        })
-        const resposta = await data.json();
-        if (resposta.success === true){
-          console.log(resposta);
-          setMissatgeOK("Post editat amb exit!!");
-        } 
-
-        else{
-          console.log(formulari)
-          setMissatge(resposta.message);
-        } 
-          
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      formAddPost.reset(); 
-      navigate("/posts/list")
-    }
+    
     useEffect(() => {
-      editPost();
-      getPostForEdit();
+      
       navigator.geolocation.getCurrentPosition( (pos )=> {
 
         setFormulari({
@@ -130,6 +58,9 @@ export const PostEdit = () => {
       });
 
     }, [])
+    useEffect(() => {
+      dispatch(getPost(0,id, authToken))
+    },[])
   return (
     <div>
         <div className="container">
@@ -137,20 +68,20 @@ export const PostEdit = () => {
             <div className="title"><h3>Edit your post</h3></div>
 
             <div>
-              <input type="text"placeholder="Body" id="body" name="body" value = { formulari.body } onChange={handleChange}/>
+              <input type="text"placeholder="Body" id="body" name="body" value = { post.body } onChange={handleChange}/>
             </div>
 
             <div>
-              <input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
+              <input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { post.latitude } onChange={handleChange}/>
             </div>
 
             <div>
-              <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
+              <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { post.longitude } onChange={handleChange}/>
             </div>
 
             <div>
               <label>Visibility</label>
-              <select value= {formulari.visibility } onChange={handleChange} id="visibility" name="visibility"  >
+              <select value= {post.visibility } onChange={handleChange} id="visibility" name="visibility"  >
                 <option  value="1" checked >Public</option>
                 <option  value="3" >Private</option>
                 <option  value="2" >Contacts</option>
@@ -164,7 +95,9 @@ export const PostEdit = () => {
             <div onChange={handleChange}>{missatgeOK? <div className='AlertOk'>{missatgeOK}</div>:<></>}</div>
             <button className="addPostButton"
               onClick={(e) => {
-                editPost(e);
+                e.preventDefault();
+                dispatch(editPost(formulari, authToken, id));
+                formAddPost.reset(); 
               }}>
               Desa l'edicio
             </button>		

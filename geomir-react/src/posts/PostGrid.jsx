@@ -1,11 +1,14 @@
 import React, { useCallback, useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../App.css'
 import { UserContext } from '../userContext'
-export const PostGrid = ({post,deletePost}) => {
-    console.log(post)
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-    console.log("aaaa  " + usuari)
+import { deletePost } from "../slices/post/thunks";
+import { setFilter } from '../slices/post/postSlice'
+export const PostGrid = ({post}) => {
+    let { usuari,authToken } = useContext(UserContext)
+    const dispatch = useDispatch();
+    const { filter} = useSelector((state) => state.post);
   return (
     <>
         <div className='containerGrid'>
@@ -25,9 +28,17 @@ export const PostGrid = ({post,deletePost}) => {
                 {(usuari == post.author.email ) &&
                 <button className='deleteButton'
                     onClick={(e) => {
-                    deletePost(e,post.id);
+                    e.preventDefault();
+                    dispatch(deletePost(post.id, authToken));
                     }}><i className="bi bi-trash3"></i>
                 </button>}
+
+                <button className='deleteButton'
+                    onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(setFilter({...filter,author:post.author.id}));
+                    }}><i className="bi bi-filter"></i>
+                </button>
 
                 <Link className="headerLink" to={"/posts/" +post.id}><i className="bi bi-eye"></i></Link>
             </div>

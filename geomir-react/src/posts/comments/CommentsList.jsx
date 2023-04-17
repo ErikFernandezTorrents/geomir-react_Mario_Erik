@@ -4,90 +4,37 @@ import '../../App.css'
 import { Comment } from './Comment';
 import { CommentAdd } from './CommentAdd';
 import { useParams } from 'react-router-dom';
+import { setAddcomment } from '../../slices/comments/commentSlice';
+import { useDispatch, useSelector } from "react-redux";
+import { getComments } from "../../slices/comments/thunks";
+import { setCommentsCount } from "../../slices/comments/commentSlice";
 
-export const CommentsList = () => {
-  const { id } = useParams();
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [comments, setComment] = useState([]);
-  let [refresh,setRefresh] = useState(false)
-  let [missatge, setMissatge] = useState("");
-  let [missatgeOK, setMissatgeOK] = useState("");
-  let [addcomment, setAddcomment] = useState(true);
-  const canviRefresh =()=>{
-    setRefresh(!refresh);
-  }
-  const sendCommentsList = async (e) => {
-    try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/"+id+"/comments", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          console.log(resposta);
-
-          if (resposta.success === true) {
-                setComment(resposta.data)
-                console.log(resposta.data);
-                resposta.data.map((v)=>{
-                    if (v.user.email==usuari){
-                        setAddcomment(false);
-                    }
-                })
-          }else{
-              setMissatge(resposta.message);
-          }
-
-    }catch {
-      alert("Estem tenint problemes amb la xarxa");
-    }
-  }
-  const deleteComment = async (e,idcomment) =>{
-    e.preventDefault();
-    try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id +"/comments/"+idcomment, {
-            headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + authToken
-            },
-            method: "DELETE",
-        })
+export const CommentsList = ({id, comments_count}) => {
+  let { usuari, email, setUsuari, authToken, setAuthToken } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const { comments = [], page=0, isLoading=false, add=true, error="", commentsCount=0 } = useSelector((state) => state.comments);
   
-        const resposta = await data.json();
-            console.log(resposta);
-            if (resposta.success === true) {
-                canviRefresh();
-                setAddcomment(true)
-                console.log("Post eliminat correctament");
-            }else{
-                setMissatge(resposta.message);
-            }
-  
-      }catch {
-        console.log(data);
-        alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-      }
-  }
-  
-  useEffect(() => { 
-
-    sendCommentsList();
-    
-  }, [refresh]);
+  useEffect(() => {
+    dispatch(setCommentsCount(comments_count))
+    dispatch(getComments(0, id, authToken,email));
+  }, []);
 
   return (
     <>
-        {comments.map((comment) => (
-            <div  key={comments.id} > 
-              {(usuari == comment.user.email && addcomment==true)}
-              <Comment comment={comment} deleteComment={deleteComment}/>
-            </div>
-        ))}
-        { addcomment == true && <CommentAdd canviRefresh={canviRefresh}/>}
+
+      {comments.map((v) => {
+        return <Comment key={v.id} comment={v} />;
+      })}
+
+      {add == true && <CommentAdd id={id} />}
+        {error ? (
+        <div>
+          {error}
+        </div>
+      ) : (
+        <></>
+      )}
+
     </>
   )
 }
