@@ -2,133 +2,93 @@ import React, { useContext, useState, useEffect } from 'react'
 import { UserContext } from "../userContext";
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from "react-hook-form";
+import { addPost } from "../slices/post/thunks";
+
 export const PostAdd = () => {
-  let [formulari, setFormulari] = useState({});
-  let { authToken,setAuthToken } = useContext(UserContext);
+  let { authToken, setAuthToken } = useContext(UserContext);
   let [missatge, setMissatge] = useState("");
   let [missatgeOK, setMissatgeOK] = useState("");
   let navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm();
+  const afegir = (data) => {
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    if (e.target.name==="upload")
-      {
-        console.log(e.target.files[0].name)
-        setFormulari({
-          ...formulari,
-          [e.target.name] : e.target.files[0] 
+    const data2 = { ...data, upload: data.upload[0] }
 
+    dispatch(addPost(data2, authToken));
 
-        })
-      }
-    else {
-          setFormulari({
-            ...formulari,
-            [e.target.name] : e.target.value
+    navigate("/posts/list")
 
-          })
-      };
   }
-    const addPost = async(e) => {
-      e.preventDefault();
-      let {body,upload,latitude,longitude,visibility=1}=formulari;
-      console.log(formulari);
-      var formData = new FormData();
-      formData.append("body", body);
-      formData.append("upload", upload);
-      formData.append("latitude", latitude);
-      formData.append("longitude", longitude);
-      formData.append("visibility", visibility);
 
-      try{
-        const data = await fetch("https://backend.insjoaquimmir.cat/api/posts", {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Bearer ' + authToken
-          },
-          method: "POST",
-          body: formData
+  useEffect(() => {
+    dispatch(addPost(afegir));
+    navigator.geolocation.getCurrentPosition((pos) => {
+      setValue('latitude', pos.coords.latitude)
+      setValue('longitude', pos.coords.longitude)
+    });
 
-        })
-        const resposta = await data.json();
-        if (resposta.success === true){
-          console.log(resposta);
-          setMissatgeOK("Post creat amb exit!!");
-        } 
-
-        else{
-          console.log(formulari)
-          setMissatge(resposta.message);
-        } 
-          
-      }catch{
-        console.log("Error");
-        alert("catch");
-      }
-      formAddPost.reset(); 
-      navigate("/posts/list")
-      
-    }
-    useEffect(() => {
-      addPost();
-      navigator.geolocation.getCurrentPosition( (pos )=> {
-
-        setFormulari({
-    
-    
-          ...formulari,
-          latitude :  pos.coords.latitude,
-          longitude: pos.coords.longitude
-      
-        })
-        
-        console.log("Latitude is :", pos.coords.latitude);
-        console.log("Longitude is :", pos.coords.longitude);
-      });
-
-    }, [])
+  }, [])
 
   return (
     <div>
-        <div className="container">
-          <form id="formAddPost"className="addPost">
-            <div className="title"><h3>Add New Post</h3></div>
+      <div className="container">
+        <form id="formAddPost" className="addPost">
+          <div className="title"><h3>Add New Post</h3></div>
 
-            <div>
-              <input type="text"placeholder="Body" id="body" name="body" onChange={handleChange}/>
-            </div>
+          <div>
+            <input type="text" placeholder="Body" {...register("body", {
+              required: "El cos es obligatori",
+              maxLength: {
+                value: 255,
+                message: "El cos ha de tenir com a màxim 255 caràcters"
+              },
+            })} />
+            {errors.body && <div className='AlertError'>{errors.body.message}</div>}
+          </div>
 
-            <div>
-              <input type="number" placeholder="Latitude" id="latitude" name="latitude" value = { formulari.latitude } onChange={handleChange}/>
-            </div>
+          <div>
+            <input type="number" placeholder="Latitude" {...register("latitude", {
+              required: "La latitud es obligatoria",
+            })} />
+            {errors.latitude && <div className='AlertError'>{errors.latitude.message}</div>}
+          </div>
 
-            <div>
-              <input type="number"placeholder="Longitude" id="longitude" name="longitude" value = { formulari.longitude } onChange={handleChange}/>
-            </div>
+          <div>
+            <input type="number" placeholder="Longitude"{...register("longitude", {
+              required: "La longitud obligatoria",
+            })} />
+            {errors.longitude && <div className='AlertError'>{errors.longitude.message}</div>}
+          </div>
 
-            <div>
-              <label>Visibility</label>
-              <select value= {formulari.visibility } onChange={handleChange} id="visibility" name="visibility"  >
-                <option  value="1" selected >Public</option>
-                <option  value="3" >Private</option>
-                <option  value="2" >Contacts</option>
-              </select>
-            </div>
+          <div>
+            <label>Visibility</label>
+            <select {...register("visibility", {
+              required: "La longitud obligatoria",
+            })} id="visibility"  >
+              <option value="1" selected >Public</option>
+              <option value="3" >Private</option>
+              <option value="2" >Contacts</option>
+            </select>
+            {errors.visibility && <div className='AlertError'>{errors.visibility.message}</div>}
+          </div>
 
-            <div>
-              <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange}/>
-            </div>
-            <div>{missatge? <div className='AlertError'>{missatge}</div>:<></>}</div>
-            <div>{missatgeOK? <div className='AlertOk'>{missatgeOK}</div>:<></>}</div>
-            <button className="addPostButton"
-              onClick={(e) => {
-                addPost(e);
-              }}>
-              Submit
-            </button>		
+          <div>
+            <input type="file" placeholder="Upload" {...register("upload", {
+              required: "La imatge es obligatoria",
+            })} />
+            {errors.upload && <div className='AlertError'>{errors.upload.message}</div>}
+          </div>
 
-          </form>
-        </div>		
+          <button className="addPostButton"
+            onClick={handleSubmit(afegir)}>
+            Submit
+          </button>
+
+        </form>
+      </div>
     </div>
   )
 }

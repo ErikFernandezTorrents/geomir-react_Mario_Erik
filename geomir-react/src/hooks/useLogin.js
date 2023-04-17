@@ -3,7 +3,7 @@ import { UserContext } from "../userContext";
 
 export const useLogin = () => {
 
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+    let { usuari, setUsuari,authToken,setAuthToken,idUser,setIdUser } = useContext(UserContext)
     let [missatge, setMissatge] = useState("");
 
     const checkAuthToken = async () => {
@@ -23,7 +23,10 @@ export const useLogin = () => {
                 })
                 const resposta = await data.json();
                 if (resposta.success === true) {
+                    console.log(resposta);
                     setAuthToken(miStorage)
+                    setUsuari(resposta.user.email);
+                    setIdUser(resposta.user.id);
                 } else {
                     setAuthToken("")
                 }
@@ -37,9 +40,9 @@ export const useLogin = () => {
 
     }
 
-    const sendLogin = async (email,password) => {
+    const sendLogin = async (data) => {
         console.log("Comprovant credencials....");
-
+        const {email,password} = data;
         // Enviam dades a l'aPI i recollim resultat
         try{
             const data = await fetch("https://backend.insjoaquimmir.cat/api/login", {

@@ -63,22 +63,30 @@ body{
     width: 7vh;
     height: 7vh;
 }
+.prueba{
+    display: flex;
+    flex-direction: row;
+    flex-grow:1;
+}
 .PlacesPostMenu{
-    background-color: #e6e5db;
+    background-color: #e6e5db !important;
     height: 10%;
     width: 100%;
     margin-bottom: 2%;
-    display: flex;
-    flex-wrap: inherit;
+    /* display: flex;
+    flex-direction: row;
+    flex-grow:1; */
     font-size: 1.4vh;
     font-weight: bold;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 
 }
+.form-serch{
+    width: 20%;
+}
 .PlacesPostMenu .MenuLinks{
     margin-top: 0.5%;
     margin-bottom: 0.5%;
-    margin-left: 0.5%;
     text-decoration: none;
     color: #000000;
     padding: 0.5%;
@@ -87,9 +95,16 @@ body{
     border-style: groove;
     background-color:#e6e5db ;
     cursor: pointer;
+    margin-right: 2%;
 }
 .MenuLinks:hover{
     background-color:#1f9eff ;
+    color: #e6e5db;
+    transition: 0.5s;
+    box-shadow: 0 0 10px rgb(49, 114, 255);
+}
+.btn-p:hover{
+    background-color:#1f9eff !important ;
     color: #e6e5db;
     transition: 0.5s;
     box-shadow: 0 0 10px rgb(49, 114, 255);
@@ -109,6 +124,7 @@ body{
     padding: 20px;
     padding-top: 3%;
     margin: auto;
+    margin-top: 55%;
     box-shadow: 0 0 24px #000000;
     border-radius: 4%;
 }
@@ -117,7 +133,11 @@ body{
     margin-left:60% ;
     margin-bottom: 2%;
 }
-
+.background-card{
+    background-color: #684abb94 !important;
+    margin-top: 3%;
+    
+}
 .InfoPost {
     margin-top: 3%;
     display: grid;
@@ -493,6 +513,15 @@ input[type=text], select, textarea {
 #divTodoDoneTrue{
     text-decoration:line-through;
 }
+.container-paginate{
+    text-align: center;
+}
+
+.container-paginate{
+    text-align: center;
+}
+
+
 @media screen and (max-width: 700px) {
     .containerPlace{
         height: 100vh;

@@ -10,20 +10,23 @@ const PlaceMark = ({mark}) => {
     console.log(mark.description);
   return (
     <>
-        <div className='containerGrid'>
-        <h2>{mark.name}</h2>
-            <div className='InfoPlace'>
-                {mark.description}     
-            </div>
-            <div id='optionsPlaceGrid'>
-                <button className='deleteButton'
-                    onClick={(e) => {
-                        e.preventDefault();
-                        dispatch(delmark(mark.id));
-                    }}><i className="bi bi-trash3"></i>
-                </button>
+        
+        <div class="card background-card" >
+            <div class="card-body">
+                <h2>{mark.name}</h2>
+                <div className='InfoPlace'>
+                    {mark.description}     
+                </div>
+                <div id='optionsPlaceGrid'>
+                    <button className='deleteButton'
+                        onClick={(e) => {
+                            e.preventDefault();
+                            dispatch(delmark(mark.id));
+                        }}><i className="bi bi-trash3"></i>
+                    </button>
 
-                <Link className="headerLink" to={mark.route}><i className="bi bi-eye"></i></Link>
+                    <Link className="headerLink" to={mark.route}><i className="bi bi-eye"></i></Link>
+                </div>
             </div>
         </div>
     </>

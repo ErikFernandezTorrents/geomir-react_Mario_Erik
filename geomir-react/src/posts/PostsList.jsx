@@ -2,52 +2,21 @@ import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { UserContext } from "../userContext";
 import { PostList } from './PostList'
 import '../App.css'
-import useFetch from '../hooks/useFetch';
+import { useDispatch, useSelector } from 'react-redux';
+import { getPosts } from "../slices/post/thunks";
+import { startLoading } from '../slices/post/postSlice';
 export const PostsList = () => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [refresh,setRefresh] = useState(false)
-  let [missatge, setMissatge] = useState("");
+  let { usuari,authToken } = useContext(UserContext)
+  const { posts,isLoading=true, error="",filter} = useSelector((state) => state.post);
+  const dispatch = useDispatch();
 
-  let {data,error,loading,reRender} = useFetch("https://backend.insjoaquimmir.cat/api/posts",
-  {
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer ' + authToken
-      },
-      method: "GET",
-  })
-
-  const deletePost = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
-
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              reRender();
-              console.log("Post eliminat correctament");
-          }else{
-              setMissatge(error);
-          }
-
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
+  useEffect(() => {
+    dispatch(getPosts(authToken))
+  },[filter])
 
   return (
     <>
-      {!loading ?
+      {!isLoading ?
         <table id='tablePostList'>
           <tbody>
             <tr id='tr1PostList'>
@@ -60,9 +29,9 @@ export const PostsList = () => {
               <th>Likes</th>
             </tr>       
             
-            {data.map((post) => (
+            {posts.map((post) => (
                 (post.visibility.name == 'public' || usuari == post.author.email) &&  
-                (<tr  key={data.id} id='tr2PostList'><PostList post={post} deletePost={deletePost}/></tr>)
+                (<tr  key={posts.id} id='tr2PostList'><PostList post={post}/></tr>)
             ))}
           </tbody>
         </table>

@@ -1,62 +1,32 @@
-import React, { useContext, useState,useEffect, useCallback } from 'react'
-import useFetch from '../hooks/useFetch';
+import React, { useContext,useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { getPlaces } from '../slices/place/thunks';
 import { UserContext } from "../userContext";
+import Paginate from './Paginate';
 import { PlaceGrid } from './PlaceGrid'
+import '../App.css'
 
 export const PlacesGrid = () => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  //let [places, setPlaces] = useState([]);
-
-  let { data,error,loading,reRender} = useFetch("https://backend.insjoaquimmir.cat/api/places",
-  {
-    headers: {
-    Accept: "application/json",
-    "Content-Type": "application/json",
-    'Authorization': 'Bearer ' + authToken
-    },
-    method: "GET",
-  }
-  )
-  
-  const deletePlace = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
-
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              reRender();
-              console.log("Place eliminat correctament");
-          }else{
-              setMissatge(error);
-          }
-
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
+  let { usuari,authToken } = useContext(UserContext)
+  const { places , page, isLoading=true,filter } = useSelector((state) => state.places);
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  useEffect(() => {
+    dispatch(getPlaces(page, authToken));
+  }, [page,filter]);
   return (
-    <>
-     
-        
-        {!loading ? 
+    <>   
+    <div className="position-absolute top-1 start-50 translate-middle-x"><Paginate/></div>
+        {!isLoading ? 
           <div className='wrapper'>
-            { data.map ( (place)=> (
+            { places.map ( (place)=> (
               
                 (place.visibility.name == 'public' || usuari == place.author.email) &&  
-                (<PlaceGrid place={place} deletePlace={deletePlace} />) 
+                (<PlaceGrid place={place}/>) 
               
             ) ) }
-          </div>  
+          </div>
           :
           <div>Carregant...</div>
         }

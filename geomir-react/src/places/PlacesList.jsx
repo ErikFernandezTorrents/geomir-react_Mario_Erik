@@ -1,52 +1,29 @@
 
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { UserContext } from "../userContext";
 import { PlaceList } from './PlaceList'
-import useFetch from '../hooks/useFetch';
 import '../App.css'
+import { getPlaces } from '../slices/place/thunks';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { startLoadingPlaces } from '../slices/place/placeSlice';
 export const PlacesList = () => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [missatge, setMissatge] = useState("");
-  let { data,error,loading,reRender} = useFetch("https://backend.insjoaquimmir.cat/api/places",
-    {
-      headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json",
-      'Authorization': 'Bearer ' + authToken
-      },
-      method: "GET",
-    }
-  )
-  const deletePlace = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/places/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
+  let { usuari,authToken } = useContext(UserContext)
+  const dispatch = useDispatch();
 
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              reRender();
-              console.log("Place eliminat correctament");
-          }else{
-              setMissatge(error);
-          }
+  const { places , addreview = true, missatge = "", isLoading = true,filter } = useSelector((state) => state.places);
 
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  console.log(usuari); 
+  console.log(places);
+  
+  const { id } = useParams();
+
+  useEffect(() => {
+    dispatch(getPlaces(0, authToken));
+    dispatch(startLoadingPlaces());
+  }, [filter]);
   return (
     <>
-      {!loading ? 
+      {!isLoading ? 
         <table id='tablePlaceList'>
           <tbody>
             <tr id='tr1PlaceList'>
@@ -60,9 +37,9 @@ export const PlacesList = () => {
               <th>Favorites</th>
 
             </tr>       
-            {data.map((place) => (
+            {places.map((place) => (
                 (place.visibility.name == 'public' || usuari == place.author.email) &&  
-                (<tr  key={place.id} id='tr2PlaceList'><PlaceList place={place} deletePlace={deletePlace}/></tr>)
+                (<tr  key={place.id} id='tr2PlaceList'><PlaceList place={place}/></tr>)
             ))}
           </tbody>
         </table>

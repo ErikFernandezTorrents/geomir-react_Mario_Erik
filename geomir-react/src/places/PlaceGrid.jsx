@@ -1,10 +1,13 @@
-import React, { useCallback, useContext } from 'react'
+import React, { useContext } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import '../App.css'
 import { UserContext } from '../userContext'
-export const PlaceGrid = ({place,deletePlace}) => {
-    console.log(place)
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+import { setFiltre } from '../slices/place/placeSlice'
+export const PlaceGrid = ({place}) => {
+    let { usuari,authToken } = useContext(UserContext)
+    const dispatch = useDispatch();
+    const { filter} = useSelector((state) => state.places);
   return (
     <>
         <div className='containerGrid'>
@@ -25,10 +28,15 @@ export const PlaceGrid = ({place,deletePlace}) => {
                 {(usuari == place.author.email ) &&
                 <button className='deleteButton'
                     onClick={(e) => {
-                    deletePlace(e,place.id);
+                    dispatch(deletePlace(place.id,authToken));
                     }}><i className="bi bi-trash3"></i>
                 </button>}
-
+                <button className='deleteButton'
+                    onClick={(e) => {
+                    e.preventDefault();
+                    dispatch(setFiltre({...filter,author:place.author.id}));
+                    }}><i className="bi bi-filter"></i>
+                </button>
                 <Link className="headerLink" to={"/places/" +place.id}><i className="bi bi-eye"></i></Link>
             </div>
         </div>
