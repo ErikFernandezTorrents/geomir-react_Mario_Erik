@@ -1,166 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { CommentsList } from './comments/CommentsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addmark,ismarked } from "../slices/marksPostsSlice";
+import { getPost } from "../slices/post/thunks";
+import { deletePost } from "../slices/post/thunks";
+import { setPosts } from '../slices/post/postSlice';
+import { test_likes } from "../slices/post/thunks";
+import { likes } from "../slices/post/thunks";
+import { unlike } from "../slices/post/thunks";
 
 export const Post = () => {
 
-  const {marks,isMarked} = useSelector(state => state.markposts)
-
+  const { post , missatge = "", isLoading=true,like } = useSelector((state) => state.post);  const {marks,isMarked} = useSelector(state => state.markposts)
   const dispatch = useDispatch();
-
   const { pathname } = useLocation();
-
+  let navigate = useNavigate();
   const { id } = useParams();
   let {usuari,setUsuari,authToken,setAuthToken } = useContext(UserContext)
-  let [refresh,setRefresh] = useState(false)
-  let [like,setlike] =useState(false)
-  let [post, setPosts] = useState({
-    author:{name:""},
-    body:"",
-    latitude:"",
-    longitude:"",
-    likes_count:"",
-    comments_count:"",
-    file:{filepath:""}
-  });
+  let [refresh,setRefresh] = useState(false)  
   
-  const getPost = async () => {
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "GET",
-      })
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-            setPosts(resposta.data)
-              console.log(resposta);
-          }else{
-              setMissatge(resposta.message);
-          }
-
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa");
-    }
-  }
-  const test_likes = async () =>{
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id+"/likes", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "post",
-      })
-
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id+"/likes", {
-                  headers: {
-                  Accept: "application/json",
-                  "Content-Type": "application/json",
-                  'Authorization': 'Bearer ' + authToken
-                  },
-                  method: "delete",
-              })
-          }else{
-            setlike(true);
-          }
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-
-  const likes = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id+"/likes", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "post",
-      })
-      console.log(data);
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-            console.log("Like fet correctament");
-            setlike(true);
-            setPosts({...post, likes_count: post.likes_count+1})
-          }else{
-            setMissatge(resposta.message);
-          }
-    }catch {
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-
-  const unlike = async (e) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id+"/likes", {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "delete",
-      })
-
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-            console.log("Like eliminat correctament");
-            setlike(false);
-            setPosts({...post, likes_count: post.likes_count-1})
-          }else{
-            setMissatge(resposta.message);
-          }
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
-  
-  const deletePost = async (e,id) =>{
-    e.preventDefault();
-    try{
-      const data = await fetch("https://backend.insjoaquimmir.cat/api/posts/" + id, {
-          headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          'Authorization': 'Bearer ' + authToken
-          },
-          method: "DELETE",
-      })
-
-      const resposta = await data.json();
-          console.log(resposta);
-          if (resposta.success === true) {
-              setRefresh(!refresh);
-              console.log("Post eliminat correctament");
-          }else{
-              setMissatge(resposta.message);
-          }
-
-    }catch {
-      console.log(data);
-      alert("Estem tenint problemes amb la xarxa o amb l'informació a les rutes");
-    }
-  }
   const markPost = () =>{
     console.log(post);
 
@@ -180,7 +40,9 @@ export const Post = () => {
     dispatch(ismarked(id));
     localStorage.setItem('mark',JSON.stringify(marks))
   },[marks])
-  useEffect(() => { getPost(), test_likes()}, [refresh]);
+  useEffect(() => {
+    dispatch(getPost(id, authToken))
+  },[])
   
   return (
     <>
@@ -200,12 +62,12 @@ export const Post = () => {
                   {!like? 
                     <button className='deleteButton'
                     onClick={(e) => {
-                      likes(e);
+                      dispatch(likes(id,authToken,post))
                     }}><i className="bi bi-heart"></i>
                     </button>:
                     <button className='deleteButton'
                     onClick={(e) => {
-                      unlike(e);
+                      dispatch(unlike(id,authToken,post))
                     }}><i class="bi bi-heart-fill"></i>
                     </button>
                   }
@@ -236,12 +98,14 @@ export const Post = () => {
               {(usuari == post.author.email ) &&
               <button className='deleteButton'
                   onClick={(e) => {
-                  deletePost(e,post.id);
+                  e.preventDefault();
+                  dispatch(deletePost(post.id, authToken,0,id));
+                  navigate("/posts/list");
                   }}><i className="bi bi-trash3"></i>
               </button>}
           </div>
       </div>
-      <div className='commentContainer'><CommentsList id={post.id}/></div>
+      {!isLoading ?(<div className='commentContainer'><CommentsList id={post.id}/></div>):(<></>)}
     </div>
     </>
   )

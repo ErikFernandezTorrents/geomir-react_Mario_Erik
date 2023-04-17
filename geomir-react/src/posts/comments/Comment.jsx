@@ -4,11 +4,15 @@ import TimeAgo from 'react-timeago'
 import spanishStrings from 'react-timeago/lib/language-strings/es'
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import { UserContext } from '../../userContext';
+import { useDispatch, useSelector } from "react-redux";
+import { delComment } from "../../slices/comments/thunks";
+import { setAddcomment } from '../../slices/comments/commentSlice';
 
-export const Comment = ({comment,deleteComment}) => {
+export const Comment = ({comment}) => {
     const formatter = buildFormatter(spanishStrings)
-    let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
-
+    const { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+    const { comments = [], page=0, isLoading=true, add=true, error="", commentsCount=0 } = useSelector((state) => state.comments);
+    const dispatch = useDispatch();
   return (
       <>
             <div className='Commentcontainer'>
@@ -20,7 +24,8 @@ export const Comment = ({comment,deleteComment}) => {
                 {(usuari == comment.user.email)&& 
                     <button className='deleteButton'
                         onClick={(e) => {
-                        deleteComment(e,comment.id);
+                        dispatch(delComment(comment,authToken));
+                        dispatch(setAddcomment(true));
                         }}><i className="bi bi-trash3"></i>
                     </button>
                 }

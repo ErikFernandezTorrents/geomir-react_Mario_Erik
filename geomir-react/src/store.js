@@ -4,6 +4,9 @@ import { todosReducer } from './slices/todosSlice'
 import { postsReducer } from './slices/marksPostsSlice'
 import reviewSlice from './slices/reviews/reviewSlice'
 import placeSlice from './slices/place/placeSlice'
+import commentSlice  from './slices/comments/commentSlice'
+import postSlice  from './slices/post/postSlice'
+
 
 export const store = configureStore({
   reducer: {
@@ -11,6 +14,8 @@ export const store = configureStore({
     todos: todosReducer,
     markplaces: placesReducer,
     reviews: reviewSlice,
-    places:placeSlice
+    places:placeSlice,
+    comments: commentSlice,
+    post: postSlice
   }
 })
