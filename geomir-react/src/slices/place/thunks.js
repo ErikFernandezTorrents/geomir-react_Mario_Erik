@@ -1,9 +1,11 @@
-import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite,setPages } from "./placeSlice"
+import { delPlace, setAddreview, setMissatge, setPlace, setPlaces, startLoadingPlaces,setFavourite,setPages,setFiltre } from "./placeSlice"
 
-export const getPlaces = (page = 0, authToken) => {
+export const getPlaces = (page, authToken) => {
     return async (dispatch, getState) => {
         dispatch(startLoadingPlaces());
-
+        const filtre = getState().places.filter
+        
+        console.log(filtre);
         const headers = {
 
             headers: {
@@ -18,6 +20,16 @@ export const getPlaces = (page = 0, authToken) => {
         : 
         "https://backend.insjoaquimmir.cat/api/places" ;
 
+
+        let interAnd = page > 0 ? "&" : "?" ;
+
+        let filterDescr = filtre.description == "" ? "" : "description="+filtre.description;
+
+        let filterAuth = filtre == "" ? "" : "author="+filtre.author;
+
+        url = url+interAnd+filterDescr+interAnd+filterAuth;
+        
+        console.log(url);
         const data = await fetch(url, headers);
         const resposta = await data.json();
 
@@ -41,7 +53,7 @@ export const getPlaces = (page = 0, authToken) => {
         }
     }
 }
-export const getPlace = (page = 0, id, authToken) => {
+export const getPlace = ( id, authToken) => {
 
     return async (dispatch, getState) => {
 
@@ -102,9 +114,8 @@ export const deletePlace = (id, authToken) => {
         }
     }
 }
-export const addPlace = (authToken,formulari) => {
-    let {name,description,upload,latitude,longitude,visibility=1}=formulari;
-    console.log('formulari');
+export const addPlace = (data2,authToken) => {
+    let {name,description,upload,latitude,longitude,visibility=1}=data2;
     var formData = new FormData();
     formData.append("name", name);
     formData.append("description", description);
@@ -137,7 +148,6 @@ export const addPlace = (authToken,formulari) => {
       } 
 
       else{
-        console.log(formulari)
         dispatch(setMissatge(resposta.message));
       }
     }

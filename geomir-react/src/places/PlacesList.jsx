@@ -6,11 +6,12 @@ import '../App.css'
 import { getPlaces } from '../slices/place/thunks';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { startLoadingPlaces } from '../slices/place/placeSlice';
 export const PlacesList = () => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+  let { usuari,authToken } = useContext(UserContext)
   const dispatch = useDispatch();
 
-  const { places , page = 0, addreview = true, missatge = "", isLoading = true } = useSelector((state) => state.places);
+  const { places , addreview = true, missatge = "", isLoading = true,filter } = useSelector((state) => state.places);
 
   console.log(places);
   
@@ -18,7 +19,8 @@ export const PlacesList = () => {
 
   useEffect(() => {
     dispatch(getPlaces(0, authToken));
-  }, []);
+    dispatch(startLoadingPlaces());
+  }, [filter]);
   return (
     <>
       {!isLoading ? 

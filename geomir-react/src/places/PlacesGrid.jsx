@@ -5,17 +5,19 @@ import { getPlaces } from '../slices/place/thunks';
 import { UserContext } from "../userContext";
 import Paginate from './Paginate';
 import { PlaceGrid } from './PlaceGrid'
+import '../App.css'
 
 export const PlacesGrid = () => {
   let { usuari,authToken } = useContext(UserContext)
-  const { places , page, isLoading=true } = useSelector((state) => state.places);
+  const { places , page, isLoading=true,filter } = useSelector((state) => state.places);
   const dispatch = useDispatch();
   const { id } = useParams();
   useEffect(() => {
     dispatch(getPlaces(page, authToken));
-  }, [page]);
+  }, [page,filter]);
   return (
     <>   
+    <div className="position-absolute top-1 start-50 translate-middle-x"><Paginate/></div>
         {!isLoading ? 
           <div className='wrapper'>
             { places.map ( (place)=> (
@@ -28,7 +30,6 @@ export const PlacesGrid = () => {
           :
           <div>Carregant...</div>
         }
-        <Paginate/>
         
     </>
   )

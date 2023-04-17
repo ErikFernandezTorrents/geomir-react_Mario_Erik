@@ -1,10 +1,9 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../userContext';
 import { ReviewsList } from './reviews/ReviewsList';
 import { useDispatch, useSelector } from 'react-redux';
 import { addmark,ismarked } from "../slices/marksPlacesSlice";
-import { setMissatge, setPlace } from '../slices/place/placeSlice';
 import { deleteFav, deletePlace, favPlace, getPlace, test_favourite } from '../slices/place/thunks';
 
 
@@ -13,7 +12,7 @@ export const Place = () => {
 
   const dispatch = useDispatch();
 
-  const { places, place , page = 0, addreview = true, missatge = "", isLoading=true,favourite } = useSelector((state) => state.places);
+  const { place , missatge = "", isLoading=true,favourite } = useSelector((state) => state.places);
 
   
   const { pathname } = useLocation();
@@ -40,7 +39,7 @@ export const Place = () => {
   }
 
   useEffect ( ()=>{
-    dispatch(getPlace(0, id, authToken)); 
+    dispatch(getPlace( id, authToken)); 
    
   },[])
   

@@ -4,10 +4,15 @@ import { UserContext } from '../userContext'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { deletePlace } from '../slices/place/thunks'
+import { setFiltre } from '../slices/place/placeSlice'
 export const PlaceList = ({place}) => {
-  let { usuari, setUsuari,authToken,setAuthToken } = useContext(UserContext)
+  let { usuari,authToken } = useContext(UserContext)
+
+  console.log(place);
+
   const dispatch = useDispatch();
-  const { isLoading = true } = useSelector((state) => state.places);
+  const { isLoading = true ,filter} = useSelector((state) => state.places);
+
   return (
     <>
       { !isLoading?
@@ -36,6 +41,12 @@ export const PlaceList = ({place}) => {
           }
           </>
           : <></>}
+          <button className='deleteButton'
+                onClick={(e) => {
+                  e.preventDefault();
+                  dispatch(setFiltre({...filter,author:place.author.id}));
+                }}><i className="bi bi-filter"></i>
+          </button>
     </>
   )
 }

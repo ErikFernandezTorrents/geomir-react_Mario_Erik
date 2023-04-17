@@ -3,49 +3,31 @@ import { UserContext } from "../userContext";
 import '../App.css'
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from "react-hook-form";
 import { addPlace } from '../slices/place/thunks';
 export const PlaceAdd = () => {
-  let [formulari, setFormulari] = useState({});
   let { authToken, setAuthToken } = useContext(UserContext);
   const {  missatge = "", isLoading=true } = useSelector((state) => state.places);
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const { register, handleSubmit,formState: { errors },setValue} = useForm();
+  const afegir = (data) => {
 
-  const handleChange = (e) => {
-    e.preventDefault();
-    if (e.target.name === "upload") {
-      console.log(e.target.files[0].name)
-      setFormulari({
-        ...formulari,
-        [e.target.name]: e.target.files[0]
+    const data2 = { ...data, upload: data.upload[0]}
+    
+    dispatch(addPlace(data2, authToken));
 
-
-      })
-    }
-    else {
-      setFormulari({
-        ...formulari,
-        [e.target.name]: e.target.value
-
-      })
-    };
+    navigate("/places/list");
+    
   }
 
   useEffect(() => {
-    dispatch(addPlace(authToken,formulari));
+    dispatch(addPlace(afegir));
     navigator.geolocation.getCurrentPosition((pos) => {
 
-      setFormulari({
+      setValue('latitude', pos.coords.latitude)
 
-
-        ...formulari,
-        latitude: pos.coords.latitude,
-        longitude: pos.coords.longitude
-
-      })
-
-      console.log("Latitude is :", pos.coords.latitude);
-      console.log("Longitude is :", pos.coords.longitude);
+      setValue('longitude', pos.coords.longitude)
     });
 
   }, [])
@@ -57,40 +39,64 @@ export const PlaceAdd = () => {
           <div className="title"><h3>Add New Place</h3></div>
 
           <div>
-            <input type="text" placeholder="Name" id="name" name="name"  onChange={handleChange} />
+            <input type="text" placeholder="Name" id="name" {...register("name",{
+              required: "El nom es obligatori",
+              maxLength:{
+                value: 255,
+                message: "El nom ha de tenir com a màxim 255 caràcters"
+              },
+            })} />
+            {errors.name && <div className='AlertError'>{errors.name.message}</div>}
           </div>
 
           <div>
-            <input type="text" placeholder="Description" id="description" name="description" onChange={handleChange} />
+            <input type="text" placeholder="Description" id="description" {...register("description",{
+              required: "La descripció es obligatoria",
+              maxLength:{
+                value: 255,
+                message: "La descripció ha de tenir com a màxim 255 caràcters"
+              },
+            })} />
+            {errors.description && <div className='AlertError'>{errors.description.message}</div>}
           </div>
 
           <div>
-            <input type="number" placeholder="Latitude" id="latitude" name="latitude" value={formulari.latitude} onChange={handleChange} />
+            <input type="number" placeholder="Latitude" id="latitude" {...register("latitude",{
+              required: "La latitud es obligatoria",
+            })}  />
+            {errors.latitude && <div className='AlertError'>{errors.latitude.message}</div>}
           </div>
 
           <div>
-            <input type="number" placeholder="Longitude" id="longitude" name="longitude" value={formulari.longitude} onChange={handleChange} />
+            <input type="number" placeholder="Longitude" id="longitude" {...register("longitude",{
+              required: "La longitud obligatoria",
+            })}/>
+            {errors.longitude && <div className='AlertError'>{errors.longitude.message}</div>}
           </div>
 
           <div>
             <label>Visibility</label>
-            <select value={formulari.visibility} onChange={handleChange} id="visibility" name="visibility"  >
+            <select {...register("visibility",{
+              required: "La longitud obligatoria",
+            })} id="visibility"  >
               <option value="1" selected >Public</option>
               <option value="3" >Private</option>
               <option value="2" >Contacts</option>
             </select>
+            {errors.visibility && <div className='AlertError'>{errors.visibility.message}</div>}
           </div>
 
           <div>
-            <input type="file" placeholder="Upload" id="upload" name="upload" onChange={handleChange} />
+            <input type="file" placeholder="Upload" id="upload" {...register("upload",{
+              required: "La imatge es obligatoria",
+            })} />
+            {errors.upload && <div className='AlertError'>{errors.upload.message}</div>}
           </div>
-          <div>{missatge ? <div className='AlertError'>{missatge}</div> : <></>}</div>
+          <div>
+            {missatge ? <div className='AlertError'>{missatge}</div> : <></>}
+          </div>
           <button className="addPlaceButton"
-            onClick={(e) => {
-              e.preventDefault();
-              dispatch(addPlace(authToken, formulari));
-              navigate("/places/list");
-            }}>
+            onClick={handleSubmit(afegir)}>
             Submit
           </button>
 
